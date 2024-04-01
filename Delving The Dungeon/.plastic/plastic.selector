@@ -1,4 +1,0 @@
-repository "Delving The Dungeon@RyanQ2@cloud"
-  path "/"
-    br "/main"
-    co "/main"
