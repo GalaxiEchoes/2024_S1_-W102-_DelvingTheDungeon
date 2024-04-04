@@ -12,17 +12,15 @@ public class InputManager : MonoBehaviour
 
     //UI interaction
     public bool MenuOpenCloseInput { get; private set; }
-    public bool InventoryOpenClose { get; private set; }
+    public bool InventoryOpen { get; private set; }
+    public bool InventoryClose { get; private set; }
     public bool Interact { get; private set; }
-
-    public bool FirstPersonCamPressed { get; private set; }
-    public bool CombatCamPressed { get; private set; }
-    public bool ThirdPersonCamPressed { get; private set; }
     public bool UIMenuCloseInput { get; private set; }
 
     //Actual Keys
     private InputAction _menuOpenCloseAction;
-    //private InputAction _InventoryOpenCloseAction;
+    private InputAction _InventoryOpenAction;
+    private InputAction _UIInventoryCloseAction;
     private InputAction _UIMenuCloseAction;
 
     private void Awake()
@@ -40,14 +38,17 @@ public class InputManager : MonoBehaviour
     private void SetupInputActions()
     {
         _menuOpenCloseAction = PlayerInput.actions["Menu"];
-        //_InventoryOpenCloseAction = PlayerInput.actions["Inventory"];
+        _InventoryOpenAction = PlayerInput.actions["Inventory"];
         _UIMenuCloseAction = PlayerInput.actions["MenuCloseAction"];
+        _UIInventoryCloseAction = PlayerInput.actions["InventoryClose"];
     }
 
     private void UpdateInputs()
     {
         MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
         UIMenuCloseInput = _UIMenuCloseAction.WasPressedThisFrame();
+        InventoryOpen = _InventoryOpenAction.WasPressedThisFrame();
+        InventoryClose = _UIInventoryCloseAction.WasPressedThisFrame();
     }
 
     // Update is called once per frame
