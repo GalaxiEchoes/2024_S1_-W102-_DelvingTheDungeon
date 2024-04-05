@@ -7,21 +7,22 @@ public class InputManager : MonoBehaviour
 {
     [Header("User Input")]
     public static InputManager instance;
-    
+
     public static PlayerInput PlayerInput;
 
     //Movement
-    public Vector2 MoveInput {  get; private set; }
+    public Vector2 MoveInput { get; private set; }
     public bool JumpJustPressed { get; private set; }
-    public bool AttackInput {  get; private set; }
+    public bool JumpBeingHeld { get; private set; }
+    public bool AttackInput { get; private set; }
     public bool CrouchJustPressed { get; private set; }
-    public bool CrouchReleased {  get; private set; }
-    public bool CrouchBeingHeld {  get; private set; }
-    public bool SprintBeingHeld {  get; private set; }
+    public bool CrouchReleased { get; private set; }
+    public bool CrouchBeingHeld { get; private set; }
+    public bool SprintBeingHeld { get; private set; }
 
     //UI interaction
-    public bool MenuOpenCloseInput {  get; private set; }
-    public bool InventoryOpenClose {  get; private set; }
+    public bool MenuOpenCloseInput { get; private set; }
+    public bool InventoryOpenClose { get; private set; }
     public bool Interact { get; private set; }
 
     public bool FirstPersonCamPressed { get; private set; }
@@ -75,6 +76,7 @@ public class InputManager : MonoBehaviour
     {
         MoveInput = _moveAction.ReadValue<Vector2>();
         JumpJustPressed = _jumpAction.WasPressedThisFrame();
+        JumpBeingHeld = _jumpAction.IsPressed();
         AttackInput = _attackAction.WasPressedThisFrame();
         CrouchJustPressed = _crouchAction.WasPressedThisFrame();
         CrouchReleased = _crouchAction.WasReleasedThisFrame();

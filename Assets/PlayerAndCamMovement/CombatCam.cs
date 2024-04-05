@@ -9,9 +9,6 @@ public class CombatCam : MonoBehaviour
     public Transform orientation;
     public Transform player;
     public Transform playerObj;
-    public Rigidbody rb;
-    public float rotationSpeed;
-    public Transform combatLookAt;
 
     // Start is called before the first frame update
     void Start()
@@ -26,10 +23,6 @@ public class CombatCam : MonoBehaviour
         //Rotate orientation
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
-
-        Vector3 dirToCombatLookAt = combatLookAt.position - new Vector3(transform.position.x, combatLookAt.position.y, transform.position.z);
-        orientation.forward = dirToCombatLookAt.normalized;
-
-        playerObj.forward = dirToCombatLookAt.normalized;
+        playerObj.forward = viewDir.normalized;
     }
 }

@@ -33,25 +33,30 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask ground;
-    private bool grounded;
+    bool grounded;
 
-    [Header("Stair/Slope Handling")]
-    public float maxSlopeAngle;
-    public LayerMask stairs;
-    private bool onStairs;
-    private RaycastHit stairHit;
-
+    [Header("Stair Handling")]
     public GameObject stepRayUpper;
     public GameObject stepRayLower;
     public float maxStepHeight;
     public float stepSmooth;
+    public LayerMask stairs;
+    private bool onStairs;
+    private RaycastHit stairHit;
+    private float stairsDownTimer = 0f;
+    private float stairsDownDelay = 0.2f;
+    public float raycastDistanceScalingFactor;
+
+    [Header("Slope Handling")]
+    public float maxSlopeAngle;
     public float slopeSmooth;
+    private RaycastHit slopeHit;
+    private bool onSlope;
 
     //Other Variables
-    [Header("Movement Orientation")]
     public Transform orientation;
-    private float horizontalInput;
-    private float verticalInput;
+    float horizontalInput;
+    float verticalInput;
     Vector3 moveDirection;
     Rigidbody rb;
 
@@ -66,6 +71,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
         onStairs = Physics.Raycast(transform.position, Vector3.down, out stairHit, playerHeight * 0.5f + 0.3f, stairs);
+        onSlope = calcOnSlope();
 
         MyInput();
         SpeedControl();
@@ -87,7 +93,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         verticalInput = InputManager.instance.MoveInput.y;
 
         //When to jump
-        if (InputManager.instance.JumpJustPressed && readyToJump && (grounded || onStairs))
+        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (grounded || onStairs || onSlope))
         {
             readyToJump = false;
             Jump();
@@ -108,13 +114,14 @@ public class InputSystemPlayerMovement : MonoBehaviour
         }
     }
 
-    private void SpeedControl()
+    private void SpeedControl()//limit velocity....
     {
-        if (onStairs)
+        //Limit speed on slope or stairs
+        if (onStairs || onSlope)
         {
-            if (rb.velocity.magnitude > moveSpeed * 1.75f)
+            if (rb.velocity.magnitude > moveSpeed)
             {
-                rb.velocity = rb.velocity.normalized * (moveSpeed * 1.75f);
+                rb.velocity = rb.velocity.normalized * moveSpeed;
             }
         }
         else
@@ -137,7 +144,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
         }
-        if ((grounded || onStairs) && InputManager.instance.SprintBeingHeld)
+        else if (InputManager.instance.SprintBeingHeld && (grounded || onStairs))
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
@@ -163,34 +170,93 @@ public class InputSystemPlayerMovement : MonoBehaviour
         //Calc movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (stepClimb() && moveDirection.magnitude > 0)
+        setGravity();
+        handleMovement();
+    }
+
+    private void setGravity()
+    {
+        //Handles gravity
+        if ((calcOnSlope() || onStairs) && readyToJump)
         {
-            if (OnSlope())
+            rb.useGravity = false;
+        }
+        else
+        {
+            rb.useGravity = true;
+        }
+    }
+
+    private void handleMovement()
+    {
+        if (stepObstacleCheck(moveDirection) && moveDirection.magnitude > 0) //Is there an obstacle and are we moving
+        {
+            if (onSlope) //Any incline
             {
-                rb.transform.Translate(Vector3.up * slopeSmooth * Time.deltaTime);
-                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                if (onStairs) //On stairs with incline
+                {
+                    Debug.Log("Stairs with incline");
+                    rb.transform.Translate(Vector3.up * slopeSmooth * Time.deltaTime * moveSpeed);
+                    rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                }
+                else //On slight slope
+                {
+                    Debug.Log("Slight Slope");
+                    rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
+                    if (rb.velocity.y > 0)
+                    {
+                        rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+                    }
+                }
             }
-            else
+            else //Bump/stair handling
             {
+                Debug.Log("Bump handling");
                 rb.transform.Translate(Vector3.up * stepSmooth * Time.deltaTime);
                 rb.AddForce(moveDirection.normalized * (moveSpeed * 1.75f) * 20f, ForceMode.Force);
             }
 
+            stairsDownTimer = 0f;
+        }
+        else if (!stepObstacleCheck(moveDirection) && readyToJump) //Are there no obstacles
+        {
+            if (onStairs)//Down Stairs
+            {
+                Debug.Log("Down Stairs");
+                stairsDownTimer += Time.deltaTime;
 
+                if (stairsDownTimer >= stairsDownDelay)
+                {
+                    rb.AddForce(Vector3.down * 0.7f, ForceMode.Impulse);
+                    rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+                }
+            }
+            else if (onSlope)//Down Slope
+            {
+                rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
+                if (rb.velocity.y > 0)
+                {
+                    rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+                }
+            }
+            else if (grounded) //On the ground
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            }
+            else //In the air
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            }
         }
-        else if (onStairs && !stepClimb() && readyToJump)
+        else if (grounded || onStairs || onSlope) //Flat area handling
         {
-            rb.AddForce(Vector3.down * 0.5f, ForceMode.Impulse);
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
         }
-        else if (grounded)//On ground
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-        }
-        else if (!grounded) //In air
+        else //In the Air
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
+
     }
 
     private void Jump()
@@ -206,21 +272,10 @@ public class InputSystemPlayerMovement : MonoBehaviour
         readyToJump = true;
     }
 
-    private bool stepClimb()
-    {
-        bool climbing = false;
-
-        climbing = rayCastCheck(orientation.transform.TransformDirection(Vector3.forward));
-        climbing = climbing || rayCastCheck(orientation.transform.TransformDirection(1.5f, 0, 1));
-        climbing = climbing || rayCastCheck(orientation.transform.TransformDirection(-1.5f, 0, 1));
-
-        return climbing;
-    }
-
-    bool rayCastCheck(Vector3 direction)
+    bool stepObstacleCheck(Vector3 direction)
     {
         RaycastHit hitLower;
-        if (Physics.Raycast(stepRayLower.transform.position, direction, out hitLower, 0.6f))
+        if (Physics.Raycast(stepRayLower.transform.position, direction, out hitLower, 0.8f))
         {
             RaycastHit hitUpper;
             if (!Physics.Raycast(stepRayUpper.transform.position, direction, out hitUpper, 1f))
@@ -231,9 +286,8 @@ public class InputSystemPlayerMovement : MonoBehaviour
         return false;
     }
 
-    private bool OnSlope()
+    private bool calcOnSlope()
     {
-        RaycastHit slopeHit;
         if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {
             float angle = Vector3.Angle(Vector3.up, slopeHit.normal);
@@ -242,5 +296,9 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
         return false;
     }
-}
 
+    private Vector3 GetSlopeMoveDirection()
+    {
+        return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+}

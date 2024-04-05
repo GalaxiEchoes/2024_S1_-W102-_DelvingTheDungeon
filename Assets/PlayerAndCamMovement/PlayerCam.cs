@@ -30,12 +30,12 @@ public class PlayerCam : MonoBehaviour
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-        orientation.rotation = Quaternion.Euler(0, yRotation,0);
+        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
         if (InputManager.instance.FirstPersonCamPressed)
         {
             rotationActive = !rotationActive;
         }
-        if(rotationActive)
+        if (rotationActive)
         {
             playerObj.rotation = orientation.transform.rotation;
         }
