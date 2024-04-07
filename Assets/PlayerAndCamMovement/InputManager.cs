@@ -5,9 +5,8 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    [Header("User Input")]
+    //User Input References
     public static InputManager instance;
-
     public static PlayerInput PlayerInput;
 
     //Movement
@@ -91,7 +90,6 @@ public class InputManager : MonoBehaviour
         UIMenuCloseInput = _UIMenuCloseAction.WasPressedThisFrame();
     }
 
-    // Update is called once per frame
     void Update()
     {
         UpdateInputs();

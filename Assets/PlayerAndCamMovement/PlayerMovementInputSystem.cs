@@ -12,53 +12,53 @@ public class InputSystemPlayerMovement : MonoBehaviour
         crouching
     }
 
-    [Header("Movement")]
+    [Header("Movement Settings")]
+    [SerializeField] private float walkSpeed;
+    [SerializeField] private float sprintSpeed;
+    [SerializeField] private float crouchSpeed;
+    [SerializeField] private float groundDrag;
     private float moveSpeed;
-    public float walkSpeed;
-    public float sprintSpeed;
-    public float crouchSpeed;
-    public float groundDrag;
     public MovementState state;
+    private float horizontalInput;
+    private float verticalInput;
+    private Vector3 moveDirection;
+    private Rigidbody rb;
 
-    [Header("Jumping")]
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
-    bool readyToJump;
+    [Header("Jump Settings")]
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float jumpCooldown;
+    [SerializeField] private float airMultiplier;
+    private bool readyToJump;
 
-    [Header("Crouching")]
-    public float crouchYScale;
+    [Header("Crouch Settings")]
+    [SerializeField] private float crouchYScale;
     private float startYScale;
 
     [Header("Ground Check")]
-    public float playerHeight;
-    public LayerMask ground;
-    bool grounded;
+    [SerializeField] private float playerHeight;
+    [SerializeField] private LayerMask ground;
+    private bool grounded;
 
     [Header("Stair Handling")]
-    public GameObject stepRayUpper;
-    public GameObject stepRayLower;
-    public float maxStepHeight;
-    public float stepSmooth;
-    public LayerMask stairs;
+    [SerializeField] private GameObject stepRayUpper;
+    [SerializeField] private GameObject stepRayLower;
+    [SerializeField] private float maxStepHeight;
+    [SerializeField] private float stepSmooth;
+    [SerializeField] private LayerMask stairs;
+
     private bool onStairs;
     private RaycastHit stairHit;
     private float stairsDownTimer = 0f;
     private float stairsDownDelay = 0.2f;
-    public float raycastDistanceScalingFactor;
 
     [Header("Slope Handling")]
-    public float maxSlopeAngle;
-    public float slopeSmooth;
+    [SerializeField] private float maxSlopeAngle;
+    [SerializeField] private float slopeSmooth;
     private RaycastHit slopeHit;
     private bool onSlope;
 
-    //Other Variables
-    public Transform orientation;
-    float horizontalInput;
-    float verticalInput;
-    Vector3 moveDirection;
-    Rigidbody rb;
+    [Header("Object Reference")]
+    [SerializeField] private Transform orientation;
 
     void Start()
     {

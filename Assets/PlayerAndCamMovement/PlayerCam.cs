@@ -6,13 +6,17 @@ using UnityEngine;
 
 public class PlayerCam : MonoBehaviour
 {
+    [Header("Sensitivity")]
     public float sensX;
     public float sensY;
 
-    public Transform orientation;
-    float xRotation;
-    float yRotation;
-    public Transform playerObj;
+    [Header("Player References")]
+    [SerializeField] private Transform orientation;
+    [SerializeField] private Transform playerObj;
+
+    //Rotation Variables
+    private float xRotation;
+    private float yRotation;
     private bool rotationActive;
 
     private void Start()
@@ -31,6 +35,7 @@ public class PlayerCam : MonoBehaviour
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
         if (InputManager.instance.FirstPersonCamPressed)
         {
             rotationActive = !rotationActive;

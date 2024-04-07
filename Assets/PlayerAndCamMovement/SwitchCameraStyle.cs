@@ -5,11 +5,13 @@ using static ThirdPersonCam;
 
 public class SwitchCameraStyle : MonoBehaviour
 {
-    public GameObject firstPersonCam;
-    public GameObject combatCam;
-    public GameObject thirdPersonCam;
-    public GameObject cameraPos;
+    [Header("Camera References")]
+    [SerializeField] private GameObject firstPersonCam;
+    [SerializeField] private GameObject combatCam;
+    [SerializeField] private GameObject thirdPersonCam;
+    [SerializeField] private GameObject cameraPos;
 
+    [Header("Camera On Load")]
     public CameraStyle currentStyle;
 
     public enum CameraStyle
@@ -19,13 +21,11 @@ public class SwitchCameraStyle : MonoBehaviour
         ThirdPersonCam
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         currentStyle = CameraStyle.FirstPersonCam;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (InputManager.instance.FirstPersonCamPressed) switchCameraStyle(CameraStyle.FirstPersonCam);
