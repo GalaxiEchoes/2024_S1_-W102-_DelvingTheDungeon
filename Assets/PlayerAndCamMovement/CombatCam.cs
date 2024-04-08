@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static SwitchCameraStyle;
+
+public class CombatCam : MonoBehaviour
+{
+    [Header("Player References")]
+    [SerializeField] private Transform orientation;
+    [SerializeField] private Transform player;
+    [SerializeField] private Transform playerObj;
+
+    void Start()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    void Update()
+    {
+        //Rotate orientation
+        Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
+        orientation.forward = viewDir.normalized;
+        playerObj.forward = viewDir.normalized;
+    }
+}
