@@ -94,6 +94,17 @@
                     "action": "InventoryClose",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca6636e7-6c1e-49ac-9e35-9f19f208a9d5",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InventoryClose",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
