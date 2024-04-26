@@ -15,7 +15,7 @@ public class InventoryHolder : MonoBehaviour
 
     protected virtual void Awake()
     {
-        inventorySystem = new InventorySystem(inventorySize - 4);
+        inventorySystem = new InventorySystem(inventorySize);
         equipmentInventorySystem = new EquipmentInventorySystem(4);
     }
 }

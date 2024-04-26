@@ -12,7 +12,7 @@ public class EquipmentSlot_UI : MonoBehaviour
 
     private Button button;
 
-    public ISlot AssignedEquipmentlot => assignedEquipmentSlot;
+    public ISlot AssignedEquipmentSlot => assignedEquipmentSlot;
     public InventoryDisplay ParentDisplay { get; private set; }
 
     private void Awake()

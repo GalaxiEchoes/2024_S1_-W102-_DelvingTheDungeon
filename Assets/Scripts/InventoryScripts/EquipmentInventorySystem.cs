@@ -22,5 +22,11 @@ public class EquipmentInventorySystem
         {
             equipmentSlots.Add(new ISlot());
         }
+
+        //None, Weapon = 0, Head = 1, Chest = 2, Arms = 3
+        equipmentSlots[0].AssignEquipmentTag(EquipmentTag.Weapon);
+        equipmentSlots[1].AssignEquipmentTag(EquipmentTag.Head);
+        equipmentSlots[2].AssignEquipmentTag(EquipmentTag.Chest);
+        equipmentSlots[3].AssignEquipmentTag(EquipmentTag.Arms);
     }
 }

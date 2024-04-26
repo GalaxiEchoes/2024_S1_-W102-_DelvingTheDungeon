@@ -7,9 +7,11 @@ public class ISlot
 {
     [SerializeField] private InventoryItemData itemData;
     [SerializeField] private int stackSize;
+    [SerializeField] private EquipmentTag equipmentTag;
 
     public InventoryItemData ItemData => itemData;
     public int StackSize => stackSize;
+    public EquipmentTag EquipmentTag => equipmentTag;
 
     public ISlot(InventoryItemData source, int amount)
     {
@@ -26,6 +28,11 @@ public class ISlot
     {
         itemData = null;
         stackSize = -1;
+    }
+
+    public void AssignEquipmentTag(EquipmentTag tag)
+    {
+        equipmentTag = tag;
     }
 
     public void AssignItem(ISlot invSlot)

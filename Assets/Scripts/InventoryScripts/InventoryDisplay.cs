@@ -121,6 +121,70 @@ public abstract class InventoryDisplay : MonoBehaviour
     //Method for clicking on equipment slots
     public void SlotClicked(EquipmentSlot_UI clickedUISlot)
     {
-        Debug.Log("Equipment slot clicked");
+        // Clicked equipment slot has an item - mouse doesn't have an item - pick up that item
+        if (clickedUISlot.AssignedEquipmentSlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
+        {
+            mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedEquipmentSlot);
+            clickedUISlot.ClearSlot();
+            return;
+        }
+
+        //Clicked slot doesn't have an item - mouse does have an item - check if items tag matches equipment tag
+        //if matches place one off stack from the mouse item into the empty equipment slot and keep item on mouse if leftover in stack
+        if (clickedUISlot.AssignedEquipmentSlot.ItemData == null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
+        {
+            if (clickedUISlot.AssignedEquipmentSlot.EquipmentTag == mouseInventoryItem.AssignedInventorySlot.ItemData.itemTag) //check if same tag
+            {
+                if (mouseInventoryItem.AssignedInventorySlot.StackSize > 1) //Stack size of more than 1 split and place 1 item on equipment slot
+                {
+                    var clonedSlot = new ISlot(mouseInventoryItem.AssignedInventorySlot.ItemData, mouseInventoryItem.AssignedInventorySlot.StackSize);
+                    clonedSlot.RemoveFromStack(1);
+
+                    mouseInventoryItem.AssignedInventorySlot.RemoveFromStack(mouseInventoryItem.AssignedInventorySlot.StackSize - 1);
+                    clickedUISlot.AssignedEquipmentSlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+                    clickedUISlot.UpdateUISlot();
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.UpdateMouseSlot(clonedSlot);
+
+                    return;
+                }
+                else //Stack size of 1 place item on equipment slot
+                {
+                    clickedUISlot.AssignedEquipmentSlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+                    clickedUISlot.UpdateUISlot();
+
+                    mouseInventoryItem.ClearSlot();
+                    return;
+                }
+            }
+            else
+            {
+                //Return item to previous slot
+            }
+        }
+
+        //Both slots have an item - swap if matching tag?
+        if (clickedUISlot.AssignedEquipmentSlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
+        {
+            if (clickedUISlot.AssignedEquipmentSlot.EquipmentTag == mouseInventoryItem.AssignedInventorySlot.ItemData.itemTag) //check if same tag
+            {
+                if (mouseInventoryItem.AssignedInventorySlot.StackSize > 1) //Stack size must be 1 on mouse - if more than 1 return - can't hold 2 items on mouse!!
+                {
+                    return;
+                }
+                else //Stack size of 1 place item on equipment slot
+                {
+                    var clonedSlot = new ISlot(mouseInventoryItem.AssignedInventorySlot.ItemData, mouseInventoryItem.AssignedInventorySlot.StackSize);
+
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedEquipmentSlot);
+
+                    clickedUISlot.AssignedEquipmentSlot.AssignItem(clonedSlot);
+                    clickedUISlot.UpdateUISlot();
+
+                    return;
+                }
+            }
+        }
     }
 }
