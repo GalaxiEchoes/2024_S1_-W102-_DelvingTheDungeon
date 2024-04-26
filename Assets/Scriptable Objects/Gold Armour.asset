@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12d6572a365ed4d959ffbc08e01ef61c, type: 3}
-  m_Name: Potion
+  m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
+  m_Name: Gold Armour
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 9cf47e8e360c7405a87c5c8be54b843e, type: 3}
-  itemTag: 0
+  itemName: Gold Armour
+  Description: 'This is a gold chest armour '
+  sprite: {fileID: 21300000, guid: 90c5d8a8ddb0b4488b50f46923505869, type: 3}
+  MaxStackSize: 2
+  itemTag: 3
   equipmentPrefab: {fileID: 0}
