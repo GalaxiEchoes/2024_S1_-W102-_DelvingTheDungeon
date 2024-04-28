@@ -16,4 +16,12 @@ public class Player : MonoBehaviour
         attack += _attack;
         defense += _defense;
     }
+
+    public void minusStats(int _health, int _stamina, int _attack, int _defense)
+    {
+        health -= _health;
+        stamina -= _stamina;
+        attack -= _attack;
+        defense -= _defense;
+    }
 }

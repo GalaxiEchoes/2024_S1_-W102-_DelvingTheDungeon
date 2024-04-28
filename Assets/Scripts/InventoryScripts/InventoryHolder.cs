@@ -9,7 +9,6 @@ public class InventoryHolder : MonoBehaviour
     [SerializeField] private int inventorySize;
     [SerializeField] protected InventorySystem inventorySystem;
     [SerializeField] protected EquipmentInventorySystem equipmentInventorySystem;
-    public Player player;
 
     public InventorySystem InventorySystem => inventorySystem;
     public EquipmentInventorySystem EquipmentInventorySystem => equipmentInventorySystem;

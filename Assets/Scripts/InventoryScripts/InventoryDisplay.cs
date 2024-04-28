@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -6,6 +7,8 @@ using UnityEngine.InputSystem;
 public abstract class InventoryDisplay : MonoBehaviour
 {
     [SerializeField] MouseItemData mouseInventoryItem;
+    [SerializeField] TextMeshProUGUI itemDescriptionArea;
+    [SerializeField] Player currentPlayer;
 
     protected InventorySystem inventorySystem;
     protected EquipmentInventorySystem equipmentInventorySystem;
@@ -47,6 +50,19 @@ public abstract class InventoryDisplay : MonoBehaviour
         }
     }
 
+    //If mouse is hovering over an inventory slot, show that item's description
+    public void OnHover(InventorySlot_UI selectedUISlot)
+    {
+        if (selectedUISlot.AssignedInventorySlot.ItemData != null)
+        {
+            itemDescriptionArea.text = selectedUISlot.AssignedInventorySlot.ItemData.Description;
+        }
+        else
+        {
+            itemDescriptionArea.text = "";
+        }
+    }
+
     //Method responsible for clicking on inventory slots and moving items between clicked slots
     public void SlotClicked(InventorySlot_UI clickedUISlot)
     {
@@ -54,6 +70,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
             mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
+            mouseInventoryItem.UpdateMousePreviousUISlot(clickedUISlot);
             clickedUISlot.ClearSlot();
             return;
         }
@@ -126,6 +143,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         {
             mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedEquipmentSlot);
             clickedUISlot.ClearSlot();
+
             return;
         }
 
@@ -145,7 +163,12 @@ public abstract class InventoryDisplay : MonoBehaviour
                     clickedUISlot.UpdateUISlot();
                     mouseInventoryItem.ClearSlot();
                     mouseInventoryItem.UpdateMouseSlot(clonedSlot);
-                    
+
+                    //on item equipped apply items stats to player
+                    currentPlayer.addStats(clickedUISlot.AssignedEquipmentSlot.ItemData.healthEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.staminaEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.attackEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.defenseEffect);
 
                     return;
                 }
@@ -155,12 +178,26 @@ public abstract class InventoryDisplay : MonoBehaviour
                     clickedUISlot.UpdateUISlot();
 
                     mouseInventoryItem.ClearSlot();
+
+                    //on item equipped apply items stats to player
+                    currentPlayer.addStats(clickedUISlot.AssignedEquipmentSlot.ItemData.healthEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.staminaEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.attackEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.defenseEffect);
+
                     return;
                 }
             }
             else
             {
-                //Return item to previous slot
+                //Return item to previous slot if previous slot empty or same item?
+                if (mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.ItemData == null ||
+                    mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData)
+                {
+                    mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.PreviousInventorySlot.UpdateUISlot();
+                }
             }
         }
 
@@ -187,6 +224,12 @@ public abstract class InventoryDisplay : MonoBehaviour
 
                     clickedUISlot.AssignedEquipmentSlot.AssignItem(clonedSlot);
                     clickedUISlot.UpdateUISlot();
+
+                    //on item equipped apply items stats to player
+                    currentPlayer.addStats(clickedUISlot.AssignedEquipmentSlot.ItemData.healthEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.staminaEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.attackEffect,
+                        clickedUISlot.AssignedEquipmentSlot.ItemData.defenseEffect);
 
                     return;
                 }

@@ -26,6 +26,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         AssignSlot(equipmentInventorySystem);
     }
 
+    //Assign inventory slot uis to the inventorysystem dictionary
     public override void AssignSlot(InventorySystem invToDisplay)
     {
         slotDictionary = new Dictionary<InventorySlot_UI, ISlot>();
@@ -38,6 +39,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         } 
     }
 
+    //Assign equipment slot uis to the equipmentsystem dictionary
     public override void AssignSlot(EquipmentInventorySystem invToDisplay)
     {
         equipmentSlotDictionary = new Dictionary<EquipmentSlot_UI, ISlot>();

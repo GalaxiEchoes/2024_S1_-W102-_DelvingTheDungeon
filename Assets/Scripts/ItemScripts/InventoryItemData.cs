@@ -15,6 +15,8 @@ public class InventoryItemData : ScriptableObject
     public int MaxStackSize;
     public EquipmentTag itemTag;
 
+    public GameObject ItemPrefab;
+
     //item stats to apply to player
     public int healthEffect;
     public int staminaEffect;

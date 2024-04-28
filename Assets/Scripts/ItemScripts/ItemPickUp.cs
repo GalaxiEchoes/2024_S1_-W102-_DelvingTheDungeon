@@ -9,6 +9,8 @@ public class ItemPickUp : MonoBehaviour
     public float PickUpRadius = 0.2f;
     public InventoryItemData ItemData;
 
+    [SerializeField] private float _rotationSpeed = 20f;
+
     private SphereCollider myCollider;
 
     [SerializeField] private ItemPickUpSaveData itemSaveData;
@@ -28,6 +30,11 @@ public class ItemPickUp : MonoBehaviour
     private void Start()
     {
         SaveGameManager.data.activeItems.Add(id, itemSaveData);    
+    }
+
+    private void Update()
+    {
+        transform.Rotate(Vector3.up * _rotationSpeed * Time.deltaTime);
     }
 
     private void LoadGame(SaveData data)

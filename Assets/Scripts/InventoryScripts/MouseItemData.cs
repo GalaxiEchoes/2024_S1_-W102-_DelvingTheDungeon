@@ -11,11 +11,16 @@ public class MouseItemData : MonoBehaviour
     public Image ItemSprite;
     public TextMeshProUGUI ItemCount;
     public ISlot AssignedInventorySlot;
+    public InventorySlot_UI PreviousInventorySlot;
+
+    private Transform _playerTransform;
 
     private void Awake()
     {
         ItemSprite.color = Color.clear;
         ItemCount.text = "";
+
+        _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
     }
 
     public void UpdateMouseSlot(ISlot invSlot)
@@ -24,6 +29,11 @@ public class MouseItemData : MonoBehaviour
         ItemSprite.sprite = invSlot.ItemData.sprite;
         ItemCount.text = invSlot.StackSize.ToString();
         ItemSprite.color = Color.white;
+    }
+
+    public void UpdateMousePreviousUISlot(InventorySlot_UI previousSlot)
+    {
+        PreviousInventorySlot = previousSlot;
     }
 
     private void Update()
@@ -36,9 +46,22 @@ public class MouseItemData : MonoBehaviour
             {
                 ClearSlot();
             }
-        }
 
-        //if q key pressed drop item on floor
+            if (Input.GetKey(KeyCode.Q))
+            {
+                if (AssignedInventorySlot.ItemData.ItemPrefab != null)
+                {
+                    // Increase Y position by adding an offset value (e.g., 3f)
+                    Vector3 dropPosition = _playerTransform.position + _playerTransform.forward * 3f;
+                    dropPosition.y += 0.35f;
+
+                    Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, dropPosition, Quaternion.identity);
+                    ClearSlot();
+                }
+
+                Debug.Log("q key pressed");
+            }
+        }
     }
 
     public void ClearSlot()
