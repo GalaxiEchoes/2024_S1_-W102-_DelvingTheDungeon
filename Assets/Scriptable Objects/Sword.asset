@@ -17,4 +17,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: dd501fa58ea59466b8eb55b32ba16c3a, type: 3}
   MaxStackSize: 5
   itemTag: 1
-  equipmentPrefab: {fileID: 0}
+  healthEffect: 0
+  staminaEffect: 0
+  attackEffect: 50
+  defenseEffect: 0

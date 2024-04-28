@@ -145,6 +145,7 @@ public abstract class InventoryDisplay : MonoBehaviour
                     clickedUISlot.UpdateUISlot();
                     mouseInventoryItem.ClearSlot();
                     mouseInventoryItem.UpdateMouseSlot(clonedSlot);
+                    
 
                     return;
                 }
@@ -166,6 +167,11 @@ public abstract class InventoryDisplay : MonoBehaviour
         //Both slots have an item - swap if matching tag?
         if (clickedUISlot.AssignedEquipmentSlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
+            if (clickedUISlot.AssignedEquipmentSlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData)
+            {
+                //if mouse item is same as equipped item return
+                return;
+            }
             if (clickedUISlot.AssignedEquipmentSlot.EquipmentTag == mouseInventoryItem.AssignedInventorySlot.ItemData.itemTag) //check if same tag
             {
                 if (mouseInventoryItem.AssignedInventorySlot.StackSize > 1) //Stack size must be 1 on mouse - if more than 1 return - can't hold 2 items on mouse!!

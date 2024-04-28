@@ -75,6 +75,7 @@ public class MenuManager : MonoBehaviour
 
     public void OnContinueButtonClick()
     {
+        SaveGameManager.TryLoadData();
         SwitchToPauseScreen();
     }
 
@@ -110,6 +111,7 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = true;
 
         //Add logic to save the current game state and update to playfab database
+        SaveGameManager.SaveData();
     }
 
     private void SwitchToInventoryScreen()
@@ -121,11 +123,13 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = true;
 
         //Add logic to save the current game state and update to playfab database
+        SaveGameManager.SaveData();
     }
 
     private void ExitGame()
     {
         //Add logic to save the current game state and update to playfab database
+        SaveGameManager.SaveData();
         Debug.Log("Game Ended");
         Application.Quit();
     }
