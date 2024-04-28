@@ -243,10 +243,10 @@ public class FurnitureSpawner : MonoBehaviour
                     break;
             }
         }
-        else if (grid[pos] != CellType.None)
+        /*else if (grid[pos] != CellType.None)
         {
             return true;
-        }
+        }*/
         return false;
     }
 

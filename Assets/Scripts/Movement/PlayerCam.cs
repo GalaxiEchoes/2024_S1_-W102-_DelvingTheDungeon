@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -15,8 +16,8 @@ public class PlayerCam : MonoBehaviour
     [SerializeField] private Transform playerObj;
 
     //Rotation Variables
-    private float xRotation;
-    private float yRotation;
+    public float xRotation;
+    public float yRotation;
     private bool rotationActive;
 
     private void Start()
@@ -26,10 +27,18 @@ public class PlayerCam : MonoBehaviour
         rotationActive = true;
     }
 
+    public float mouseX;
+    public float mouseY;
+    public float clampValue;
+
     private void Update()
     {
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+        mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+
+        //mouseX = Mathf.Clamp(mouseX, -clampValue, clampValue);
+       // mouseY = Mathf.Clamp(mouseY, -clampValue, clampValue);
+
         yRotation += mouseX;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
