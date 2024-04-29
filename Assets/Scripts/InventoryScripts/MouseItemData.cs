@@ -12,6 +12,7 @@ public class MouseItemData : MonoBehaviour
     public TextMeshProUGUI ItemCount;
     public ISlot AssignedInventorySlot;
     public InventorySlot_UI PreviousInventorySlot;
+    public EquipmentSlot_UI PreviousEquipmentSlot;
 
     private Transform _playerTransform;
 
@@ -34,6 +35,21 @@ public class MouseItemData : MonoBehaviour
     public void UpdateMousePreviousUISlot(InventorySlot_UI previousSlot)
     {
         PreviousInventorySlot = previousSlot;
+    }
+
+    public void UpdateMousePreviousUISlot(EquipmentSlot_UI previousSlot)
+    {
+        PreviousEquipmentSlot = previousSlot;
+    }
+
+    public void ResetPreviousUIEquipmentSlot()
+    {
+        PreviousEquipmentSlot = null;
+    }
+
+    public void ResetPreviousUIInventorySlot()
+    {
+        PreviousInventorySlot = null;
     }
 
     private void Update()

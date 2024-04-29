@@ -69,8 +69,9 @@ public abstract class InventoryDisplay : MonoBehaviour
         // Clicked slot has an item - mouse doesn't have an item - pick up that item
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
-            mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
             mouseInventoryItem.UpdateMousePreviousUISlot(clickedUISlot);
+            mouseInventoryItem.ResetPreviousUIEquipmentSlot();
+            mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedInventorySlot);
             clickedUISlot.ClearSlot();
             return;
         }
@@ -78,6 +79,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         //Clicked slot doesn't have an item - mouse does have an item - place the mouse item into the empty slot
         if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
+            mouseInventoryItem.UpdateMousePreviousUISlot(clickedUISlot);
+            mouseInventoryItem.ResetPreviousUIEquipmentSlot();
             clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
             clickedUISlot.UpdateUISlot();
 
@@ -142,6 +145,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         if (clickedUISlot.AssignedEquipmentSlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
             mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedEquipmentSlot);
+            mouseInventoryItem.UpdateMousePreviousUISlot(clickedUISlot);
+            mouseInventoryItem.ResetPreviousUIInventorySlot();
             clickedUISlot.ClearSlot();
 
             return;
@@ -190,13 +195,22 @@ public abstract class InventoryDisplay : MonoBehaviour
             }
             else
             {
-                //Return item to previous slot if previous slot empty or same item?
-                if (mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.ItemData == null ||
-                    mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData)
+                //Return item to previous equipment slot or inventory if previous slot empty or same item?
+                if (mouseInventoryItem.PreviousInventorySlot != null)
                 {
+                    Debug.Log("Returning to inventory slot");
                     mouseInventoryItem.PreviousInventorySlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
                     mouseInventoryItem.ClearSlot();
                     mouseInventoryItem.PreviousInventorySlot.UpdateUISlot();
+                    return;
+                }
+                else if (mouseInventoryItem.PreviousEquipmentSlot != null)
+                {
+                    Debug.Log("Returning to equipment slot");
+                    mouseInventoryItem.PreviousEquipmentSlot.AssignedEquipmentSlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+                    mouseInventoryItem.ClearSlot();
+                    mouseInventoryItem.PreviousEquipmentSlot.UpdateUISlot();
+                    return;
                 }
             }
         }
