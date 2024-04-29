@@ -590,10 +590,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75807b68f078ecc4883474a111196dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  username: {fileID: 0}
-  password: {fileID: 0}
+  usernameInput: {fileID: 633108668}
+  passwordInput: {fileID: 1363128243}
   registerButton: {fileID: 1980571595}
-  gotToLoginButton: {fileID: 471304165}
+  goToLoginButton: {fileID: 471304165}
 --- !u!114 &365961144
 MonoBehaviour:
   m_ObjectHideFlags: 0
