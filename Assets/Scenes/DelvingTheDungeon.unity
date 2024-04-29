@@ -1291,8 +1291,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc297917dca7dbc4a92585646148d9c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 30, y: 3, z: 30}
-  roomCount: 80
+  size: {x: 15, y: 3, z: 15}
+  roomCount: 45
   roomMaxSize: {x: 5, y: 2, z: 5}
   bossLevel: 5
   grid:
