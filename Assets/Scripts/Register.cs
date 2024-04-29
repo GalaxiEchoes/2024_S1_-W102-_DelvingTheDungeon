@@ -1,27 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class Register : MonoBehaviour
 {
-    public InputField username;
-    public InputField password;
+
+    public TMP_InputField usernameInput;
+    public TMP_InputField passwordInput;
     public Button registerButton;
-    public Button gotToLoginButton;
+    public Button goToLoginButton;
 
     ArrayList credentials;
 
+    // Start is called before the first frame update
     void Start()
     {
-        registerButton.onClick.AddListener(writeToFile);
-        gotToLoginButton.onClick.AddListener(goToLoginScene);
+        registerButton.onClick.AddListener(writeStuffToFile);
+        goToLoginButton.onClick.AddListener(goToLoginScene);
 
-        if(File.Exists(Application.dataPath + "/credentials.txt"))
+        if (File.Exists(Application.dataPath + "/credentials.txt"))
         {
             credentials = new ArrayList(File.ReadAllLines(Application.dataPath + "/credentials.txt"));
         }
@@ -29,6 +31,7 @@ public class Register : MonoBehaviour
         {
             File.WriteAllText(Application.dataPath + "/credentials.txt", "");
         }
+
     }
 
     void goToLoginScene()
@@ -36,27 +39,32 @@ public class Register : MonoBehaviour
         SceneManager.LoadScene("Login");
     }
 
-    void writeToFile()
+
+    void writeStuffToFile()
     {
-        bool exists = false;
+        bool isExists = false;
+
         credentials = new ArrayList(File.ReadAllLines(Application.dataPath + "/credentials.txt"));
-        foreach(var i in credentials)
+        foreach (var i in credentials)
         {
-            if(i.ToString().Contains(username.text))
+            if (i.ToString().Contains(usernameInput.text))
             {
-                exists = true;
+                isExists = true;
                 break;
             }
         }
-        if(exists)
+
+        if (isExists)
         {
-            Debug.Log($"Username '{username.text}' already exists!");
+            Debug.Log($"Username '{usernameInput.text}' already exists");
         }
         else
         {
-            credentials.Add(username.text + ":" + password.text);
-            File.WriteAllLines(Application.dataPath + "/credentials.txt", (String[])credentials.ToArray(typeof(String)));
+            credentials.Add(usernameInput.text + ":" + passwordInput.text);
+            File.WriteAllLines(Application.dataPath + "/credentials.txt", (String[])credentials.ToArray(typeof(string)));
             Debug.Log("Account Registered");
         }
     }
+
+
 }
