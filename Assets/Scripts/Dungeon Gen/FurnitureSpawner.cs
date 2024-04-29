@@ -71,12 +71,15 @@ public class FurnitureSpawner : MonoBehaviour
         [SerializeField] public Vector3Int size;
         [SerializeField] public Style style;
         [SerializeField] public HallType hallType;
+        public int arrayIndex;
+        public bool isHallway;
+        public bool isLights;
 
         public Vector3Int pos;
         public float angle;
         public Vector3Int scale;
 
-        Furniture(GameObject pre, Vector3Int size, Style style, Vector3Int pos, float angle, Vector3Int scale)
+        Furniture(GameObject pre, Vector3Int size, Style style, Vector3Int pos, float angle, Vector3Int scale, int arrayIndex, bool isHallway, bool isLights)
         {
             this.prefab = pre;
             this.size = size;
@@ -84,6 +87,9 @@ public class FurnitureSpawner : MonoBehaviour
             this.pos = pos;
             this.angle = angle;
             this.scale = scale;
+            this.arrayIndex = arrayIndex;
+            this.isHallway = isHallway;
+            this.isLights = isLights;
         }
 
         public Furniture DeepCopy()
@@ -91,7 +97,7 @@ public class FurnitureSpawner : MonoBehaviour
             GameObject newPrefab = this.prefab;
             Vector3Int newSize = new Vector3Int(this.size.x, this.size.y, this.size.z);
             Style newStyle = this.style;
-            return new Furniture(newPrefab, newSize, newStyle, new Vector3Int(0, 0, 0), 0f, new Vector3Int(1, 1, 1));
+            return new Furniture(newPrefab, newSize, newStyle, new Vector3Int(0, 0, 0), 0f, new Vector3Int(1, 1, 1), this.arrayIndex, this.isHallway, this.isLights);
         }
 
         public void Print()
@@ -141,6 +147,7 @@ public class FurnitureSpawner : MonoBehaviour
                             Furniture selected = possibleFurniture[rand.Next(0, possibleFurniture.Count)];
                             Furniture newFurniture = selected.DeepCopy();
 
+                            newFurniture.isHallway = true;
                             newFurniture.pos = pos;
                             newFurniture.angle = (float)currentDirection * 90f;
                             furnitureList.Add(newFurniture);
@@ -154,24 +161,28 @@ public class FurnitureSpawner : MonoBehaviour
                         if(CheckIfLightPlacable(pos, Direction.North))
                         {
                             Furniture newFurniture = lightTiles[0].DeepCopy();
+                            newFurniture.isLights = true;
                             newFurniture.pos = pos;
                             furnitureList.Add(newFurniture);
                         }
                         if (CheckIfLightPlacable(pos,Direction.East))
                         {
                             Furniture newFurniture = lightTiles[1].DeepCopy();
+                            newFurniture.isLights = true;
                             newFurniture.pos = pos;
                             furnitureList.Add(newFurniture);
                         }
                         if (CheckIfLightPlacable(pos, Direction.South))
                         {
                             Furniture newFurniture = lightTiles[2].DeepCopy();
+                            newFurniture.isLights = true;
                             newFurniture.pos = pos;
                             furnitureList.Add(newFurniture);
                         }
                         if (CheckIfLightPlacable(pos, Direction.West))
                         {
                             Furniture newFurniture = lightTiles[3].DeepCopy();
+                            newFurniture.isLights = true;
                             newFurniture.pos = pos;
                             furnitureList.Add(newFurniture);
                         }
@@ -536,30 +547,6 @@ public class FurnitureSpawner : MonoBehaviour
                     else if (CompareBoundsInt(boundsInt, GetBoundsInDirection(pos, furniture, Direction.South))) angle = 180f;
                     else if (CompareBoundsInt(boundsInt, GetBoundsInDirection(pos, furniture, Direction.West))) angle = 270f;
 
-                    /*if (furniture.size.x == furniture.size.z)
-                    {
-                        bool xFlipped = rand.Next(0, 2) == 0;
-                        bool zFlipped = rand.Next(0, 2) == 0;
-
-                        if (xFlipped && zFlipped)
-                        {
-                            newFurniture.scale = new Vector3Int(-1, 1, -1);
-                            angle += 180f;
-                        }
-                        else if (xFlipped)
-                        {
-                            newFurniture.scale = new Vector3Int(-1, 1, 1);
-                            angle += 90f;
-                        }
-                        else
-                        {
-                            newFurniture.scale = new Vector3Int(1, 1, -1);
-                            angle += 270f;
-                        }
-
-                        newFurniture.pos = pos;
-                    }*/
-
                     newFurniture.pos = pos;
 
                     angle = Mathf.Repeat(angle, 360f);
@@ -697,9 +684,23 @@ public class FurnitureSpawner : MonoBehaviour
 
     void PlaceFurnitureFromLoad(Furniture furn)
     {
+        GameObject prefab;
+        if (furn.isHallway)
+        {
+            prefab = hallwayTiles[furn.arrayIndex].prefab;
+        }
+        else if(furn.isLights)
+        {
+            prefab = lightTiles[furn.arrayIndex].prefab;
+        }
+        else
+        {
+            prefab = roomTiles[furn.arrayIndex].prefab;
+        }
+
         Vector3 position = new Vector3((furn.pos.x * 6.5f), (furn.pos.y * 5f), (furn.pos.z * 6.5f));
         Quaternion rot = Quaternion.Euler(0, furn.angle, 0);
-        GameObject go = Instantiate(furn.prefab, position, rot);
+        GameObject go = Instantiate(prefab, position, rot);
         go.GetComponent<Transform>().localScale = furn.scale;
         Transform furnitureParent = GeneratedDungeonParent.Find("Furniture");
         go.transform.SetParent(furnitureParent);

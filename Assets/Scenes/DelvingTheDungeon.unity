@@ -1350,6 +1350,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 2
+    arrayIndex: 0
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1357,6 +1360,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 1
+    arrayIndex: 1
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1364,6 +1370,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 3
+    arrayIndex: 2
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1371,6 +1380,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 4
+    arrayIndex: 3
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1378,6 +1390,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 0
+    arrayIndex: 4
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1385,6 +1400,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 2
+    arrayIndex: 5
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1392,6 +1410,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 1
+    arrayIndex: 6
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1399,6 +1420,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 3
+    arrayIndex: 7
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1406,6 +1430,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 4
+    arrayIndex: 8
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1413,6 +1440,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 0
+    arrayIndex: 9
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1420,6 +1450,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 2
+    arrayIndex: 10
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1427,6 +1460,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 1
+    arrayIndex: 11
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1434,6 +1470,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 3
+    arrayIndex: 12
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1441,6 +1480,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 4
+    arrayIndex: 13
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1448,6 +1490,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 0
+    arrayIndex: 14
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1455,6 +1500,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 2
+    arrayIndex: 16
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1462,6 +1510,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 1
+    arrayIndex: 16
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1469,6 +1520,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 3
+    arrayIndex: 17
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1476,6 +1530,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 4
+    arrayIndex: 18
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1483,6 +1540,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 0
+    arrayIndex: 19
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1490,6 +1550,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 2
+    arrayIndex: 20
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1497,6 +1560,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 1
+    arrayIndex: 21
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1504,6 +1570,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 3
+    arrayIndex: 22
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1511,6 +1580,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 23
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1518,6 +1590,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 0
+    arrayIndex: 24
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1525,6 +1600,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 2
+    arrayIndex: 25
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1532,6 +1610,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 1
+    arrayIndex: 27
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1539,6 +1620,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 3
+    arrayIndex: 27
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1546,6 +1630,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 4
+    arrayIndex: 28
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1553,6 +1640,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 0
+    arrayIndex: 29
+    isHallway: 1
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1561,6 +1651,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 3
     hallType: 4
+    arrayIndex: 0
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1568,6 +1661,9 @@ MonoBehaviour:
     size: {x: 3, y: 1, z: 3}
     style: 3
     hallType: 4
+    arrayIndex: 1
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1575,6 +1671,9 @@ MonoBehaviour:
     size: {x: 2, y: 1, z: 2}
     style: 3
     hallType: 4
+    arrayIndex: 2
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1582,6 +1681,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 0
     hallType: 4
+    arrayIndex: 3
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1589,6 +1691,9 @@ MonoBehaviour:
     size: {x: 2, y: 1, z: 1}
     style: 0
     hallType: 4
+    arrayIndex: 4
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1596,6 +1701,9 @@ MonoBehaviour:
     size: {x: 2, y: 1, z: 1}
     style: 0
     hallType: 4
+    arrayIndex: 5
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1603,6 +1711,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 1
     hallType: 4
+    arrayIndex: 6
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1610,6 +1721,9 @@ MonoBehaviour:
     size: {x: 2, y: 1, z: 3}
     style: 1
     hallType: 4
+    arrayIndex: 7
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1617,6 +1731,9 @@ MonoBehaviour:
     size: {x: 3, y: 1, z: 2}
     style: 1
     hallType: 4
+    arrayIndex: 8
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1624,6 +1741,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 4
+    arrayIndex: 9
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1631,6 +1751,9 @@ MonoBehaviour:
     size: {x: 2, y: 1, z: 2}
     style: 2
     hallType: 4
+    arrayIndex: 10
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1638,6 +1761,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 2
     hallType: 4
+    arrayIndex: 11
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1645,6 +1771,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 12
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1652,6 +1781,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 13
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1659,6 +1791,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 14
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1666,6 +1801,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 4
     hallType: 4
+    arrayIndex: 15
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1673,6 +1811,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 2}
     style: 4
     hallType: 4
+    arrayIndex: 16
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1680,6 +1821,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 2}
     style: 4
     hallType: 4
+    arrayIndex: 17
+    isHallway: 0
+    isLights: 0
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 0, y: 0, z: 0}
@@ -1688,6 +1832,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 0
+    isHallway: 0
+    isLights: 1
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1695,6 +1842,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 1
+    isHallway: 0
+    isLights: 1
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1702,6 +1852,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 2
+    isHallway: 0
+    isLights: 1
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
@@ -1709,6 +1862,9 @@ MonoBehaviour:
     size: {x: 1, y: 1, z: 1}
     style: 5
     hallType: 4
+    arrayIndex: 3
+    isHallway: 0
+    isLights: 1
     pos: {x: 0, y: 0, z: 0}
     angle: 0
     scale: {x: 1, y: 1, z: 1}
