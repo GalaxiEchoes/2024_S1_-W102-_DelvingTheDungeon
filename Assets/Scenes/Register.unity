@@ -935,7 +935,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 633108669}
   m_TextViewport: {fileID: 2057875722}
   m_TextComponent: {fileID: 2057875723}
-  m_Placeholder: {fileID: 2057875723}
+  m_Placeholder: {fileID: 1664451348}
   m_VerticalScrollbar: {fileID: 0}
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
@@ -1027,7 +1027,7 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 633108666}
-  m_CullTransparentMesh: 1
+  m_CullTransparentMesh: 0
 --- !u!1 &1128075319
 GameObject:
   m_ObjectHideFlags: 0
