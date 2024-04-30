@@ -119,7 +119,7 @@ public class FurnitureSpawner : MonoBehaviour
             }
         }
 
-        
+
         for (int z = 0; z < gridSize.z; z++)
         {
             for (int y = 0; y < gridSize.y; y++)
@@ -134,7 +134,7 @@ public class FurnitureSpawner : MonoBehaviour
                     {
                         Style currentStyle = GetHallStyle(pos);
                         HallType currentType = GetHallType(pos);
-                        
+
                         Direction currentDirection = GetHallFurnitureDirection(pos, currentType);
                         possibleFurniture = GetPossibleHallwayFurniture(currentStyle, currentType);
                         if (possibleFurniture.Count > 0)
@@ -153,14 +153,14 @@ public class FurnitureSpawner : MonoBehaviour
                     //Lighting
                     if (chance)
                     {
-                        if(CheckIfLightPlacable(pos, Direction.North))
+                        if (CheckIfLightPlacable(pos, Direction.North))
                         {
                             Furniture newFurniture = lightTiles[0].DeepCopy();
                             newFurniture.isLights = true;
                             newFurniture.pos = pos;
                             furnitureList.Add(newFurniture);
                         }
-                        if (CheckIfLightPlacable(pos,Direction.East))
+                        if (CheckIfLightPlacable(pos, Direction.East))
                         {
                             Furniture newFurniture = lightTiles[1].DeepCopy();
                             newFurniture.isLights = true;
@@ -193,7 +193,7 @@ public class FurnitureSpawner : MonoBehaviour
     {
         Vector3Int location = pos;
         if (dir == Direction.North) location += Vector3Int.forward;
-        else if(dir == Direction.East) location += Vector3Int.right;
+        else if (dir == Direction.East) location += Vector3Int.right;
         else if (dir == Direction.South) location += Vector3Int.back;
         else location += Vector3Int.left;
 
@@ -216,7 +216,7 @@ public class FurnitureSpawner : MonoBehaviour
                     {
                         return true;
                     }
-                    
+
                     break;
                 case CellType.Hallway:
                     if (grid[location] == CellType.Hallway) return true;
@@ -249,7 +249,6 @@ public class FurnitureSpawner : MonoBehaviour
                     break;
             }
         }
-
         return false;
     }
 
@@ -608,7 +607,6 @@ public class FurnitureSpawner : MonoBehaviour
 
     void UpdateOccupied(BoundsInt bounds)
     {
-        //TODO: modify for wall spawns
         foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
             spawnGrid[pos] = Occupied.Full;
@@ -671,7 +669,7 @@ public class FurnitureSpawner : MonoBehaviour
         {
             prefab = hallwayTiles[furn.arrayIndex].prefab;
         }
-        else if(furn.isLights)
+        else if (furn.isLights)
         {
             prefab = lightTiles[furn.arrayIndex].prefab;
         }
