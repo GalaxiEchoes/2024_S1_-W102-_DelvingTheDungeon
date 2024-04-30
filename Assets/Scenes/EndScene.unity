@@ -339,9 +339,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1298915200}
+      - m_Target: {fileID: 1298915204}
         m_TargetAssemblyTypeName: EndMenu, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: Respawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
