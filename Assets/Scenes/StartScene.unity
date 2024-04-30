@@ -1443,7 +1443,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1769378342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2601cff29fcc9473389b2ef761908696, type: 3}
+  m_Script: {fileID: 11500000, guid: 7659a5e5b076040d78bebcb37cac4e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1893609385
@@ -1670,7 +1670,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -1679,18 +1679,18 @@ PrefabInstance:
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1769378346}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnContinueButtonClick
+      value: StartGame
       objectReference: {fileID: 0}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MenuManager, Assembly-CSharp
+      value: MainMenu, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3012353949365226156, guid: 17b31837e7d34440499484e687c9fe16, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
