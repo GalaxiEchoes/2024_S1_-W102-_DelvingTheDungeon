@@ -144,6 +144,12 @@ public abstract class InventoryDisplay : MonoBehaviour
         // Clicked equipment slot has an item - mouse doesn't have an item - pick up that item
         if (clickedUISlot.AssignedEquipmentSlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
+            //on item unequipped minus stats from player
+            currentPlayer.minusStats(clickedUISlot.AssignedEquipmentSlot.ItemData.healthEffect,
+                clickedUISlot.AssignedEquipmentSlot.ItemData.staminaEffect,
+                clickedUISlot.AssignedEquipmentSlot.ItemData.attackEffect,
+                clickedUISlot.AssignedEquipmentSlot.ItemData.defenseEffect);
+
             mouseInventoryItem.UpdateMouseSlot(clickedUISlot.AssignedEquipmentSlot);
             mouseInventoryItem.UpdateMousePreviousUISlot(clickedUISlot);
             mouseInventoryItem.ResetPreviousUIInventorySlot();
@@ -208,6 +214,11 @@ public abstract class InventoryDisplay : MonoBehaviour
                 {
                     Debug.Log("Returning to equipment slot");
                     mouseInventoryItem.PreviousEquipmentSlot.AssignedEquipmentSlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
+                    //on item equipped apply items stats to player
+                    currentPlayer.addStats(mouseInventoryItem.AssignedInventorySlot.ItemData.healthEffect,
+                        mouseInventoryItem.AssignedInventorySlot.ItemData.staminaEffect,
+                        mouseInventoryItem.AssignedInventorySlot.ItemData.attackEffect,
+                        mouseInventoryItem.AssignedInventorySlot.ItemData.defenseEffect);
                     mouseInventoryItem.ClearSlot();
                     mouseInventoryItem.PreviousEquipmentSlot.UpdateUISlot();
                     return;
