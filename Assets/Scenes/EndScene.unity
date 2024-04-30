@@ -339,9 +339,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1298915204}
+      - m_Target: {fileID: 1298915200}
         m_TargetAssemblyTypeName: EndMenu, Assembly-CSharp
-        m_MethodName: Respawn
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -899,7 +899,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1298915200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d109fb6466b42948be4939ad8c927bc, type: 3}
+  m_Script: {fileID: 11500000, guid: a5f956a69981c4074a4033530dfb3063, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1683889868
