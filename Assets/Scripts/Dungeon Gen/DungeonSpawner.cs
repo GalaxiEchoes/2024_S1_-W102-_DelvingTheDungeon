@@ -112,7 +112,7 @@ public class DungeonSpawner : MonoBehaviour
             PlaceWall(new(pos.x, pos.y, -4), Direction.South, wallPreFab);
             spawnLocation = new Vector3(((pos.x - 5) * 6.5f), (pos.y * 5f) + 2, ((pos.z - 3) * 6.5f));
         }
-        else 
+        else
         {
             PlaceWall(new(pos.x - 2, pos.y, -3), Direction.East, wallPreFab);
             spawnLocation = new Vector3((pos.x * 6.5f), (pos.y * 5f) + 2, ((pos.z - 5) * 6.5f));
@@ -133,12 +133,8 @@ public class DungeonSpawner : MonoBehaviour
         Vector3Int northPos = pos + Vector3Int.forward;
         Vector3Int eastPos = pos + Vector3Int.right;
 
-        //Floor
+        //Pillar
         PlacePillar(pos, Direction.North);
-
-        //Roof
-        if (IsWithinGridBounds(pos + Vector3Int.up) && grid[pos + Vector3Int.up] != CellType.EndingRoom) PlaceFloor(pos + Vector3Int.up);
-        else if(!IsWithinGridBounds(pos + Vector3Int.up)) PlaceFloor(pos + Vector3Int.up);
 
         //Walls
         if (IsWithinGridBounds(northPos))
@@ -182,13 +178,15 @@ public class DungeonSpawner : MonoBehaviour
             }
 
             //Randomly choosing a position
-            if(locations.Count != 0)
+            if (locations.Count != 0)
             {
                 Vector3Int connectPoint = locations[random.Next(0, locations.Count)];
                 Direction direction = Direction.None;
                 int scale = 1;
 
                 if (connectPoint == posToCheck[1] || connectPoint == posToCheck[3] || connectPoint == posToCheck[5] || connectPoint == posToCheck[7]) scale = -1;
+
+                //Getting direction
                 if (connectPoint == posToCheck[0] || connectPoint == posToCheck[1]) direction = Direction.North;
                 else if (connectPoint == posToCheck[2] || connectPoint == posToCheck[3]) direction = Direction.East;
                 else if (connectPoint == posToCheck[4] || connectPoint == posToCheck[5]) direction = Direction.South;
@@ -196,27 +194,87 @@ public class DungeonSpawner : MonoBehaviour
 
                 PlaceEnd(pos, direction, scale);
 
-                foreach (Vector3Int checkPos in locations)
+                //Handle Walls
+                switch (direction)
                 {
-                    if (checkPos != connectPoint)
-                    {
-                        if (IsWithinGridBounds(checkPos + pos + Vector3Int.forward) && grid[checkPos + pos + Vector3Int.forward] == CellType.EndingRoom)
-                            PlaceWall(checkPos + pos, Direction.North, wallPreFab);
-                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.right) && grid[checkPos + pos + Vector3Int.right] == CellType.EndingRoom)
-                            PlaceWall(checkPos + pos, Direction.East, wallPreFab);
-                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.back) && grid[checkPos + pos + Vector3Int.back] == CellType.EndingRoom)
-                            PlaceWall(checkPos + pos, Direction.South, wallPreFab);
-                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.left) && grid[checkPos + pos + Vector3Int.left] == CellType.EndingRoom)
-                            PlaceWall(checkPos + pos, Direction.West, wallPreFab);
-                    }
+                    case Direction.North:
+                        if (scale == 1)
+                        {
+                            grid[pos + Vector3Int.up + Vector3Int.right] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.right + Vector3Int.forward] = CellType.Hallway;
+                            if (grid[pos + posToCheck[5]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.back, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[6]] == CellType.Hallway) PlaceWall(pos + posToCheck[6], Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[7]] == CellType.Hallway) PlaceWall(pos + posToCheck[7], Direction.East, wallPreFab);
+                        }
+                        else
+                        {
+                            grid[pos + Vector3Int.up] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.forward] = CellType.Hallway;
+                            if (grid[pos + posToCheck[2]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.forward + Vector3Int.right, Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[3]] == CellType.Hallway) PlaceWall(pos + Vector3Int.right + Vector3Int.up, Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[4]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.back + Vector3Int.right, Direction.North, wallPreFab);
+                        }
+                        break;
+                    case Direction.East:
+                        if (scale == 1)
+                        {
+                            grid[pos + Vector3Int.up] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.right] = CellType.Hallway;
+                            if (grid[pos + posToCheck[7]] == CellType.Hallway) PlaceWall(pos + posToCheck[7], Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[0]] == CellType.Hallway) PlaceWall(pos + Vector3Int.forward + Vector3Int.up, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[1]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.forward + Vector3Int.right, Direction.North, wallPreFab);
+                        }
+                        else
+                        {
+                            grid[pos + Vector3Int.up + Vector3Int.forward] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.forward + Vector3Int.right] = CellType.Hallway;
+                            if (grid[pos + posToCheck[4]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.back + Vector3Int.right, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[5]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.back, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[6]] == CellType.Hallway) PlaceWall(pos + posToCheck[6], Direction.East, wallPreFab);
+                        }
+                        break;
+                    case Direction.South:
+                        if (scale == 1)
+                        {
+                            grid[pos + Vector3Int.up] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.forward] = CellType.Hallway;
+                            if (grid[pos + posToCheck[1]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.forward + Vector3Int.right, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[2]] == CellType.Hallway) PlaceWall(pos + Vector3Int.forward + Vector3Int.up + Vector3Int.right, Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[3]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.right, Direction.East, wallPreFab);
+                        }
+                        else
+                        {
+                            grid[pos + Vector3Int.up + Vector3Int.right] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.forward + Vector3Int.right] = CellType.Hallway;
+                            if (grid[pos + posToCheck[6]] == CellType.Hallway) PlaceWall(pos + posToCheck[6], Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[7]] == CellType.Hallway) PlaceWall(pos + posToCheck[7], Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[0]] == CellType.Hallway) PlaceWall(pos + Vector3Int.forward + Vector3Int.up, Direction.North, wallPreFab);
+                        }
+                        break;
+                    case Direction.West:
+                        if (scale == 1)
+                        {
+                            grid[pos + Vector3Int.up + Vector3Int.right + Vector3Int.forward] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.forward] = CellType.Hallway;
+                            if (grid[pos + posToCheck[3]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.right, Direction.East, wallPreFab);
+                            if (grid[pos + posToCheck[4]] == CellType.Hallway) PlaceWall(pos + Vector3Int.back + Vector3Int.up + Vector3Int.right, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[5]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.back, Direction.North, wallPreFab);
+                        }
+                        else
+                        {
+                            grid[pos + Vector3Int.up] = CellType.Hallway;
+                            grid[pos + Vector3Int.up + Vector3Int.right] = CellType.Hallway;
+                            if (grid[pos + posToCheck[0]] == CellType.Hallway) PlaceWall(pos + Vector3Int.up + Vector3Int.forward, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[1]] == CellType.Hallway) PlaceWall(pos + Vector3Int.right + Vector3Int.up + Vector3Int.forward, Direction.North, wallPreFab);
+                            if (grid[pos + posToCheck[2]] == CellType.Hallway) PlaceWall(pos + Vector3Int.forward + Vector3Int.up + Vector3Int.right, Direction.East, wallPreFab);
+                        }
+                        break;
                 }
 
                 endHandled = true;
             }
-            
+
         }
-
-
     }
 
     void HandleBorder(Vector3Int pos)
@@ -250,6 +308,10 @@ public class DungeonSpawner : MonoBehaviour
                 if (grid[pos + Vector3Int.back] != CellType.None || grid[pos] != CellType.None)
                 {
                     PlacePillar(pos + new Vector3Int(-1, 0, -1), Direction.North);
+                }
+                if (!IsWithinGridBounds(pos + Vector3Int.forward) && grid[pos] != CellType.None)
+                {
+                    PlacePillar(pos + new Vector3Int(-1, 0, 0), Direction.North);
                 }
                 if (grid[pos] != CellType.None) PlaceWall(pos + Vector3Int.left, Direction.East, wallPreFab);
             }
