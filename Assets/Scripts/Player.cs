@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,15 @@ public class Player : MonoBehaviour
     public int stamina;
     public int attack;
     public int defense;
+
+    private void Update()
+    {
+        if (health <= 0)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
+        }
+    }
 
     public void addStats(int _health, int _stamina, int _attack, int _defense)
     {
@@ -23,5 +33,10 @@ public class Player : MonoBehaviour
         stamina -= _stamina;
         attack -= _attack;
         defense -= _defense;
+    }
+
+    public void resetHealth()
+    {
+        health = 100;
     }
 }
