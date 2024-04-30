@@ -12868,6 +12868,7 @@ GameObject:
   - component: {fileID: 1971517934}
   - component: {fileID: 1971517936}
   - component: {fileID: 1971517937}
+  - component: {fileID: 1971517938}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -12990,6 +12991,27 @@ MonoBehaviour:
   stamina: 100
   attack: 50
   defense: 50
+--- !u!65 &1971517938
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971517932}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &1982617499
 GameObject:
   m_ObjectHideFlags: 0
