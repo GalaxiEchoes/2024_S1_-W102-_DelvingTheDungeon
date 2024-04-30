@@ -19,15 +19,9 @@ public class InputManager : MonoBehaviour
     public bool CrouchBeingHeld { get; private set; }
     public bool SprintBeingHeld { get; private set; }
 
-    //UI interaction
-    public bool MenuOpenCloseInput { get; private set; }
-    public bool InventoryOpenClose { get; private set; }
-    public bool Interact { get; private set; }
-
     public bool FirstPersonCamPressed { get; private set; }
     public bool CombatCamPressed { get; private set; }
     public bool ThirdPersonCamPressed { get; private set; }
-    public bool UIMenuCloseInput { get; private set; }
 
     //Actual Keys
     private InputAction _moveAction;
@@ -35,12 +29,22 @@ public class InputManager : MonoBehaviour
     private InputAction _attackAction;
     private InputAction _crouchAction;
     private InputAction _sprintAction;
-    private InputAction _menuOpenCloseAction;
-    private InputAction _InventoryOpenCloseAction;
     private InputAction _InteractAction;
     private InputAction _firstPersonCamAction;
     private InputAction _combatCamAction;
     private InputAction _thirdPersonCamAction;
+
+    //UI interaction
+    public bool MenuOpenCloseInput { get; private set; }
+    public bool InventoryOpen { get; private set; }
+    public bool InventoryClose { get; private set; }
+    public bool Interact { get; private set; }
+    public bool UIMenuCloseInput { get; private set; }
+
+    //Actual Keys
+    private InputAction _menuOpenCloseAction;
+    private InputAction _InventoryOpenAction;
+    private InputAction _UIInventoryCloseAction;
     private InputAction _UIMenuCloseAction;
 
     private void Awake()
@@ -62,13 +66,14 @@ public class InputManager : MonoBehaviour
         _attackAction = PlayerInput.actions["Attack"];
         _crouchAction = PlayerInput.actions["Crouch"];
         _sprintAction = PlayerInput.actions["Sprint"];
-        _menuOpenCloseAction = PlayerInput.actions["Menu"];
-        _InventoryOpenCloseAction = PlayerInput.actions["Inventory"];
         _InteractAction = PlayerInput.actions["Interact"];
         _firstPersonCamAction = PlayerInput.actions["First Person Cam"];
         _combatCamAction = PlayerInput.actions["Combat Cam"];
         _thirdPersonCamAction = PlayerInput.actions["Third Person Cam"];
+        _menuOpenCloseAction = PlayerInput.actions["Menu"];
+        _InventoryOpenAction = PlayerInput.actions["Inventory"];
         _UIMenuCloseAction = PlayerInput.actions["MenuCloseAction"];
+        _UIInventoryCloseAction = PlayerInput.actions["InventoryClose"];
     }
 
     private void UpdateInputs()
@@ -81,13 +86,14 @@ public class InputManager : MonoBehaviour
         CrouchReleased = _crouchAction.WasReleasedThisFrame();
         CrouchBeingHeld = _crouchAction.IsPressed();
         SprintBeingHeld = _sprintAction.IsPressed();
-        MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
-        InventoryOpenClose = _InventoryOpenCloseAction.WasPressedThisFrame();
         Interact = _InteractAction.WasPressedThisFrame();
         FirstPersonCamPressed = _firstPersonCamAction.WasPressedThisFrame();
         CombatCamPressed = _combatCamAction.WasPressedThisFrame();
         ThirdPersonCamPressed = _thirdPersonCamAction.WasPressedThisFrame();
+        MenuOpenCloseInput = _menuOpenCloseAction.WasPressedThisFrame();
         UIMenuCloseInput = _UIMenuCloseAction.WasPressedThisFrame();
+        InventoryOpen = _InventoryOpenAction.WasPressedThisFrame();
+        InventoryClose = _UIInventoryCloseAction.WasPressedThisFrame();
     }
 
     void Update()

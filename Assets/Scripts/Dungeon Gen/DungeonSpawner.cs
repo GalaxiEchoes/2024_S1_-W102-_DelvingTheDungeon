@@ -182,34 +182,38 @@ public class DungeonSpawner : MonoBehaviour
             }
 
             //Randomly choosing a position
-            Vector3Int connectPoint = locations[random.Next(0, locations.Count)];
-            Direction direction = Direction.None;
-            int scale = 1;
-
-            if (connectPoint == posToCheck[1] || connectPoint == posToCheck[3] || connectPoint == posToCheck[5] || connectPoint == posToCheck[7]) scale = -1;
-            if (connectPoint == posToCheck[0] || connectPoint == posToCheck[1]) direction = Direction.North;
-            else if (connectPoint == posToCheck[2] || connectPoint == posToCheck[3]) direction = Direction.East;
-            else if (connectPoint == posToCheck[4] || connectPoint == posToCheck[5]) direction = Direction.South;
-            else direction = Direction.West;
-
-            PlaceEnd(pos, direction, scale);
-
-            foreach (Vector3Int checkPos in locations)
+            if(locations.Count != 0)
             {
-                if (checkPos != connectPoint)
-                {
-                    if (IsWithinGridBounds(checkPos + pos + Vector3Int.forward) && grid[checkPos + pos + Vector3Int.forward] == CellType.EndingRoom)
-                        PlaceWall(checkPos + pos, Direction.North, wallPreFab);
-                    else if (IsWithinGridBounds(checkPos + pos + Vector3Int.right) && grid[checkPos + pos + Vector3Int.right] == CellType.EndingRoom)
-                        PlaceWall(checkPos + pos, Direction.East, wallPreFab);
-                    else if (IsWithinGridBounds(checkPos + pos + Vector3Int.back) && grid[checkPos + pos + Vector3Int.back] == CellType.EndingRoom)
-                        PlaceWall(checkPos + pos, Direction.South, wallPreFab);
-                    else if (IsWithinGridBounds(checkPos + pos + Vector3Int.left) && grid[checkPos + pos + Vector3Int.left] == CellType.EndingRoom)
-                        PlaceWall(checkPos + pos, Direction.West, wallPreFab);
-                }
-            }
+                Vector3Int connectPoint = locations[random.Next(0, locations.Count)];
+                Direction direction = Direction.None;
+                int scale = 1;
 
-            endHandled = true;
+                if (connectPoint == posToCheck[1] || connectPoint == posToCheck[3] || connectPoint == posToCheck[5] || connectPoint == posToCheck[7]) scale = -1;
+                if (connectPoint == posToCheck[0] || connectPoint == posToCheck[1]) direction = Direction.North;
+                else if (connectPoint == posToCheck[2] || connectPoint == posToCheck[3]) direction = Direction.East;
+                else if (connectPoint == posToCheck[4] || connectPoint == posToCheck[5]) direction = Direction.South;
+                else direction = Direction.West;
+
+                PlaceEnd(pos, direction, scale);
+
+                foreach (Vector3Int checkPos in locations)
+                {
+                    if (checkPos != connectPoint)
+                    {
+                        if (IsWithinGridBounds(checkPos + pos + Vector3Int.forward) && grid[checkPos + pos + Vector3Int.forward] == CellType.EndingRoom)
+                            PlaceWall(checkPos + pos, Direction.North, wallPreFab);
+                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.right) && grid[checkPos + pos + Vector3Int.right] == CellType.EndingRoom)
+                            PlaceWall(checkPos + pos, Direction.East, wallPreFab);
+                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.back) && grid[checkPos + pos + Vector3Int.back] == CellType.EndingRoom)
+                            PlaceWall(checkPos + pos, Direction.South, wallPreFab);
+                        else if (IsWithinGridBounds(checkPos + pos + Vector3Int.left) && grid[checkPos + pos + Vector3Int.left] == CellType.EndingRoom)
+                            PlaceWall(checkPos + pos, Direction.West, wallPreFab);
+                    }
+                }
+
+                endHandled = true;
+            }
+            
         }
     }
 
