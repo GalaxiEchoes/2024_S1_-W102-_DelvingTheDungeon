@@ -6073,7 +6073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -6949,7 +6949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -8999,7 +8999,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11196,7 +11196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13010,8 +13010,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 3, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 0.9, y: 2.5, z: 0.9}
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!1 &1982617499
 GameObject:
   m_ObjectHideFlags: 0
