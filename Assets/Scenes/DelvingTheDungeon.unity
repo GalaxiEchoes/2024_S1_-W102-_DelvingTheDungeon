@@ -4884,7 +4884,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 15, y: 3, z: 15}
-  roomCount: 45
+  roomCount: 60
   roomMaxSize: {x: 5, y: 2, z: 5}
   bossLevel: 5
   grid:

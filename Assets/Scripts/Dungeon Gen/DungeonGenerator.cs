@@ -191,7 +191,7 @@ public class DungeonGenerator : MonoBehaviour
 
                 Vector3Int endLocation = new Vector3Int(
                     random.Next(1, size.x - 1),
-                    random.Next(0, size.y),
+                    random.Next(0, size.y-1),
                     random.Next(1, size.z - 1)
                 );
 
@@ -199,7 +199,7 @@ public class DungeonGenerator : MonoBehaviour
 
                 //Checks if bounds are outside of spawning area
                 if (endingRoom.bounds.xMin >= 0 || endingRoom.bounds.xMax < size.x
-                    || endingRoom.bounds.yMin >= 0 || endingRoom.bounds.yMax < size.y
+                    || endingRoom.bounds.yMin >= 0 || endingRoom.bounds.yMax < size.y -1
                     || endingRoom.bounds.zMin >= 0 || endingRoom.bounds.zMax < size.z)
                 {
                     add = true;

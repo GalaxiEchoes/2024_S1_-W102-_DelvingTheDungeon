@@ -70,7 +70,7 @@ public class PlayerActions : MonoBehaviour
             }
 
             UseText.gameObject.SetActive(true);
-            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.11f;
+            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.05f;
             UseText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
         }
         else
