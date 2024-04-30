@@ -25,7 +25,6 @@ public class Controller : MonoBehaviour
         int seed = (int)DateTime.Now.Ticks;
         rand = new Random(seed);
 
-        Debug.Log("At Start");
         LoadGame();
     }
 
@@ -33,8 +32,6 @@ public class Controller : MonoBehaviour
     {
         SaveGame();
         persistenceManager.IncreaseCurrentLevel();
-
-        Debug.Log("Load Next Level");
 
         int newSeed = UnityEngine.Random.Range(0, int.MaxValue);
         UnityEngine.Random.InitState(newSeed);
@@ -47,9 +44,7 @@ public class Controller : MonoBehaviour
         SaveGame();
         persistenceManager.DecreaseCurrentLevel();
 
-        Debug.Log("Load Prev Level");
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-
     }
 
     public void SaveGame()
@@ -63,7 +58,6 @@ public class Controller : MonoBehaviour
         {
             dungeonSpawner.SpawnDungeonRooms();
             furnitureSpawner.LoadFurniture();
-            Debug.Log("Now I should end up here!");
         }
         else
         {
@@ -82,7 +76,6 @@ public class Controller : MonoBehaviour
             persistenceManager.SetPlayerToSpawn();
 
             SaveGame();
-            Debug.Log("I shouldnt end up here!");
         }
     }
 
@@ -91,5 +84,4 @@ public class Controller : MonoBehaviour
         persistenceManager.DeleteWorldStates();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
 }

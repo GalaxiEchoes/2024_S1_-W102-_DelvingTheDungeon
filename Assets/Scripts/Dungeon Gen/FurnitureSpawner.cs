@@ -93,11 +93,6 @@ public class FurnitureSpawner : MonoBehaviour
             Style newStyle = this.style;
             return new Furniture(newPrefab, newSize, newStyle, new Vector3Int(0, 0, 0), 0f, new Vector3Int(1, 1, 1));
         }
-
-        public void Print()
-        {
-            Debug.Log(this.prefab.name + " " + this.pos + " " + this.angle + " " + this.scale);
-        }
     }
 
     public void GenerateFurniture()
@@ -533,30 +528,6 @@ public class FurnitureSpawner : MonoBehaviour
                     else if (CompareBoundsInt(boundsInt, GetBoundsInDirection(pos, furniture, Direction.South))) angle = 180f;
                     else if (CompareBoundsInt(boundsInt, GetBoundsInDirection(pos, furniture, Direction.West))) angle = 270f;
 
-                    /*if (furniture.size.x == furniture.size.z)
-                    {
-                        bool xFlipped = rand.Next(0, 2) == 0;
-                        bool zFlipped = rand.Next(0, 2) == 0;
-
-                        if (xFlipped && zFlipped)
-                        {
-                            newFurniture.scale = new Vector3Int(-1, 1, -1);
-                            angle += 180f;
-                        }
-                        else if (xFlipped)
-                        {
-                            newFurniture.scale = new Vector3Int(-1, 1, 1);
-                            angle += 90f;
-                        }
-                        else
-                        {
-                            newFurniture.scale = new Vector3Int(1, 1, -1);
-                            angle += 270f;
-                        }
-
-                        newFurniture.pos = pos;
-                    }*/
-
                     newFurniture.pos = pos;
 
                     angle = Mathf.Repeat(angle, 360f);
@@ -599,16 +570,6 @@ public class FurnitureSpawner : MonoBehaviour
         }
         return bounds;
     }
-
-
-
-
-
-
-
-
-
-
 
     int IsVectorGreater(Vector3Int posOne, Vector3Int posTwo)
     {

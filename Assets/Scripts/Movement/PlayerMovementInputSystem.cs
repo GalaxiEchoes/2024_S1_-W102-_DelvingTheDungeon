@@ -71,7 +71,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     {
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
         onStairs = Physics.Raycast(transform.position, Vector3.down, out stairHit, playerHeight * 0.5f + 0.3f, stairs);
-        onSlope = calcOnSlope();
+        onSlope = CalcOnSlope();
 
         MyInput();
         SpeedControl();
@@ -114,7 +114,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         }
     }
 
-    private void SpeedControl()//limit velocity....
+    private void SpeedControl()
     {
         //Limit speed on slope or stairs
         if (onStairs || onSlope)
@@ -171,13 +171,13 @@ public class InputSystemPlayerMovement : MonoBehaviour
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
         setGravity();
-        handleMovement();
+        HandleMovement();
     }
 
     private void setGravity()
     {
         //Handles gravity
-        if ((calcOnSlope() || onStairs) && readyToJump)
+        if ((CalcOnSlope() || onStairs) && readyToJump)
         {
             rb.useGravity = false;
         }
@@ -187,7 +187,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         }
     }
 
-    private void handleMovement()
+    private void HandleMovement()
     {
         if (stepObstacleCheck(moveDirection) && moveDirection.magnitude > 0) //Is there an obstacle and are we moving
         {
@@ -286,7 +286,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         return false;
     }
 
-    private bool calcOnSlope()
+    private bool CalcOnSlope()
     {
         if (Physics.Raycast(transform.position, Vector3.down, out slopeHit, playerHeight * 0.5f + 0.3f))
         {

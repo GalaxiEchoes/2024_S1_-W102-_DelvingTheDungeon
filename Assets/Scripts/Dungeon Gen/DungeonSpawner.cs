@@ -211,8 +211,6 @@ public class DungeonSpawner : MonoBehaviour
 
             endHandled = true;
         }
-
-
     }
 
     void HandleBorder(Vector3Int pos)
@@ -246,6 +244,10 @@ public class DungeonSpawner : MonoBehaviour
                 if (grid[pos + Vector3Int.back] != CellType.None || grid[pos] != CellType.None)
                 {
                     PlacePillar(pos + new Vector3Int(-1, 0, -1), Direction.North);
+                }
+                if(!IsWithinGridBounds(pos+Vector3Int.forward)&& grid[pos] != CellType.None)
+                {
+                    PlacePillar(pos + new Vector3Int(-1, 0, 0), Direction.North);
                 }
                 if (grid[pos] != CellType.None) PlaceWall(pos + Vector3Int.left, Direction.East, wallPreFab);
             }
