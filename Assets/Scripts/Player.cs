@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             Cursor.lockState = CursorLockMode.None;
+            ResetGame();
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
     }
@@ -38,5 +39,11 @@ public class Player : MonoBehaviour
     public void resetHealth()
     {
         health = 100;
+    }
+
+    private void ResetGame()
+    {
+        // Reset the game to level 0
+        FindObjectOfType<Controller>().DeleteGame();
     }
 }
