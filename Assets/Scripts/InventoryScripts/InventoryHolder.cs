@@ -13,30 +13,11 @@ public class InventoryHolder : MonoBehaviour
     public InventorySystem InventorySystem => inventorySystem;
     public EquipmentInventorySystem EquipmentInventorySystem => equipmentInventorySystem;
 
-    private void Start()
-    {
-        SaveGameManager.data.playerInventory = new InventorySaveData(inventorySystem, equipmentInventorySystem);
-    }
-
     protected virtual void Awake()
     {
-        SaveLoad.OnLoadGame += LoadInventory;
 
         inventorySystem = new InventorySystem(inventorySize);
         equipmentInventorySystem = new EquipmentInventorySystem(4);
-    }
-
-    protected void LoadInventory(SaveData saveData)
-    {
-        if (saveData.playerInventory.InvSystem != null)
-        {
-            this.inventorySystem = saveData.playerInventory.InvSystem;
-        }
-
-        if (saveData.playerInventory.EquipInvSystem != null)
-        {
-            this.equipmentInventorySystem = saveData.playerInventory.EquipInvSystem;
-        }
     }
 }
 

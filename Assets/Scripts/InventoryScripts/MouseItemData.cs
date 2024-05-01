@@ -69,7 +69,7 @@ public class MouseItemData : MonoBehaviour
                 {
                     // Increase Y position by adding an offset value (e.g., 3f)
                     Vector3 dropPosition = _playerTransform.position + _playerTransform.forward * 3f;
-                    dropPosition.y += 0.35f;
+                    //dropPosition.y += 0.35f;
 
                     Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, dropPosition, Quaternion.identity);
                     ClearSlot();
