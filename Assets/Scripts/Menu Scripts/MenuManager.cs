@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static PersistenceManager;
 
 public class MenuManager : MonoBehaviour
 {
     public GameObject pauseScreen;
     public GameObject mainMenuScreen;
     public GameObject inventoryScreen;
-
+    public int bossLevel = 5;
 
     // Update is called once per frame
     void Update()
@@ -128,5 +130,25 @@ public class MenuManager : MonoBehaviour
         //Add logic to save the current game state and update to playfab database
         Debug.Log("Game Ended");
         Application.Quit();
+    }
+
+    public void StartNewGame()
+    {
+        for (int currentLevel = 0; currentLevel < bossLevel; currentLevel++)
+        {
+            string directoryPath = Application.dataPath + "/Saves";
+            string filePath = directoryPath + "/" + currentLevel + "world_state.json";
+
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+        }
+        string levelTrackerPath = Application.dataPath + "/Saves" + "/level_tracker.json";
+        if (File.Exists(levelTrackerPath))
+        {
+            File.Delete(levelTrackerPath);
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
