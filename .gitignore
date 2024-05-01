@@ -12,6 +12,7 @@
 **/[Bb]uilds/
 **/[Ll]ogs/
 **/[Uu]ser[Ss]ettings/
+**/Saves/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -126,3 +127,8 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#Ignore all .meta file
+*.meta
+#But not source file with postfix. which is everything but a folder
+!*.*.meta
