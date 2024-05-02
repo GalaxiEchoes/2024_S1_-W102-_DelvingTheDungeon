@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028331, g: 0.2257133, b: 0.3069217, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -510,6 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 716893217}
+  smoothingSpeed: 0
 --- !u!1 &420707122
 GameObject:
   m_ObjectHideFlags: 3
@@ -799,8 +800,6 @@ MonoBehaviour:
   orientation: {fileID: 1764910761}
   player: {fileID: 1150958033}
   playerObj: {fileID: 75897535}
-  rb: {fileID: 1150958032}
-  rotationSpeed: 15
 --- !u!114 &465762598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,9 +1713,6 @@ MonoBehaviour:
   orientation: {fileID: 1764910761}
   player: {fileID: 1150958033}
   playerObj: {fileID: 75897535}
-  rb: {fileID: 1150958032}
-  rotationSpeed: 15
-  combatLookAt: {fileID: 2122201595}
 --- !u!114 &841013382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2170,14 +2166,14 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 8
-  maxSlopeAngle: 45
-  stairs:
-    serializedVersion: 2
-    m_Bits: 64
   stepRayUpper: {fileID: 2122005408}
   stepRayLower: {fileID: 511266194}
   maxStepHeight: 0.5
   stepSmooth: 4
+  stairs:
+    serializedVersion: 2
+    m_Bits: 64
+  maxSlopeAngle: 45
   slopeSmooth: 1
   orientation: {fileID: 1764910761}
 --- !u!54 &1150958032
