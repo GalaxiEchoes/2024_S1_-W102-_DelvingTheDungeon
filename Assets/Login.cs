@@ -9,6 +9,8 @@ using TMPro;
 
 public class Login : MonoBehaviour
 {
+    public TMPro.TextMeshProUGUI text;
+    public CanvasManager canvasManager;
     public TMP_InputField username;
     public TMP_InputField password;
     public Button loginButton;
@@ -51,22 +53,24 @@ public class Login : MonoBehaviour
 
         if(exists)
         {
+            text.SetText("");
             Debug.Log($"Logging in '{username.text}'");
             loadWelcomeScreen();
         }
         else
         {
-            Debug.Log("Incorrect credentials!");
+            text.SetText("Incorrect credentials!");
+            //Debug.Log("Incorrect credentials!");
         }
     }
 
     void moveToRegister()
     {
-        SceneManager.LoadScene("Register");
+        canvasManager.OnRegisterButtonClick();
     }
 
     void loadWelcomeScreen()
     {
-        SceneManager.LoadScene("WelcomeScreen");
+        canvasManager.OnMenuButtonClick();
     }
 }

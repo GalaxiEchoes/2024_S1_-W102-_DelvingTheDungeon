@@ -9,7 +9,8 @@ using TMPro;
 
 public class Register : MonoBehaviour
 {
-
+    public TMPro.TextMeshProUGUI text;
+    public CanvasManager canvasManager;
     public TMP_InputField usernameInput;
     public TMP_InputField passwordInput;
     public Button registerButton;
@@ -36,7 +37,7 @@ public class Register : MonoBehaviour
 
     void goToLoginScene()
     {
-        SceneManager.LoadScene("Login");
+        canvasManager.OnLoginButtonClick();
     }
 
 
@@ -56,15 +57,16 @@ public class Register : MonoBehaviour
 
         if (isExists)
         {
-            Debug.Log($"Username '{usernameInput.text}' already exists");
+            text.SetText($"Username '{usernameInput.text}' already exists");
+            //Debug.Log($"Username '{usernameInput.text}' already exists");
         }
         else
         {
+            text.SetText("");
             credentials.Add(usernameInput.text + ":" + passwordInput.text);
             File.WriteAllLines(Application.dataPath + "/credentials.txt", (String[])credentials.ToArray(typeof(string)));
             Debug.Log("Account Registered");
+            canvasManager.OnLoginButtonClick();
         }
     }
-
-
 }
