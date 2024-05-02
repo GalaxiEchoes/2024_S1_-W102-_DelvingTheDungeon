@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 352feab0c26884ba1a66bdfa3faaadf1
+  - enabled: 1
+    path: Assets/Scenes/DelvingTheDungeon.unity
+    guid: df94f2aa383338142b4199593e6dd346
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: ed211561b501149569b420c431f83d51
+  - enabled: 1
+    path: Assets/Scenes/Register.unity
+    guid: 419d4ac681e7e58428dc58d0a591ae4e
   m_configObjects: {}
