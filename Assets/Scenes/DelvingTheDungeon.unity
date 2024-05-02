@@ -10016,7 +10016,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514682361}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1677858490}
+        m_TargetAssemblyTypeName: Resetposition, Assembly-CSharp
+        m_MethodName: resetPlayerPosition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1514682361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11097,6 +11109,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1677858489}
   - component: {fileID: 1677858488}
+  - component: {fileID: 1677858490}
   m_Layer: 5
   m_Name: MenuLogic
   m_TagString: Untagged
@@ -11139,6 +11152,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1677858490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677858487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112fa65222b658e4ba8971499af69d34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMeshProUGUI: {fileID: 246165420}
+  manager: {fileID: 785471290}
+  menuManager: {fileID: 1677858488}
+  timer: 60
 --- !u!1001 &1683768771
 PrefabInstance:
   m_ObjectHideFlags: 0
