@@ -325,7 +325,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     private IEnumerator RechargeStamina()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         while(Stamina < MaxStamina)
         {
