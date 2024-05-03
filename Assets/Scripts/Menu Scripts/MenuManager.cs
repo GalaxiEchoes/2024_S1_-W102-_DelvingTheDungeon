@@ -10,8 +10,9 @@ using static PersistenceManager;
 public class MenuManager : MonoBehaviour
 {
     public GameObject pauseScreen;
-    public GameObject mainMenuScreen;
     public GameObject inventoryScreen;
+    public GameObject settingsManager;
+    public GameObject settingsMenu;
     public GameObject healthBar;
     public GameObject staminaBar;
     public int bossLevel = 5;
@@ -87,9 +88,20 @@ public class MenuManager : MonoBehaviour
         ExitGame();
     }
 
+    public void OnSettingsButtonClick()
+    {
+        SwitchToSettingsScreen();
+    }
+
+    public void OnBackButtonClick()
+    {
+        SwitchToPauseScreen();
+    }
+
     private void SwitchToGameScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         healthBar.SetActive(true);
@@ -100,8 +112,21 @@ public class MenuManager : MonoBehaviour
 
     private void SwitchToPauseScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(true);
+        inventoryScreen.SetActive(false);
+        healthBar.SetActive(false);
+        staminaBar.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void SwitchToSettingsScreen()
+    {
+        settingsMenu.SetActive(true);
+        settingsManager.SetActive(true);
+        pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
@@ -111,20 +136,13 @@ public class MenuManager : MonoBehaviour
 
     private void SwitchToMainMenuScreen()
     {
-        mainMenuScreen.SetActive(true);
-        pauseScreen.SetActive(false);
-        inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        //Add logic to save the current game state and update to playfab database
+        SceneManager.LoadScene(0);
     }
 
     private void SwitchToInventoryScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(true);
         healthBar.SetActive(false);
@@ -159,6 +177,13 @@ public class MenuManager : MonoBehaviour
         {
             File.Delete(levelTrackerPath);
         }
+
+        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
+        if (File.Exists(levelTrackerPathMeta))
+        {
+            File.Delete(levelTrackerPathMeta);
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
