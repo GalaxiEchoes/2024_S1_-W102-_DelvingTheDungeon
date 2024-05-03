@@ -55,12 +55,12 @@ public class Login : MonoBehaviour
         {
             text.SetText("");
             Debug.Log($"Logging in '{username.text}'");
+            canvasManager.SetLoggedIn(true);
             loadWelcomeScreen();
         }
         else
         {
             text.SetText("Incorrect credentials!");
-            //Debug.Log("Incorrect credentials!");
         }
     }
 
