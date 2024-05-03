@@ -8126,7 +8126,7 @@ MonoBehaviour:
   - {fileID: 1331986553}
   - {fileID: 990554274}
   tabIdle: {r: 0, g: 0, b: 0, a: 0}
-  tabHover: {r: 1, g: 0.85797274, b: 0, a: 0}
+  tabHover: {r: 0, g: 0.73833895, b: 1, a: 0}
   tabActive: {r: 0.18523192, g: 1, b: 0, a: 0}
   selectedTab: {fileID: 0}
   objectsToSwap: []
