@@ -9,6 +9,15 @@ public class Player : MonoBehaviour
     public int stamina;
     public int attack;
     public int defense;
+    public int maxHealth = 100;
+
+    public HealthBar healthBar;
+
+    private void Start()
+    {
+        health = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+    }
 
     private void Update()
     {
@@ -16,6 +25,11 @@ public class Player : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.None;
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
+        }
+
+        if(Input.GetKeyDown("f"))
+        {
+            takeDamage(20);
         }
     }
 
@@ -38,5 +52,12 @@ public class Player : MonoBehaviour
     public void resetHealth()
     {
         health = 100;
+    }
+
+    void takeDamage(int damage)
+    {
+        health -= damage;
+
+        healthBar.SetHealth(health);
     }
 }

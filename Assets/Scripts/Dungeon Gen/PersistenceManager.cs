@@ -111,6 +111,12 @@ public class PersistenceManager : MonoBehaviour
         {
             File.Delete(levelTrackerPath);
         }
+
+        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
+        if (File.Exists(levelTrackerPathMeta))
+        {
+            File.Delete(levelTrackerPathMeta);
+        }
     }
 
     private void UploadDependencies()
@@ -224,6 +230,25 @@ public class PersistenceManager : MonoBehaviour
         {
             levelTracker.currentLevel--;
             SaveCurrentLevel();
+        }
+    }
+
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
+        {
+            ClearLoginStatus();
         }
     }
 }

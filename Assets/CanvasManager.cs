@@ -7,6 +7,38 @@ public class CanvasManager : MonoBehaviour
     public GameObject Register;
     public GameObject Login;
     public GameObject MainMenu;
+    public GameObject settingsScreen;
+
+
+    public void SetLoggedIn(bool value)
+    {
+        PlayerPrefs.SetInt("IsLoggedIn", value ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public bool IsLoggedIn()
+    {
+        return PlayerPrefs.GetInt("IsLoggedIn", 0) == 1;
+    }
+
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
+        {
+            ClearLoginStatus();
+        }
+    }
 
     public void OnLoginButtonClick()
     {
@@ -23,8 +55,29 @@ public class CanvasManager : MonoBehaviour
         SwitchToMain();
     }
 
+    public void OnSettingsButtonClick()
+    {
+        SwitchToSettingsScreen();
+    }
+
+    public void OnBackButtonClick()
+    {
+        SwitchToMain();
+    }
+
+    private void SwitchToSettingsScreen()
+    {
+        settingsScreen.SetActive(true);
+        Login.SetActive(false);
+        Register.SetActive(false);
+        MainMenu.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     private void SwitchToLogin()
     {
+        settingsScreen.SetActive(false);
         Login.SetActive(true);
         Register.SetActive(false);
         MainMenu.SetActive(false);
@@ -32,6 +85,7 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToRegister()
     {
+        settingsScreen.SetActive(false);
         Login.SetActive(false);
         Register.SetActive(true);
         MainMenu.SetActive(false);
@@ -39,6 +93,7 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToMain()
     {
+        settingsScreen.SetActive(false);
         Login.SetActive(false);
         Register.SetActive(false);
         MainMenu.SetActive(true);
@@ -47,9 +102,21 @@ public class CanvasManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Register.SetActive(true);
-        Login.SetActive(false);
-        MainMenu.SetActive(false);
+        if(IsLoggedIn())
+        {
+            settingsScreen.SetActive(false);
+            Register.SetActive(false);
+            Login.SetActive(false);
+            MainMenu.SetActive(true);
+        }
+        else
+        {
+            settingsScreen.SetActive(false);
+            Register.SetActive(true);
+            Login.SetActive(false);
+            MainMenu.SetActive(false);
+        }
+        
     }
 
     // Update is called once per frame
