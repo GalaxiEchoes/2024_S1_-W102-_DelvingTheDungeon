@@ -7,8 +7,8 @@ public class CanvasManager : MonoBehaviour
     public GameObject Register;
     public GameObject Login;
     public GameObject MainMenu;
-    public GameObject settingsScreen;
-
+    public GameObject settingsManager;
+    public GameObject settingsMenu;
 
     public void SetLoggedIn(bool value)
     {
@@ -67,7 +67,8 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToSettingsScreen()
     {
-        settingsScreen.SetActive(true);
+        settingsMenu.SetActive(true);
+        settingsManager.SetActive(true);
         Login.SetActive(false);
         Register.SetActive(false);
         MainMenu.SetActive(false);
@@ -77,7 +78,8 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToLogin()
     {
-        settingsScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         Login.SetActive(true);
         Register.SetActive(false);
         MainMenu.SetActive(false);
@@ -85,7 +87,8 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToRegister()
     {
-        settingsScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         Login.SetActive(false);
         Register.SetActive(true);
         MainMenu.SetActive(false);
@@ -93,7 +96,8 @@ public class CanvasManager : MonoBehaviour
 
     private void SwitchToMain()
     {
-        settingsScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         Login.SetActive(false);
         Register.SetActive(false);
         MainMenu.SetActive(true);
@@ -104,14 +108,16 @@ public class CanvasManager : MonoBehaviour
     {
         if(IsLoggedIn())
         {
-            settingsScreen.SetActive(false);
+            settingsMenu.SetActive(false);
+            settingsManager.SetActive(false);
             Register.SetActive(false);
             Login.SetActive(false);
             MainMenu.SetActive(true);
         }
         else
         {
-            settingsScreen.SetActive(false);
+            settingsMenu.SetActive(false);
+            settingsManager.SetActive(false);
             Register.SetActive(true);
             Login.SetActive(false);
             MainMenu.SetActive(false);
