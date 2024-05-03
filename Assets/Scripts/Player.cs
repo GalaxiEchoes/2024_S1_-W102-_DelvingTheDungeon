@@ -10,13 +10,12 @@ public class Player : MonoBehaviour
     public int attack;
     public int defense;
     public int maxHealth = 100;
-    public int currentHealth;
 
     public HealthBar healthBar;
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
     }
 
@@ -57,8 +56,8 @@ public class Player : MonoBehaviour
 
     void takeDamage(int damage)
     {
-        currentHealth -= damage;
+        health -= damage;
 
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetHealth(health);
     }
 }
