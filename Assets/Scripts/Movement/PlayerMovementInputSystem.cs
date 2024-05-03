@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputSystemPlayerMovement : MonoBehaviour
 {
@@ -59,6 +60,15 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     [Header("Object Reference")]
     [SerializeField] private Transform orientation;
+
+    public Image StaminaBar;
+
+    public float Stamina;
+    public float MaxStamina;
+    public float RunCost;
+    public float ChargeRate;
+
+    public Coroutine recharge;
 
     void Start()
     {
@@ -144,10 +154,21 @@ public class InputSystemPlayerMovement : MonoBehaviour
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
         }
-        else if (InputManager.instance.SprintBeingHeld && (grounded || onStairs))
+        else if (InputManager.instance.SprintBeingHeld && (grounded || onStairs) && Stamina > 0)
         {
             state = MovementState.sprinting;
             moveSpeed = sprintSpeed;
+
+            Stamina -= RunCost * Time.deltaTime;
+            if(Stamina < 0) Stamina = 0;
+            StaminaBar.fillAmount = Stamina / MaxStamina;
+
+            if(recharge != null)
+            {
+                StopCoroutine(recharge);
+            }
+
+            recharge = StartCoroutine(RechargeStamina());
         }
         else if (grounded || onStairs)
         {
@@ -300,5 +321,23 @@ public class InputSystemPlayerMovement : MonoBehaviour
     private Vector3 GetSlopeMoveDirection()
     {
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
+    }
+
+    private IEnumerator RechargeStamina()
+    {
+        yield return new WaitForSeconds(1f);
+
+        while(Stamina < MaxStamina)
+        {
+            Stamina += ChargeRate / 10f;
+
+            if (Stamina > MaxStamina)
+            {
+                Stamina = MaxStamina;
+            }
+
+            StaminaBar.fillAmount = Stamina / MaxStamina;
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
