@@ -32,8 +32,11 @@ public class PlayerActions : MonoBehaviour
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
+        {
             playerData = player.GetComponent<Player>();
-        Inventory = player.GetComponent<InventoryHolder>();
+            Inventory = player.GetComponent<InventoryHolder>();
+        }
+            
     }
 
     public void OnInteract()
@@ -86,7 +89,7 @@ public class PlayerActions : MonoBehaviour
 
     void Update()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
