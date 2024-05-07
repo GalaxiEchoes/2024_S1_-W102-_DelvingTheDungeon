@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    public int money;
     public int health;
     public int stamina;
     public int attack;
@@ -12,11 +13,14 @@ public class Player : MonoBehaviour
     public int maxHealth = 100;
 
     public HealthBar healthBar;
+    public MoneyTracker moneyTracker;
 
     private void Start()
     {
+        money = 50;
         health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        moneyTracker.setMoney(money);
     }
 
     private void Update()
@@ -31,6 +35,8 @@ public class Player : MonoBehaviour
         {
             takeDamage(20);
         }
+
+        moneyTracker.setMoney(money);
     }
 
     public void addStats(int _health, int _stamina, int _attack, int _defense)
@@ -59,5 +65,10 @@ public class Player : MonoBehaviour
         health -= damage;
 
         healthBar.SetHealth(health);
+    }
+
+    public void addMoney(int amount)
+    {
+        money += amount;
     }
 }

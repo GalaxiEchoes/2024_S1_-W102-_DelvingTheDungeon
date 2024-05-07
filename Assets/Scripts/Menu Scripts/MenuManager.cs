@@ -15,6 +15,7 @@ public class MenuManager : MonoBehaviour
     public GameObject settingsMenu;
     public GameObject healthBar;
     public GameObject staminaBar;
+    public GameObject moneyHUD;
     public int bossLevel = 5;
 
     // Update is called once per frame
@@ -106,6 +107,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(true);
         staminaBar.SetActive(true);
+        moneyHUD.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -118,6 +120,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        moneyHUD.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -130,6 +133,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        moneyHUD.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -147,6 +151,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(true);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        moneyHUD.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
