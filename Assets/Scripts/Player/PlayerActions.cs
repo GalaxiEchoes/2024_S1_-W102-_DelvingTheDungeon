@@ -11,7 +11,9 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private Transform Camera;
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
-
+    [SerializeField] private Transform player;
+    [SerializeField] private Transform orientation;
+ 
     private void Awake()
     {
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -25,7 +27,7 @@ public class PlayerActions : MonoBehaviour
 
     public void OnInteract()
     {
-        if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+        if (Physics.Raycast(player.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
@@ -40,11 +42,11 @@ public class PlayerActions : MonoBehaviour
             }
             else if (hit.collider.TryGetComponent<StartStairLogic>(out StartStairLogic logic))
             {
-                logic.LoadPrevLevel(Camera.transform.position);
+                logic.LoadPrevLevel(player.position);
             }
             else if (hit.collider.TryGetComponent<EndStairLogic>(out EndStairLogic endLogic))
             {
-                endLogic.LoadNextLevel(Camera.transform.position);
+                endLogic.LoadNextLevel(player.position);
             }
         }
     }
@@ -70,7 +72,7 @@ public class PlayerActions : MonoBehaviour
             }
 
             UseText.gameObject.SetActive(true);
-            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.05f;
+            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.1f;
             UseText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
         }
         else

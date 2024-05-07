@@ -9,6 +9,12 @@ public class EndMenu : MonoBehaviour
 {
     public int bossLevel = 5;
 
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void ExitToMain()
     {
         StartNewGame();
