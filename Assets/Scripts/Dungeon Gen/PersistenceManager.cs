@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using static DungeonGenerator;
 using static SwitchCameraStyle;
-using static Cinemachine.DocumentationSortingAttribute;
-using static PersistenceManager;
 using static FurnitureSpawner;
 
 public class PersistenceManager : MonoBehaviour

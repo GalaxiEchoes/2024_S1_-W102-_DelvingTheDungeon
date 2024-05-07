@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
 
-        if(Input.GetKeyDown("f"))
+        if(Input.GetKeyDown("l"))
         {
             takeDamage(20);
         }

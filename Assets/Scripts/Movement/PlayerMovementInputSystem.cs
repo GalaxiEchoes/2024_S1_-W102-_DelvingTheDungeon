@@ -69,6 +69,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     public float ChargeRate;
 
     public Coroutine recharge;
+    [SerializeField] public Animator animator;
 
     void Start()
     {
@@ -95,6 +96,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
     }
 
     private void MyInput()

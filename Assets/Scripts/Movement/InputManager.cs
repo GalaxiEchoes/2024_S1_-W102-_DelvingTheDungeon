@@ -18,7 +18,6 @@ public class InputManager : MonoBehaviour
     public bool CrouchReleased { get; private set; }
     public bool CrouchBeingHeld { get; private set; }
     public bool SprintBeingHeld { get; private set; }
-
     public bool FirstPersonCamPressed { get; private set; }
     public bool CombatCamPressed { get; private set; }
     public bool ThirdPersonCamPressed { get; private set; }
