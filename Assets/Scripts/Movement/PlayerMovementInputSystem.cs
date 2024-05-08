@@ -69,7 +69,6 @@ public class InputSystemPlayerMovement : MonoBehaviour
     public float ChargeRate;
 
     public Coroutine recharge;
-    [SerializeField] public Animator animator;
 
     void Start()
     {

@@ -13,6 +13,9 @@ public class CameraStyleManager : MonoBehaviour
     [SerializeField] private GameObject cameraPos;
     [SerializeField] private GameObject PlayerObject;
 
+    [Header("Character Head")]
+    [SerializeField] private GameObject headReference;
+
     [Header("Camera On Load")]
     public CameraStyle currentStyle;
 
@@ -25,7 +28,7 @@ public class CameraStyleManager : MonoBehaviour
 
     void Start()
     {
-        //SwitchCameraStyle(currentStyle);
+        SwitchCameraStyle(currentStyle);
     }
 
     void Update()
@@ -41,14 +44,17 @@ public class CameraStyleManager : MonoBehaviour
         thirdPersonCam.SetActive(false);
 
         if (newStyle == CameraStyle.FirstPersonCam) { 
+            headReference.transform.localScale = Vector3.zero;
             firstPersonCam.transform.position = cameraPos.transform.position; 
         }
         if (newStyle == CameraStyle.CombatCam)
         {
+            headReference.transform.localScale = Vector3.one;
             combatCam.SetActive(true);
         }
         if (newStyle == CameraStyle.ThirdPersonCam)
         {
+            headReference.transform.localScale = Vector3.one;
             thirdPersonCam.SetActive(true);
         }
 
