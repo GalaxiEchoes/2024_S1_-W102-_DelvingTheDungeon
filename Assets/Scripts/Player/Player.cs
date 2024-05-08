@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static PersistenceManager;
 
 public class Player : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class Player : MonoBehaviour
         }
 
         moneyTracker.setMoney(money);
+
+        PersistenceManager.OnLevelChanged += OnLevelChanged;
     }
 
     public void addStats(int _health, int _stamina, int _attack, int _defense)
@@ -70,5 +73,11 @@ public class Player : MonoBehaviour
     public void addMoney(int amount)
     {
         money += amount;
+    }
+
+    private void OnLevelChanged(int newLevel)
+    {
+        // Increase money when the level changes
+        money += 20;
     }
 }
