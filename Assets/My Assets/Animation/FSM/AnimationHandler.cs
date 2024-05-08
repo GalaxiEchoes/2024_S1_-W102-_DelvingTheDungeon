@@ -20,46 +20,28 @@ public class AnimationHandler : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, float max)
+    void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool backPressed, float max)
     {
-        if (forwardPressed && zVelocity < max)
-        {
-            zVelocity += Time.deltaTime * acceleration;
-        }
+        //Acceleration
+        if (forwardPressed && zVelocity < max) zVelocity += Time.deltaTime * acceleration;
+        if(backPressed && zVelocity > -max) zVelocity -= Time.deltaTime * acceleration;
+        if (leftPressed && xVelocity > -max) xVelocity -= Time.deltaTime * acceleration;
+        if (rightPressed && xVelocity < max) xVelocity += Time.deltaTime * acceleration;
 
-        if (leftPressed && xVelocity > -max)
-        {
-            xVelocity -= Time.deltaTime * acceleration;
-        }
-
-        if (rightPressed && xVelocity < max)
-        {
-            xVelocity += Time.deltaTime * acceleration;
-        }
-
-        if (!forwardPressed && zVelocity > 0.0f)
-        {
-            zVelocity -= Time.deltaTime * deceleration;
-        }
-
-        if (!leftPressed && xVelocity < 0.0f)
-        {
-            xVelocity += Time.deltaTime * deceleration;
-        }
-
-        if (!rightPressed && xVelocity > 0.0f)
-        {
-            xVelocity -= Time.deltaTime * deceleration;
-        }
+        //Deceleration
+        if (!forwardPressed && zVelocity > 0.0f) zVelocity -= Time.deltaTime * deceleration;
+        if(!backPressed && zVelocity < 0.0f) zVelocity += Time.deltaTime * deceleration;
+        if (!leftPressed && xVelocity < 0.0f) xVelocity += Time.deltaTime * deceleration;
+        if (!rightPressed && xVelocity > 0.0f) xVelocity -= Time.deltaTime * deceleration;
     }
 
-    void LockResetVelocity(bool forwardPressed, bool leftPressed, bool rightPressed,bool runPressed, float max)
+    void LockResetVelocity(bool forwardPressed, bool leftPressed, bool rightPressed,bool runPressed,bool backPressed, float max)
     {
-        if (!forwardPressed && zVelocity < 0.0f)
+        //Centeres to 0,0 to idle 
+        if (!forwardPressed && !backPressed && (zVelocity < 0.05f && zVelocity > -0.05f))
         {
             zVelocity = 0.0f;
         }
-
         if (!rightPressed && !leftPressed && (xVelocity > -0.05f && xVelocity < 0.05f))
         {
             xVelocity = 0.0f;
@@ -88,8 +70,8 @@ public class AnimationHandler : MonoBehaviour
         }
         else if (leftPressed && xVelocity < -max)
         {
-            xVelocity -= Time.deltaTime * deceleration;
-            if (xVelocity < -max && xVelocity > (-max - 0.05))
+            xVelocity += Time.deltaTime * deceleration;
+            if (xVelocity < -max && xVelocity > (-max - 0.05f))
             {
                 xVelocity = -max;
             }
@@ -99,21 +81,28 @@ public class AnimationHandler : MonoBehaviour
             xVelocity = -max;
         }
 
-        if (rightPressed && runPressed && xVelocity > max)
+        //Handles right velocity cases
+        if (rightPressed)
         {
-            xVelocity = max;
-        }
-        else if (rightPressed && xVelocity > max)
-        {
-            xVelocity -= Time.deltaTime * deceleration;
-            if (xVelocity > max && xVelocity < (max + 0.05))
+            if (runPressed && xVelocity > max) xVelocity = max;
+            else if (xVelocity < max && xVelocity > (max - 0.05f)) xVelocity = max;
+            else if (xVelocity > max)
             {
-                xVelocity = max;
+                xVelocity -= Time.deltaTime * deceleration;
+                if (xVelocity > max && xVelocity < (max + 0.05)) xVelocity = max;
             }
         }
-        else if (rightPressed && xVelocity < max && xVelocity > (max - 0.05f))
+
+        //Handles back velocity cases
+        if (backPressed)
         {
-            xVelocity = max;
+            if (runPressed && zVelocity < -max) zVelocity = -max;
+            else if(zVelocity > -max && zVelocity < (-max + 0.05f)) zVelocity = -max;
+            else if(zVelocity < -max)
+            {
+                zVelocity += Time.deltaTime * deceleration;
+                if(zVelocity < -max && zVelocity > (-max -0.05f)) zVelocity = -max;
+            }
         }
     }
 
@@ -122,86 +111,18 @@ public class AnimationHandler : MonoBehaviour
     {
         bool runPressed = InputManager.instance.SprintBeingHeld;
         bool forwardPressed = InputManager.instance.MoveInput.y > 0;
+        bool backPressed = InputManager.instance.MoveInput.y < 0;
         bool leftPressed = InputManager.instance.MoveInput.x < 0;
         bool rightPressed = InputManager.instance.MoveInput.x > 0;
+        bool crouchPressed = InputManager.instance.CrouchBeingHeld;
 
-        float max = runPressed? maxRunVelocity : maxWalkVelocity;
+        float max = runPressed && !crouchPressed? maxRunVelocity : maxWalkVelocity;
 
-        ChangeVelocity(forwardPressed, leftPressed, rightPressed, max);
-        LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, max);
+        ChangeVelocity(forwardPressed, leftPressed, rightPressed, backPressed, max);
+        LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, backPressed, max);
 
+        animator.SetBool("IsCrouched", crouchPressed);
         animator.SetFloat("VelocityZ", zVelocity);
         animator.SetFloat("VelocityX", xVelocity);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-    /*
-    Animator animator;
-    float velocity= 0.0f;
-    public float acceleration = 0.1f;
-    public float deceleration = 0.1f;
-
-    public void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
-    public void Update()
-    {
-        bool forwardPressed = Input.GetKey("w");
-        bool runPressed = Input.GetKey("left ctrl");
-
-        if (forwardPressed && velocity < 1) {
-            velocity += Time.deltaTime * acceleration;
-        }
-
-        if(!forwardPressed && velocity > 0.0f)
-        {
-            velocity -= Time.deltaTime * deceleration;
-        }
-
-        if(velocity < 0.0f) velocity = 0.0f;
-
-        animator.SetFloat("Velocity", velocity);
-    }
-    */
-
-
-    /*public void Update()
-    {
-        bool isRunning = animator.GetBool("IsRunning");
-        bool isWalking = animator.GetBool("IsWalking");
-        bool forwardPressed = Input.GetKey("w");
-        bool runPressed = Input.GetKey("left shift");
-
-        if (!isWalking && forwardPressed)
-        {
-            animator.SetBool("IsWalking", true);
-        }
-        
-        if (isWalking && !forwardPressed) 
-        {
-            animator.SetBool("IsWalking", false);
-        }
-
-        if (!isRunning && (forwardPressed && runPressed)) 
-        {
-            animator.SetBool("IsRunning", true);
-        }
-
-        if (isRunning &&(!runPressed || !forwardPressed)) 
-        {
-            animator.SetBool("IsRunning", false);
-        }
-    }*/
 }
