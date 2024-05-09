@@ -896,6 +896,7 @@ MonoBehaviour:
   deceleration: 2
   maxWalkVelocity: 0.5
   maxRunVelocity: 1
+  PlayerMovement: {fileID: 1825377395}
 --- !u!1 &551321154
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +940,7 @@ MonoBehaviour:
   Inventory: {fileID: 0}
   playerData: {fileID: 0}
   CameraSwitcher: {fileID: 0}
-  playerTransform: {fileID: 1825377390}
+  playerTransform: {fileID: 0}
   orientation: {fileID: 141872517}
 --- !u!114 &551321156
 MonoBehaviour:
@@ -1144,7 +1145,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 901488534}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2221,6 +2222,7 @@ MonoBehaviour:
   jumpForce: 6
   jumpCooldown: 0.25
   airMultiplier: 0.1
+  readyToJump: 0
   crouchYScale: 0.5
   playerHeight: 2
   ground:
@@ -2756,7 +2758,7 @@ MonoBehaviour:
   yRotation: 0
   mouseX: 0
   mouseY: 0
-  clampValue: 4
+  clampValue: 0
 --- !u!114 &2042655988
 MonoBehaviour:
   m_ObjectHideFlags: 0
