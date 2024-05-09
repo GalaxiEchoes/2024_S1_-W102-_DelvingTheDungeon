@@ -62,10 +62,11 @@ public class PersistenceManager : MonoBehaviour
         //Player level
         //Player money
         public int health;
-        public int stamina;
+        public float stamina;
         public int attack;
         public int defense;
-        public int maxHealth = 100;
+        public int maxHealth;
+        public float maxStamina;
     }
 
     //Save Data
@@ -121,7 +122,7 @@ public class PersistenceManager : MonoBehaviour
     public bool LoadWorldState()
     {
         LoadCurrentLevel();
-        LoadCurrentStats();
+
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/" + gameData.currentLevel + "world_state.json";
 
@@ -130,7 +131,7 @@ public class PersistenceManager : MonoBehaviour
             string json = File.ReadAllText(filePath);
             worldState = JsonUtility.FromJson<WorldState>(json);
             SetPlayerToLastPos();
-
+            LoadCurrentStats();
             UploadDependencies();
 
             return true;
@@ -310,6 +311,7 @@ public class PersistenceManager : MonoBehaviour
         permanantGameData.attack = current.attack;
         permanantGameData.defense = current.defense;
         permanantGameData.maxHealth = current.maxHealth;
+        permanantGameData.maxStamina = current.maxStamina;
 
         string directoryPath = Application.dataPath + "/Saves";
         string dataJson = JsonUtility.ToJson(permanantGameData);
@@ -335,6 +337,7 @@ public class PersistenceManager : MonoBehaviour
         original.attack = permanantGameData.attack;
         original.defense = permanantGameData.defense;
         original.maxHealth = permanantGameData.maxHealth;
+        original.maxStamina = permanantGameData.maxStamina;
     }
 
     public void IncreaseCurrentLevel()

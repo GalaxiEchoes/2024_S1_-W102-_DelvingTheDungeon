@@ -5225,6 +5225,7 @@ MonoBehaviour:
     attack: 0
     defense: 0
     maxHealth: 100
+    maxStamina: 0
   playerGameObject: {fileID: 1971517932}
   playerCamera: {fileID: 1689682390}
   cameraSwitcher: {fileID: 1689682391}
@@ -14211,8 +14212,9 @@ MonoBehaviour:
   slopeSmooth: 0.5
   orientation: {fileID: 465381372}
   StaminaBar: {fileID: 598198785}
-  Stamina: 100
-  MaxStamina: 100
+  player: {fileID: 1971517937}
+  Stamina: 0
+  MaxStamina: 0
   RunCost: 20
   ChargeRate: 15
 --- !u!54 &1971517935
@@ -14271,11 +14273,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184af72bbe90a42b0ac9731be9289f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 100
   stamina: 100
   attack: 50
   defense: 50
   maxHealth: 100
+  maxStamina: 100
   healthBar: {fileID: 1905166274}
 --- !u!65 &1971517938
 BoxCollider:
