@@ -29,7 +29,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
-    private bool readyToJump;
+    public bool readyToJump;
 
     [Header("Crouch Settings")]
     [SerializeField] private float crouchYScale;
@@ -61,6 +61,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [Header("Object Reference")]
     [SerializeField] private Transform orientation;
 
+    [Header("Stamina Handling")]
     public Image StaminaBar;
 
     public float Stamina;

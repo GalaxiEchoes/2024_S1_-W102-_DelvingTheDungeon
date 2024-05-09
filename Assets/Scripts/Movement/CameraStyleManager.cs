@@ -60,24 +60,4 @@ public class CameraStyleManager : MonoBehaviour
 
         currentStyle = newStyle;
     }
-
-    public void HandleCombatPause(bool on)
-    {
-        CinemachineFreeLook input = combatCam.GetComponent<CinemachineFreeLook>();
-        if (on)
-        {
-            input.m_YAxis.m_InputAxisValue = 0;
-        }
-        else
-        {
-            
-
-        }
-        
-    }
-
-    public void HandleThirdPersonPause()
-    {
-
-    }
 }

@@ -14,6 +14,7 @@ public class AnimationHandler : MonoBehaviour
     public float deceleration = 2f;
     public float maxWalkVelocity = 0.5f;
     public float maxRunVelocity = 1f;
+    public InputSystemPlayerMovement PlayerMovement;
 
     public void Start()
     {
@@ -106,21 +107,25 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
-
     public void Update()
     {
         bool runPressed = InputManager.instance.SprintBeingHeld;
+        //Check if we are out of stamina tho?
+
         bool forwardPressed = InputManager.instance.MoveInput.y > 0;
         bool backPressed = InputManager.instance.MoveInput.y < 0;
         bool leftPressed = InputManager.instance.MoveInput.x < 0;
         bool rightPressed = InputManager.instance.MoveInput.x > 0;
         bool crouchPressed = InputManager.instance.CrouchBeingHeld;
+        bool jumpPressed = PlayerMovement.readyToJump == false;
 
         float max = runPressed && !crouchPressed? maxRunVelocity : maxWalkVelocity;
 
         ChangeVelocity(forwardPressed, leftPressed, rightPressed, backPressed, max);
         LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, backPressed, max);
 
+        
+        if(jumpPressed) animator.SetTrigger("IsJumping");
         animator.SetBool("IsCrouched", crouchPressed);
         animator.SetFloat("VelocityZ", zVelocity);
         animator.SetFloat("VelocityX", xVelocity);
