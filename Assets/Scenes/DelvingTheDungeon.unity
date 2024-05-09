@@ -4158,7 +4158,7 @@ Transform:
   m_GameObject: {fileID: 606214733}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 925.13983, y: 581.7275, z: 0.05569251}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5213,9 +5213,19 @@ MonoBehaviour:
     spawnLocation: {x: 0, y: 0, z: 0}
     currentStyle: 0
     furnitureList: []
-  levelTracker:
+  gameData:
     currentLevel: 0
-  player: {fileID: 1971517932}
+    InventorySystem:
+      inventorySlots: []
+    EquipmentInventorySystem:
+      equipmentSlots: []
+  permanantGameData:
+    health: 0
+    stamina: 0
+    attack: 0
+    defense: 0
+    maxHealth: 100
+  playerGameObject: {fileID: 1971517932}
   playerCamera: {fileID: 1689682390}
   cameraSwitcher: {fileID: 1689682391}
 --- !u!114 &785471291
@@ -5263,7 +5273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 15, y: 3, z: 15}
-  roomCount: 60
+  roomCount: 15
   roomMaxSize: {x: 5, y: 2, z: 5}
   bossLevel: 5
   grid:
@@ -11010,9 +11020,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1782877158}
     m_Modifications:
+    - target: {fileID: 1822458109468479079, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_text
+      value: Save Game
+      objectReference: {fileID: 0}
     - target: {fileID: 3425374249274663079, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
       propertyPath: m_Name
-      value: Scoreboard
+      value: Save Game
       objectReference: {fileID: 0}
     - target: {fileID: 4424747301413413767, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
       propertyPath: m_Pivot.x
@@ -11093,6 +11107,34 @@ PrefabInstance:
     - target: {fileID: 4424747301413413767, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 785471290}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SaveWorldState
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PersistenceManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4641988827354817261, guid: c412be8b86a26444ebae921a329a6b1e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12067,6 +12109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38291642ddaa7434497ffc46597750ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  persistenceManager: {fileID: 785471290}
   pauseScreen: {fileID: 1782877157}
   inventoryScreen: {fileID: 959178284}
   settingsManager: {fileID: 1382872711}
@@ -14212,9 +14255,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySize: 39
-  inventorySystem:
+  InventorySystem:
     inventorySlots: []
-  equipmentInventorySystem:
+  EquipmentInventorySystem:
     equipmentSlots: []
 --- !u!114 &1971517937
 MonoBehaviour:
