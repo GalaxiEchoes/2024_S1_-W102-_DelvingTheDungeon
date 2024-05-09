@@ -921,12 +921,12 @@ MonoBehaviour:
     m_Bits: 128
   EnemyLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   Inventory: {fileID: 0}
   playerData: {fileID: 0}
   CameraSwitcher: {fileID: 0}
-  playerTransform: {fileID: 1825377390}
-  orientation: {fileID: 141872517}
+  playerTransform: {fileID: 0}
+  orientation: {fileID: 0}
 --- !u!114 &551321156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,7 +1458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7762671682554480891, guid: 835b070cc98d1fb4791f45cf5db7f1f8, type: 3}
       propertyPath: _id
-      value: 0602691d-ec71-4f3b-a3ec-568cc19f6809
+      value: 2c16ed3d-0073-4796-b346-d10b55928249
       objectReference: {fileID: 0}
     - target: {fileID: 8611399393655926530, guid: 835b070cc98d1fb4791f45cf5db7f1f8, type: 3}
       propertyPath: m_Name
@@ -1466,7 +1466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8808670572975202994, guid: 835b070cc98d1fb4791f45cf5db7f1f8, type: 3}
       propertyPath: _id
-      value: ee6a20f6-60e1-4f38-bff0-8cb4e60b9d44
+      value: 09080dbc-cf26-4763-ad6c-8aee14122a5f
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
