@@ -18,13 +18,13 @@ public class ChestLogic : MonoBehaviour
 
     [SerializeField] public bool IsOpen = false;
     [SerializeField] GameObject[] possibleItems;
-    [SerializeField] GameObject[] items;
+    [SerializeField] List<GameObject> items;
 
     private void Awake()
     {
         rand = new Random();
         StartRotation = transform.localRotation.eulerAngles;
-        items = new GameObject[4];
+        items = new List<GameObject>();
 
         float chance;
         int index = 0;
@@ -33,7 +33,7 @@ public class ChestLogic : MonoBehaviour
         {
             chance = (float)rand.NextDouble();
             int nextItem = rand.Next(0, possibleItems.Length);
-            items[index] = possibleItems[nextItem];
+            items.Add(possibleItems[nextItem]);
             index++;
 
         } while (chance <= 0.8f && index < 3);
@@ -42,7 +42,7 @@ public class ChestLogic : MonoBehaviour
     public void SetIsOpen(bool isOpen)
     {
         IsOpen = isOpen;
-        transform.localRotation = Quaternion.Euler(-RotationAmount, 0, 0); 
+        if(IsOpen) transform.localRotation = Quaternion.Euler(-RotationAmount, 0, 0); 
     }
 
     public void Open(InventoryHolder inventory)
@@ -74,6 +74,7 @@ public class ChestLogic : MonoBehaviour
     void EventAfterRotation()
     {
         IsOpen = true;
+        List<GameObject> toRemove = new List<GameObject>();
         foreach (GameObject item in items)
         {
             if(item != null)
@@ -84,9 +85,29 @@ public class ChestLogic : MonoBehaviour
                 if (inventoryHolder.InventorySystem.AddToInventory(ipu.ItemData, 1))
                 {
                     Destroy(go);
+                    toRemove.Add(item);
                 }
-                //Else Close if no space
+                else
+                {
+                    AnimationCoroutine = StartCoroutine(DoRotationClose());
+                }
             }
         }
+        items.RemoveAll(item => toRemove.Contains(item));
+    }
+
+    private IEnumerator DoRotationClose()
+    {
+        Quaternion startRotation = transform.localRotation;
+        Quaternion endRotation = Quaternion.Euler(new(0, 0, 0));
+        float time = 0;
+        while (time < 1)
+        {
+            transform.localRotation = Quaternion.Lerp(startRotation, endRotation, time);
+            yield return null;
+            time += Time.deltaTime;
+        }
+        IsRunning = false;
+        IsOpen = false;
     }
 }

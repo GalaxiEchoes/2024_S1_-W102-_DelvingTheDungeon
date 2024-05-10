@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Storage3
   m_EditorClassIdentifier: 
   prefab: {fileID: 2531452307866388025, guid: 811387fe4c603f6408593f8c589c50aa, type: 3}
-  size: {x: 2, y: 1, z: 1}
+  size: {x: 1, y: 1, z: 2}
   style: 4
   hallType: 4

@@ -23,7 +23,7 @@ public class InteractableTracker : MonoBehaviour
 
         for (int i = 0; i < chests.Count; i++)
         {
-            chestStates.Add(chests[i].IsOpen);
+            chestStates.Add(chests[i].IsOpen == true);
         }
     }
 }
