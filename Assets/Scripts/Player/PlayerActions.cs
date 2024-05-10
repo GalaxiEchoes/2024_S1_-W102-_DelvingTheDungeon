@@ -4,7 +4,6 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.ProBuilder.Shapes;
-using PlayFab.EconomyModels;
 
 public class PlayerActions : MonoBehaviour
 {
@@ -36,7 +35,6 @@ public class PlayerActions : MonoBehaviour
             playerData = player.GetComponent<Player>();
             Inventory = player.GetComponent<InventoryHolder>();
         }
-            
     }
 
     public void OnInteract()
@@ -56,6 +54,7 @@ public class PlayerActions : MonoBehaviour
             }
             else if (hit.collider.TryGetComponent<StartStairLogic>(out StartStairLogic logic))
             {
+
                 logic.LoadPrevLevel(Camera.transform.position);
             }
             else if (hit.collider.TryGetComponent<EndStairLogic>(out EndStairLogic endLogic))
@@ -87,6 +86,7 @@ public class PlayerActions : MonoBehaviour
 
     void Update()
     {
+
         if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
@@ -113,6 +113,7 @@ public class PlayerActions : MonoBehaviour
         {
             UseText.gameObject.SetActive(false);
         }
+
 
         if (Input.GetMouseButtonDown(0))
         {

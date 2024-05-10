@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EquipmentTag { None, Weapon, Head, Chest, Arms }
+[Serializable]
+public enum EquipmentTag { None, Weapon, Head, Chest, Arms };
 
 [CreateAssetMenu(menuName = "Inventory System/Inventory Item")]
-public class InventoryItemData : ScriptableObject
+
+[Serializable] public class InventoryItemData : ScriptableObject
 {
     public string itemName;
     [TextArea(4, 4)]
