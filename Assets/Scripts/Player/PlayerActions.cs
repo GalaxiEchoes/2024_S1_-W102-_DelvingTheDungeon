@@ -11,9 +11,14 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private Transform Camera;
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
-    [SerializeField] private Transform player;
-    [SerializeField] private Transform orientation;
- 
+    [SerializeField] private LayerMask EnemyLayers;
+    [SerializeField] private InventoryHolder Inventory;
+    [SerializeField] private Player playerData;
+    [SerializeField] private SwitchCameraStyle CameraSwitcher;
+
+    public Transform playerTransform;
+    public Transform orientation;
+
     private void Awake()
     {
         GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -23,11 +28,18 @@ public class PlayerActions : MonoBehaviour
         GameObject useText = GameObject.FindGameObjectWithTag("UseText");
         if (useText != null)
             UseText = useText.GetComponent<TextMeshPro>();
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerData = player.GetComponent<Player>();
+            Inventory = player.GetComponent<InventoryHolder>();
+        }
     }
 
     public void OnInteract()
     {
-        if (Physics.Raycast(player.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
@@ -42,20 +54,42 @@ public class PlayerActions : MonoBehaviour
             }
             else if (hit.collider.TryGetComponent<StartStairLogic>(out StartStairLogic logic))
             {
-                logic.LoadPrevLevel(player.position);
+
+                logic.LoadPrevLevel(Camera.transform.position);
             }
             else if (hit.collider.TryGetComponent<EndStairLogic>(out EndStairLogic endLogic))
             {
-                endLogic.LoadNextLevel(player.position);
+                endLogic.LoadNextLevel(Camera.transform.position);
+            }
+            else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop))
+            {
+                shop.Open();
+            }
+            else if (hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))
+            {
+                chest.Open(Camera.transform.position, Inventory);
+            }
+        }
+    }
+
+    public void OnAttack()
+    {
+        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, EnemyLayers))
+        {
+            //if (hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                Debug.Log("Hit Enemy");
+                //enemy.TakeDamage(playerData.attack);
             }
         }
     }
 
     void Update()
     {
-        if(Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+
+        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
-            if(hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
+            if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
                 if (door.IsOpen)
                 {
@@ -72,12 +106,18 @@ public class PlayerActions : MonoBehaviour
             }
 
             UseText.gameObject.SetActive(true);
-            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.1f;
+            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.2f;
             UseText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
         }
         else
         {
             UseText.gameObject.SetActive(false);
         }
-    }
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnAttack();
+        }
+    } 
 }

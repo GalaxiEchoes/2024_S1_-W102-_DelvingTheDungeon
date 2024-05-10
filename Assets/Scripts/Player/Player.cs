@@ -1,8 +1,10 @@
 using System;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 
 [Serializable]
 public class Player : MonoBehaviour
@@ -46,6 +48,7 @@ public class Player : MonoBehaviour
         }
 
         if(Input.GetKeyDown("l"))
+
         {
             takeDamage(20);
         }
@@ -70,6 +73,7 @@ public class Player : MonoBehaviour
     public void resetHealth()
     {
         health = maxHealth;
+
     }
 
     void takeDamage(int damage)

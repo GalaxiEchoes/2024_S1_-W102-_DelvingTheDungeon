@@ -30,8 +30,108 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4526073856011872183}
+  - {fileID: 2688571168256311534}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5434424383673717392
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6432595998067155818}
+    m_Modifications:
+    - target: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_Name
+      value: Door_Middle
+      objectReference: {fileID: 0}
+    - target: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.98
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.712
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2.543
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2769797772552799046}
+  m_SourcePrefab: {fileID: 100100000, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+--- !u!1 &291978614683362014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+  m_PrefabInstance: {fileID: 5434424383673717392}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2769797772552799046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291978614683362014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed5faa7a40fdb84f8a988b46c7e8bda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsOpen: 0
+  IsRotatingDoor: 1
+  Speed: 1
+  RotationAmount: 90
+  ForwardDirection: 0
+--- !u!4 &2688571168256311534 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+  m_PrefabInstance: {fileID: 5434424383673717392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6297888725111552460
 PrefabInstance:
   m_ObjectHideFlags: 0
