@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using Random = System.Random;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
+[Serializable]
 public class ChestLogic : MonoBehaviour
 {
     [Header("Rotation Configs")]
     [SerializeField] private float RotationAmount = 75f;
+    [SerializeField] private Vector3 StartRotation;
+    [SerializeField] private Coroutine AnimationCoroutine;
+    [SerializeField] private bool IsRunning = false;
+    [SerializeField] private Random rand;
+    [NonSerialized] private InventoryHolder inventoryHolder;
 
-    private Vector3 StartRotation;
-
-    private Coroutine AnimationCoroutine;
-    bool IsRunning = false; // this needs to be saved?
-
+    [SerializeField] public bool IsOpen = false;
     [SerializeField] GameObject[] possibleItems;
     [SerializeField] GameObject[] items;
-    Random rand;
-    InventoryHolder inventoryHolder;
 
     private void Awake()
     {
         rand = new Random();
-        StartRotation = transform.rotation.eulerAngles;
+        StartRotation = transform.localRotation.eulerAngles;
         items = new GameObject[4];
 
         float chance;
@@ -37,11 +38,17 @@ public class ChestLogic : MonoBehaviour
 
         } while (chance <= 0.8f && index < 3);
     }
+    
+    public void SetIsOpen(bool isOpen)
+    {
+        IsOpen = isOpen;
+        transform.localRotation = Quaternion.Euler(-RotationAmount, 0, 0); 
+    }
 
-    public void Open(Vector3 UserPosition, InventoryHolder inventory)
+    public void Open(InventoryHolder inventory)
     {
         inventoryHolder = inventory;
-        if (!IsRunning)
+        if (!IsRunning && !IsOpen)
         {
             IsRunning = true;
             AnimationCoroutine = StartCoroutine(DoRotationOpen());
@@ -50,13 +57,13 @@ public class ChestLogic : MonoBehaviour
 
     private IEnumerator DoRotationOpen()
     { 
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(new(startRotation.x - RotationAmount, 180, 0));
+        Quaternion startRotation = transform.localRotation;
+        Quaternion endRotation = Quaternion.Euler(new(startRotation.x - RotationAmount, 0, 0));
 
         float time = 0;
         while(time < 1)
         {
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, time);
+            transform.localRotation = Quaternion.Lerp(startRotation, endRotation, time);
             yield return null;
             time+= Time.deltaTime;
         }
@@ -66,6 +73,7 @@ public class ChestLogic : MonoBehaviour
 
     void EventAfterRotation()
     {
+        IsOpen = true;
         foreach (GameObject item in items)
         {
             if(item != null)

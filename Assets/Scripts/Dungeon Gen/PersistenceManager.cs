@@ -252,6 +252,7 @@ public class PersistenceManager : MonoBehaviour
         worldState.camPos = playerCamera.transform.position;
         worldState.spawnLocation = dungeonSpawner.spawnLocation;
         worldState.currentStyle = cameraSwitcher.currentStyle;
+        furnitureSpawner.SaveFurniture();
         worldState.furnitureList = furnitureSpawner.furnitureList;
 
         //PlayerInventory

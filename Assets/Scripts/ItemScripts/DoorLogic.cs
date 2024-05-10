@@ -1,20 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class DoorLogic : MonoBehaviour
 {
-    public bool IsOpen = false;
-    [SerializeField] private bool IsRotatingDoor = true;
-    [SerializeField] private float Speed = 1f;
     [Header("Rotation Configs")]
+    public bool IsOpen = false;
+    [SerializeField] private float Speed = 1f;
     [SerializeField] private float RotationAmount = 90f;
     [SerializeField] private float ForwardDirection = 0;
 
-    private Vector3 StartRotation;
-    private Vector3 Forward;
+    [SerializeField] private Vector3 StartRotation;
+    [SerializeField] private Vector3 Forward;
 
-    private Coroutine AnimationCoroutine;
+    [SerializeField] private Coroutine AnimationCoroutine;
 
     private void Awake()
     {
@@ -31,11 +32,9 @@ public class DoorLogic : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             }
 
-            if (IsRotatingDoor)
-            {
-                float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
-                AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
-            }
+
+            float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
+            AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
         }
     }
 
@@ -73,10 +72,7 @@ public class DoorLogic : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             }
 
-            if (IsRotatingDoor)
-            {
-                AnimationCoroutine = StartCoroutine(DoRotationClose());
-            }
+            AnimationCoroutine = StartCoroutine(DoRotationClose());
         }
     }
 

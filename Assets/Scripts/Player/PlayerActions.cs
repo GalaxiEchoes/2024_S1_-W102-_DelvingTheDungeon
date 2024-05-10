@@ -14,7 +14,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private InventoryHolder Inventory;
     [SerializeField] private Player playerData;
-    [SerializeField] private SwitchCameraStyle CameraSwitcher;
+    [SerializeField] private CameraStyleManager CameraSwitcher;
 
     public Transform playerTransform;
     public Transform orientation;
@@ -67,7 +67,7 @@ public class PlayerActions : MonoBehaviour
             }
             else if (hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))
             {
-                chest.Open(Camera.transform.position, Inventory);
+                chest.Open(Inventory);
             }
         }
     }

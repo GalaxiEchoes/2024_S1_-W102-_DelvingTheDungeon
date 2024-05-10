@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 474549462607510175}
+  - component: {fileID: 6465962776724755566}
   m_Layer: 3
   m_Name: DungeonNook
   m_TagString: Untagged
@@ -37,6 +38,21 @@ Transform:
   - {fileID: 1358377110687862422}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6465962776724755566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911848377612073501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1735758fd57da1448c4fcdab6c4672b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chests:
+  - {fileID: 2666770560811113667}
+  doors: []
 --- !u!1001 &233239485097184224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,6 +205,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 477878553642471649, guid: 5f89f67794fbe344c9688ff63e3a822a, type: 3}
   m_PrefabInstance: {fileID: 1474973726988656247}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2666770560811113667 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3565282417661756084, guid: 5f89f67794fbe344c9688ff63e3a822a, type: 3}
+  m_PrefabInstance: {fileID: 1474973726988656247}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698e6167e65678747bbb30e610953763, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2062860307489258787
 PrefabInstance:
   m_ObjectHideFlags: 0
