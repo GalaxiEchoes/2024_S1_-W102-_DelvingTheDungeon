@@ -4,20 +4,24 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.ProBuilder.Shapes;
+using Cinemachine;
 
 public class PlayerActions : MonoBehaviour
 {
     [SerializeField] private TextMeshPro UseText;
+    [SerializeField] private TextMeshProUGUI ThirdPersonUseText;
     [SerializeField] private Transform Camera;
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
     [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private InventoryHolder Inventory;
     [SerializeField] private Player playerData;
-    [SerializeField] private CameraStyleManager CameraSwitcher;
 
-    public Transform playerTransform;
-    public Transform orientation;
+    [SerializeField] private Transform CameraPos;
+    [SerializeField] private CameraStyleManager CameraStyleManager;
+    [SerializeField] private CinemachineFreeLook ThirdPersonCam;
+    [SerializeField] private CinemachineFreeLook CombatCam;
+    [SerializeField] private Vector3 CurrentCam;
 
     private void Awake()
     {
@@ -39,7 +43,7 @@ public class PlayerActions : MonoBehaviour
 
     public void OnInteract()
     {
-        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+        if (Physics.Raycast(CameraPos.transform.position, Camera.transform.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
@@ -49,17 +53,17 @@ public class PlayerActions : MonoBehaviour
                 }
                 else
                 {
-                    door.Open(Camera.transform.position);
+                    door.Open(CameraPos.transform.position);
                 }
             }
             else if (hit.collider.TryGetComponent<StartStairLogic>(out StartStairLogic logic))
             {
 
-                logic.LoadPrevLevel(Camera.transform.position);
+                logic.LoadPrevLevel(CameraPos.transform.position);
             }
             else if (hit.collider.TryGetComponent<EndStairLogic>(out EndStairLogic endLogic))
             {
-                endLogic.LoadNextLevel(Camera.transform.position);
+                endLogic.LoadNextLevel(CameraPos.transform.position);
             }
             else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop))
             {
@@ -74,7 +78,7 @@ public class PlayerActions : MonoBehaviour
 
     public void OnAttack()
     {
-        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, EnemyLayers))
+        if (Physics.Raycast(CameraPos.transform.position, Camera.transform.forward, out RaycastHit hit, MaxUseDistance, EnemyLayers))
         {
             //if (hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
             {
@@ -84,33 +88,61 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    void Update()
+    public void Update()
     {
+        switch (CameraStyleManager.currentStyle)
+        {
+            case CameraStyleManager.CameraStyle.FirstPersonCam:
+                CurrentCam = Camera.transform.forward;
+                break;
+            case CameraStyleManager.CameraStyle.ThirdPersonCam:
+                CurrentCam = ThirdPersonCam.Follow.position - ThirdPersonCam.transform.position;
+                CurrentCam.Normalize();
+                break;
+            default:
+                CurrentCam = CombatCam.Follow.position - CombatCam.transform.position;
+                CurrentCam.Normalize();
+                break;
+        }
 
-        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
+        if (Physics.Raycast(CameraPos.transform.position, CurrentCam, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
                 if (door.IsOpen)
                 {
-                    UseText.SetText("Close \"E\"");
+                    ThirdPersonUseText.SetText("Close (E)");
+                    UseText.SetText("Close (E)");
                 }
                 else
                 {
-                    UseText.SetText("Open \"E\"");
+                    ThirdPersonUseText.SetText("Open (E)");
+                    UseText.SetText("Open (E)");
                 }
             }
             else
             {
-                UseText.SetText("Use \"E\"");
+                ThirdPersonUseText.SetText("Use (E)");
+                UseText.SetText("Use (E)");
             }
 
-            UseText.gameObject.SetActive(true);
-            UseText.transform.position = hit.point - (hit.point - Camera.position).normalized * 0.2f;
-            UseText.transform.rotation = Quaternion.LookRotation((hit.point - Camera.position).normalized);
+            if (CameraStyleManager.currentStyle == CameraStyleManager.CameraStyle.FirstPersonCam)
+            {
+                UseText.gameObject.SetActive(true);
+                ThirdPersonUseText.gameObject.SetActive(false);
+                UseText.transform.position = hit.point - (hit.point - CameraPos.position).normalized * 0.2f;
+                UseText.transform.rotation = Quaternion.LookRotation((hit.point - CameraPos.position).normalized);
+            }
+            else
+            {
+                UseText.gameObject.SetActive(false);
+                ThirdPersonUseText.gameObject.SetActive(true);
+            }
+            
         }
         else
         {
+            ThirdPersonUseText.gameObject.SetActive(false);
             UseText.gameObject.SetActive(false);
         }
 
@@ -119,5 +151,6 @@ public class PlayerActions : MonoBehaviour
         {
             OnAttack();
         }
+
     } 
 }
