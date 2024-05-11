@@ -4,13 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static PersistenceManager;
 
 
 [Serializable]
 public class Player : MonoBehaviour
 {
-    public int money;
     public int health;
     public float stamina;
     public int attack;
@@ -20,16 +18,13 @@ public class Player : MonoBehaviour
 
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
-    public MoneyTracker moneyTracker;
 
     private void Start()
     {
-        money = 50;
         health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         stamina = maxStamina; 
         inventoryHolder = GetComponent<InventoryHolder>();
-        moneyTracker.setMoney(money);
     }
 
     private void Update()
@@ -57,10 +52,6 @@ public class Player : MonoBehaviour
         {
             takeDamage(20);
         }
-
-        moneyTracker.setMoney(money);
-
-        PersistenceManager.OnLevelChanged += OnLevelChanged;
     }
 
     public void addStats(int _health, int _stamina, int _attack, int _defense)
@@ -90,16 +81,5 @@ public class Player : MonoBehaviour
         health -= damage;
 
         healthBar.SetHealth(health);
-    }
-
-    public void addMoney(int amount)
-    {
-        money += amount;
-    }
-
-    private void OnLevelChanged(int newLevel)
-    {
-        // Increase money when the level changes
-        money += 20;
     }
 }
