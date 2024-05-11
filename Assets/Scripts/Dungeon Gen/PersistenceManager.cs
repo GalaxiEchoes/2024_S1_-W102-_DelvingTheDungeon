@@ -82,6 +82,8 @@ public class PersistenceManager : MonoBehaviour
     DungeonSpawner dungeonSpawner;
     FurnitureSpawner furnitureSpawner;
 
+    public static event Action<int> OnLevelChanged; // Event to notify when the level changes
+
     private void Start()
     {
         Scene currentScene = SceneManager.GetActiveScene();
@@ -344,6 +346,8 @@ public class PersistenceManager : MonoBehaviour
     {
         gameData.currentLevel++;
         SaveCurrentLevel();
+
+        OnLevelChanged?.Invoke(levelTracker.currentLevel);
     }
 
     public void DecreaseCurrentLevel()
