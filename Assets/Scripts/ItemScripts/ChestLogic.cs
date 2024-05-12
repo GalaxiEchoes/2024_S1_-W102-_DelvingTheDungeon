@@ -12,17 +12,20 @@ public class ChestLogic : MonoBehaviour
     [SerializeField] private float RotationAmount = 75f;
     [SerializeField] private Vector3 StartRotation;
     [SerializeField] private Coroutine AnimationCoroutine;
-    [SerializeField] private bool IsRunning = false;
     [SerializeField] private Random rand;
     [NonSerialized] private InventoryHolder inventoryHolder;
-
-    [SerializeField] public bool IsOpen = false;
     [SerializeField] GameObject[] possibleItems;
     [SerializeField] List<GameObject> items;
+
+    [Header("Object States")]
+    [SerializeField] public bool IsOpen = false;
+    [SerializeField] private bool IsRunning = false;
+    [SerializeField] public bool IsLocked = false;
 
     private void Awake()
     {
         rand = new Random();
+        IsLocked = rand.Next(0,2) == 0;
         StartRotation = transform.localRotation.eulerAngles;
         items = new List<GameObject>();
 

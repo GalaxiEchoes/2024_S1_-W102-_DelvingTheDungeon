@@ -29,7 +29,6 @@ public class InputManager : MonoBehaviour
     private InputAction _attackAction;
     private InputAction _crouchAction;
     private InputAction _sprintAction;
-    private InputAction _InteractAction;
     private InputAction _firstPersonCamAction;
     private InputAction _combatCamAction;
     private InputAction _thirdPersonCamAction;
@@ -40,11 +39,14 @@ public class InputManager : MonoBehaviour
     public bool InventoryClose { get; private set; }
     public bool Interact { get; private set; }
     public bool UIMenuCloseInput { get; private set; }
+    public bool InteractBeingHeld { get; private set; }
+    public bool InteractReleased {  get; private set; }
 
     //Actual Keys
     private InputAction _menuOpenCloseAction;
     private InputAction _InventoryOpenAction;
     private InputAction _UIInventoryCloseAction;
+    private InputAction _InteractAction;
     private InputAction _UIMenuCloseAction;
 
     private void Awake()
@@ -94,6 +96,9 @@ public class InputManager : MonoBehaviour
         UIMenuCloseInput = _UIMenuCloseAction.WasPressedThisFrame();
         InventoryOpen = _InventoryOpenAction.WasPressedThisFrame();
         InventoryClose = _UIInventoryCloseAction.WasPressedThisFrame();
+        InteractBeingHeld = _InteractAction.IsPressed();
+        InteractReleased = _InteractAction.WasReleasedThisFrame();
+
     }
 
     void Update()

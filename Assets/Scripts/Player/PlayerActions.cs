@@ -5,23 +5,34 @@ using TMPro;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.ProBuilder.Shapes;
 using Cinemachine;
+using UnityEngine.UI;
 
 public class PlayerActions : MonoBehaviour
 {
+    [Header("Interact UI tip texts")]
     [SerializeField] private TextMeshPro UseText;
     [SerializeField] private TextMeshProUGUI ThirdPersonUseText;
-    [SerializeField] private Transform Camera;
+
+    [Header("Interaction Detection and Handling")]
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
     [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private InventoryHolder Inventory;
     [SerializeField] private Player playerData;
 
+    [Header("Interact Raycast Origin Handling")]
+    [SerializeField] private Transform Camera;
     [SerializeField] private Transform CameraPos;
     [SerializeField] private CameraStyleManager CameraStyleManager;
     [SerializeField] private CinemachineFreeLook ThirdPersonCam;
     [SerializeField] private CinemachineFreeLook CombatCam;
-    [SerializeField] private Vector3 CurrentCam;
+    [SerializeField] private Vector3 CurrentCamPos;
+
+    [Header("Unlock Handling")]
+    [SerializeField] private float unlockTimer = 1.0f;
+    [SerializeField] private float maxUnlockTimerValue = 1.0f;
+    [SerializeField] private Image radialUnlockUI = null;
+    private bool updateUnlockTimer = false;
 
     private void Awake()
     {
@@ -47,18 +58,21 @@ public class PlayerActions : MonoBehaviour
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
-                if (door.IsOpen)
+                //Only allows player to open door if it is unlocked
+                if (!door.IsLocked)
                 {
-                    door.Close();
-                }
-                else
-                {
-                    door.Open(CameraPos.transform.position);
+                    if (door.IsOpen)
+                    {
+                        door.Close();
+                    }
+                    else
+                    {
+                        door.Open(CameraPos.transform.position);
+                    }
                 }
             }
             else if (hit.collider.TryGetComponent<StartStairLogic>(out StartStairLogic logic))
             {
-
                 logic.LoadPrevLevel(CameraPos.transform.position);
             }
             else if (hit.collider.TryGetComponent<EndStairLogic>(out EndStairLogic endLogic))
@@ -71,7 +85,11 @@ public class PlayerActions : MonoBehaviour
             }
             else if (hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))
             {
-                chest.Open(Inventory);
+                if (!chest.IsLocked)
+                {
+                    chest.Open(Inventory);
+                }
+                
             }
         }
     }
@@ -90,42 +108,77 @@ public class PlayerActions : MonoBehaviour
 
     public void Update()
     {
+        //Handles the change between first and third person object interaction positions
         switch (CameraStyleManager.currentStyle)
         {
             case CameraStyleManager.CameraStyle.FirstPersonCam:
-                CurrentCam = Camera.transform.forward;
+                CurrentCamPos = Camera.transform.forward;
                 break;
             case CameraStyleManager.CameraStyle.ThirdPersonCam:
-                CurrentCam = ThirdPersonCam.Follow.position - ThirdPersonCam.transform.position;
-                CurrentCam.Normalize();
+                CurrentCamPos = ThirdPersonCam.Follow.position - ThirdPersonCam.transform.position;
+                CurrentCamPos.Normalize();
                 break;
             default:
-                CurrentCam = CombatCam.Follow.position - CombatCam.transform.position;
-                CurrentCam.Normalize();
+                CurrentCamPos = CombatCam.Follow.position - CombatCam.transform.position;
+                CurrentCamPos.Normalize();
                 break;
         }
 
-        if (Physics.Raycast(CameraPos.transform.position, CurrentCam, out RaycastHit hit, MaxUseDistance, UseLayers))
+        //Finds what object we are looking at to set the correct text
+        if (Physics.Raycast(CameraPos.transform.position, CurrentCamPos, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
             {
-                if (door.IsOpen)
+                if(door.IsLocked)
                 {
-                    ThirdPersonUseText.SetText("Close (E)");
-                    UseText.SetText("Close (E)");
+                    HandleUnlocking(ref door.IsLocked);
                 }
                 else
                 {
-                    ThirdPersonUseText.SetText("Open (E)");
-                    UseText.SetText("Open (E)");
+                    if (door.IsOpen)
+                    {
+                        ThirdPersonUseText.SetText("Close (E)");
+                        UseText.SetText("Close (E)");
+                    }
+                    else
+                    {
+                        ThirdPersonUseText.SetText("Open (E)");
+                        UseText.SetText("Open (E)");
+                    }
+                }
+                
+            }
+            else if(hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))
+            {
+                if (chest.IsLocked)
+                {
+                    HandleUnlocking(ref chest.IsLocked);
+                }
+                else
+                {
+                    if (chest.IsOpen)
+                    {
+                        ThirdPersonUseText.SetText("");
+                        UseText.SetText("");
+                    }
+                    else
+                    {
+                        ThirdPersonUseText.SetText("Open (E)");
+                        UseText.SetText("Open (E)");
+                    }
                 }
             }
             else
             {
+                //Not doors
+
                 ThirdPersonUseText.SetText("Use (E)");
                 UseText.SetText("Use (E)");
+
+                UpdateTimer();
             }
 
+            //Decides which text to place on screen depending on player viewpoint
             if (CameraStyleManager.currentStyle == CameraStyleManager.CameraStyle.FirstPersonCam)
             {
                 UseText.gameObject.SetActive(true);
@@ -144,13 +197,70 @@ public class PlayerActions : MonoBehaviour
         {
             ThirdPersonUseText.gameObject.SetActive(false);
             UseText.gameObject.SetActive(false);
+
+            UpdateTimer();
         }
 
+       
 
         if (Input.GetMouseButtonDown(0))
         {
             OnAttack();
         }
 
-    } 
+    }
+
+    public void UpdateTimer()
+    {
+        if (!updateUnlockTimer)
+        {
+            updateUnlockTimer = true;
+        }
+
+        if (updateUnlockTimer)
+        {
+            unlockTimer += Time.deltaTime;
+            radialUnlockUI.fillAmount = unlockTimer;
+
+            if (unlockTimer >= maxUnlockTimerValue)
+            {
+                unlockTimer = maxUnlockTimerValue;
+                radialUnlockUI.fillAmount = maxUnlockTimerValue;
+                radialUnlockUI.enabled = false;
+                updateUnlockTimer = false;
+            }
+        }
+    }
+
+    public void HandleUnlocking(ref bool lockedObject)
+    {
+        ThirdPersonUseText.SetText("Unlock Hold (E)");
+        UseText.SetText("Unlock Hold (E)");
+
+        //Handles Unlocking the door
+        if (InputManager.instance.InteractBeingHeld)
+        {
+            updateUnlockTimer = false;
+            unlockTimer -= Time.deltaTime;
+            radialUnlockUI.enabled = true;
+            radialUnlockUI.fillAmount = unlockTimer;
+
+            if (unlockTimer <= 0)
+            {
+                unlockTimer = maxUnlockTimerValue;
+                radialUnlockUI.fillAmount = maxUnlockTimerValue;
+                radialUnlockUI.enabled = false;
+                lockedObject = false;
+            }
+        }
+        else
+        {
+            UpdateTimer();
+        }
+
+        if (InputManager.instance.InteractReleased)
+        {
+            updateUnlockTimer = true;
+        }
+    }
 }

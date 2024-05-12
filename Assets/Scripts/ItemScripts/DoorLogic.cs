@@ -2,23 +2,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 [Serializable]
 public class DoorLogic : MonoBehaviour
 {
     [Header("Rotation Configs")]
-    public bool IsOpen = false;
     [SerializeField] private float Speed = 1f;
     [SerializeField] private float RotationAmount = 90f;
     [SerializeField] private float ForwardDirection = 0;
-
     [SerializeField] private Vector3 StartRotation;
     [SerializeField] private Vector3 Forward;
-
     [SerializeField] private Coroutine AnimationCoroutine;
+
+    [Header("Object States")]
+    public bool IsOpen = false;
+    public bool IsLocked = false;
+
+    private Random rand;
 
     private void Awake()
     {
+        rand = new Random();
+        IsLocked = rand.Next(0,2) == 0;
         StartRotation = transform.rotation.eulerAngles;
         Forward = transform.forward;
     }
