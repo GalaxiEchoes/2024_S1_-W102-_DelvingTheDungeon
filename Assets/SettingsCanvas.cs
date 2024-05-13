@@ -17,19 +17,30 @@ public class SettingsCanvas : MonoBehaviour
 
         List<string> options = new List<string>();
 
+        int curretResolutionIndex = 0;
         for (int i = 0; i <resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " +  resolutions[i].height;
             options.Add(option);
 
+            if(resolutions[i].width == Screen.currentResolution.width &&
+                resolutions[i].height == Screen.currentResolution.height)
+            {
+                curretResolutionIndex = i;
+            }
         }
 
         dropdownResolution.AddOptions(options);
+        dropdownResolution.value = curretResolutionIndex;
+        dropdownResolution.RefreshShownValue();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetResolution(int resolutionIndex)
     {
-        
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
+
+
+    
 }
