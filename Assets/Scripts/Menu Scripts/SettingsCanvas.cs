@@ -7,7 +7,9 @@ public class SettingsCanvas : MonoBehaviour
 {
     Resolution[] resolutions;
 
-    public Dropdown dropdownResolution;
+    //public Dropdown dropdownResolution;
+
+    public TMPro.TMP_Dropdown dropdownResolution;
 
     void Start()
     {
@@ -40,6 +42,13 @@ public class SettingsCanvas : MonoBehaviour
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
+
+    /*
+    public void setFullScreen(bool isFullScreen)
+    {
+        Screen.fullScreen = isFullScreen;
+    }
+    */
 
 
     
