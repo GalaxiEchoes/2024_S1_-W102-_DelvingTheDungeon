@@ -1,23 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
+[Serializable]
 public class DoorLogic : MonoBehaviour
 {
-    public bool IsOpen = false;
-    [SerializeField] private bool IsRotatingDoor = true;
-    [SerializeField] private float Speed = 1f;
     [Header("Rotation Configs")]
+    [SerializeField] private float Speed = 1f;
     [SerializeField] private float RotationAmount = 90f;
     [SerializeField] private float ForwardDirection = 0;
+    [SerializeField] private Vector3 StartRotation;
+    [SerializeField] private Vector3 Forward;
+    [SerializeField] private Coroutine AnimationCoroutine;
 
-    private Vector3 StartRotation;
-    private Vector3 Forward;
+    [Header("Object States")]
+    public bool IsOpen = false;
+    public bool IsLocked = false;
 
-    private Coroutine AnimationCoroutine;
+    private Random rand;
 
     private void Awake()
     {
+        rand = new Random();
+        IsLocked = rand.Next(0,2) == 0;
         StartRotation = transform.rotation.eulerAngles;
         Forward = transform.forward;
     }
@@ -31,11 +38,9 @@ public class DoorLogic : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             }
 
-            if (IsRotatingDoor)
-            {
-                float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
-                AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
-            }
+
+            float dot = Vector3.Dot(Forward, (UserPosition - transform.position).normalized);
+            AnimationCoroutine = StartCoroutine(DoRotationOpen(dot));
         }
     }
 
@@ -73,10 +78,7 @@ public class DoorLogic : MonoBehaviour
                 StopCoroutine(AnimationCoroutine);
             }
 
-            if (IsRotatingDoor)
-            {
-                AnimationCoroutine = StartCoroutine(DoRotationClose());
-            }
+            AnimationCoroutine = StartCoroutine(DoRotationClose());
         }
     }
 
