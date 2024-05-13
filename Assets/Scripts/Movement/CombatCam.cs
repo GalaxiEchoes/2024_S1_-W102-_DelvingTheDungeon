@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static SwitchCameraStyle;
+using static CameraStyleManager;
 
 public class CombatCam : MonoBehaviour
 {

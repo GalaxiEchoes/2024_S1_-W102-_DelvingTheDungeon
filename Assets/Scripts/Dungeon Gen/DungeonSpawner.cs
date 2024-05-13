@@ -276,6 +276,15 @@ public class DungeonSpawner : MonoBehaviour
                         break;
                 }
 
+                if (grid[pos + posToCheck[0] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos  + Vector3Int.forward, Direction.North, wallPreFab);
+                if (grid[pos + posToCheck[1] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos + Vector3Int.right + Vector3Int.forward, Direction.North, wallPreFab);
+                if (grid[pos + posToCheck[2] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos + Vector3Int.forward +  Vector3Int.right, Direction.East, wallPreFab);
+                if (grid[pos + posToCheck[3] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos +  Vector3Int.right, Direction.East, wallPreFab);
+                if (grid[pos + posToCheck[4] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos +  Vector3Int.back + Vector3Int.right, Direction.North, wallPreFab);
+                if (grid[pos + posToCheck[5] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos +  Vector3Int.back, Direction.North, wallPreFab);
+                if (grid[pos + posToCheck[6] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos + posToCheck[6] + Vector3Int.down, Direction.East, wallPreFab);
+                if (grid[pos + posToCheck[7] + Vector3Int.down] == CellType.Hallway) PlaceWall(pos + posToCheck[7] + Vector3Int.down, Direction.East, wallPreFab);
+
                 endHandled = true;
             }
         }

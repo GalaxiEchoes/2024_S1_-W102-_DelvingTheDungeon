@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using static DungeonGenerator;
-using static SwitchCameraStyle;
+using static CameraStyleManager;
 using static Cinemachine.DocumentationSortingAttribute;
 using static PersistenceManager;
 using static FurnitureSpawner;
@@ -40,7 +40,7 @@ public class PersistenceManager : MonoBehaviour
     public CurrentLevel levelTracker;
     [SerializeField] GameObject player;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] SwitchCameraStyle cameraSwitcher;
+    [SerializeField] CameraStyleManager cameraSwitcher;
 
     Controller controller;
     DungeonGenerator dungeonGenerator;
@@ -77,7 +77,6 @@ public class PersistenceManager : MonoBehaviour
     public bool LoadWorldState()
     {
         LoadCurrentLevel();
-        Debug.Log(levelTracker.currentLevel);
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/" + levelTracker.currentLevel + "world_state.json";
 
@@ -110,6 +109,12 @@ public class PersistenceManager : MonoBehaviour
         if (File.Exists(levelTrackerPath))
         {
             File.Delete(levelTrackerPath);
+        }
+
+        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
+        if (File.Exists(levelTrackerPathMeta))
+        {
+            File.Delete(levelTrackerPathMeta);
         }
     }
 
@@ -224,6 +229,25 @@ public class PersistenceManager : MonoBehaviour
         {
             levelTracker.currentLevel--;
             SaveCurrentLevel();
+        }
+    }
+
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
+        {
+            ClearLoginStatus();
         }
     }
 }

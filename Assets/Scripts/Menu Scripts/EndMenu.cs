@@ -9,18 +9,22 @@ public class EndMenu : MonoBehaviour
 {
     public int bossLevel = 5;
 
+    public void Start()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     public void ExitToMain()
     {
         StartNewGame();
         SceneManager.LoadScene(0);
-        //plus logic to reset stats
     }
 
     public void Respawn()
     {
         StartNewGame();
         SceneManager.LoadScene(1);
-        //plus logic to reset stats
     }
 
     private void StartNewGame()
@@ -40,6 +44,32 @@ public class EndMenu : MonoBehaviour
         {
             File.Delete(levelTrackerPath);
         }
+
+        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
+        if (File.Exists(levelTrackerPathMeta))
+        {
+            File.Delete(levelTrackerPathMeta);
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
+        {
+            ClearLoginStatus();
+        }
     }
 }
