@@ -2492,7 +2492,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 634567223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee9c60d275f55e849a4866f93737aab5, type: 3}
+  m_Script: {fileID: 11500000, guid: 324a9e82b5c136a4aa666135a96be400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Register: {fileID: 1620272131}
@@ -3455,7 +3455,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1769378346}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
-        m_MethodName: StartGame
+        m_MethodName: StartNewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6333,6 +6333,7 @@ GameObject:
   - component: {fileID: 1769378345}
   - component: {fileID: 1769378344}
   - component: {fileID: 1769378346}
+  - component: {fileID: 1769378347}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -6416,6 +6417,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8e9b863e74c4111a3c5ebac9450f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1769378347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769378342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563a5219a562a474088dddddd9bfded5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldState:
+    seed: 0
+    grid:
+      data: 
+      Size: {x: 0, y: 0, z: 0}
+      Offset: {x: 0, y: 0, z: 0}
+    gridSize: {x: 0, y: 0, z: 0}
+    stairs: []
+    rooms: []
+    bossLevel: 0
+    endRoomPos: {x: 0, y: 0, z: 0}
+    startRoomPos: {x: 0, y: 0, z: 0}
+    playerPos: {x: 0, y: 0, z: 0}
+    camPos: {x: 0, y: 0, z: 0}
+    spawnLocation: {x: 0, y: 0, z: 0}
+    currentStyle: 0
+    furnitureList: []
+  gameData:
+    currentLevel: 0
+    InventorySystem:
+      inventorySlots: []
+    EquipmentInventorySystem:
+      equipmentSlots: []
+  permanantGameData:
+    health: 0
+    stamina: 0
+    attack: 0
+    defense: 0
+    maxHealth: 100
+  playerGameObject: {fileID: 0}
+  playerCamera: {fileID: 0}
+  cameraSwitcher: {fileID: 0}
 --- !u!1 &1797860383
 GameObject:
   m_ObjectHideFlags: 0

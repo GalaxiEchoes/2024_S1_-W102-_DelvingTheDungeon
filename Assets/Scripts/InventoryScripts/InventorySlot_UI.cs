@@ -3,7 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
+[Serializable]
 public class InventorySlot_UI : MonoBehaviour, IPointerEnterHandler
 {
     [SerializeField] private Image itemSprite;

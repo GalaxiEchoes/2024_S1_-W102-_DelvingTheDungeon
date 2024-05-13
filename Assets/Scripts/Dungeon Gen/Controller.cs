@@ -78,10 +78,4 @@ public class Controller : MonoBehaviour
             SaveGame();
         }
     }
-
-    public void DeleteGame()
-    {
-        persistenceManager.DeleteWorldStates();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 }

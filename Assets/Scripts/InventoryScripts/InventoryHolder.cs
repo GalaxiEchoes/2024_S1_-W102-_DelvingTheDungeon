@@ -1,23 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[System.Serializable]
-public class InventoryHolder : MonoBehaviour
+
+[Serializable] public class InventoryHolder : MonoBehaviour
 {
     [SerializeField] private int inventorySize;
-    [SerializeField] protected InventorySystem inventorySystem;
-    [SerializeField] protected EquipmentInventorySystem equipmentInventorySystem;
-
-    public InventorySystem InventorySystem => inventorySystem;
-    public EquipmentInventorySystem EquipmentInventorySystem => equipmentInventorySystem;
+    public InventorySystem InventorySystem;
+    public EquipmentInventorySystem EquipmentInventorySystem;
 
     protected virtual void Awake()
     {
-
-        inventorySystem = new InventorySystem(inventorySize);
-        equipmentInventorySystem = new EquipmentInventorySystem(4);
+        InventorySystem = new InventorySystem(inventorySize);
+        EquipmentInventorySystem = new EquipmentInventorySystem(4);
     }
 }
 

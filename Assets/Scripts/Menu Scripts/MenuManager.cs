@@ -6,16 +6,24 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PersistenceManager;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
+    public PersistenceManager persistenceManager;
     public GameObject pauseScreen;
     public GameObject inventoryScreen;
     public GameObject settingsManager;
     public GameObject settingsMenu;
     public GameObject healthBar;
     public GameObject staminaBar;
+    public GameObject ThirdPersonUseText;
     public int bossLevel = 5;
+
+    private void Start()
+    {
+        Pause();
+    }
 
     // Update is called once per frame
     void Update()
@@ -106,6 +114,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(true);
         staminaBar.SetActive(true);
+        ThirdPersonUseText.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -118,6 +127,7 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -130,12 +140,14 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     private void SwitchToMainMenuScreen()
     {
+        persistenceManager.SaveWorldState();
         SceneManager.LoadScene(0);
     }
 
@@ -147,43 +159,27 @@ public class MenuManager : MonoBehaviour
         inventoryScreen.SetActive(true);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        //Add logic to save the current game state and update to playfab database
     }
 
     private void ExitGame()
     {
-        //Add logic to save the current game state and update to playfab database
+        persistenceManager.SaveWorldState();
         Debug.Log("Game Ended");
         Application.Quit();
     }
 
     public void StartNewGame()
     {
-        for (int currentLevel = 0; currentLevel < bossLevel; currentLevel++)
-        {
-            string directoryPath = Application.dataPath + "/Saves";
-            string filePath = directoryPath + "/" + currentLevel + "world_state.json";
-
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-        string levelTrackerPath = Application.dataPath + "/Saves" + "/level_tracker.json";
-        if (File.Exists(levelTrackerPath))
-        {
-            File.Delete(levelTrackerPath);
-        }
-
-        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
-        if (File.Exists(levelTrackerPathMeta))
-        {
-            File.Delete(levelTrackerPathMeta);
-        }
+        persistenceManager.StartNewGame();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void StartNewRun()
+    {
+        persistenceManager.StartNewRun();
     }
 }

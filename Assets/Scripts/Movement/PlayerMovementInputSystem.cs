@@ -61,8 +61,9 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [Header("Object Reference")]
     [SerializeField] private Transform orientation;
 
+    [Header("Stamina Handling")]
     public Image StaminaBar;
-
+    public Player player;
     public float Stamina;
     public float MaxStamina;
     public float RunCost;
@@ -72,13 +73,27 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     void Start()
     {
+        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
+
         rb.freezeRotation = true;
         readyToJump = true;
         startYScale = transform.localScale.y;
+
+        Stamina = player.stamina;
+        MaxStamina = player.maxStamina;
     }
     private void Update()
     {
+        if(player.maxStamina != MaxStamina)
+        {
+            MaxStamina = player.maxStamina;
+        }
+        if(player.stamina  != Stamina)
+        {
+            player.stamina = Stamina;
+        }
+
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
         onStairs = Physics.Raycast(transform.position, Vector3.down, out stairHit, playerHeight * 0.5f + 0.3f, stairs);
         onSlope = CalcOnSlope();

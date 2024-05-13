@@ -132,3 +132,10 @@ Temporary Items
 *.meta
 #But not source file with postfix. which is everything but a folder
 !*.*.meta
+Assets/Original Import Packages and Assets/LowPolyDungeonsLite/LowPolyDungeonsLite_2020.3.0_HDRP_v1.1.unitypackage.meta
+Assets/Original Import Packages and Assets/LowPolyDungeonsLite/LowPolyDungeonsLite_2020.3.0_HDRP_v1.1.unitypackage.meta
+Assets/Original Import Packages and Assets/LowPolyDungeonsLite/LowPolyDungeonsLite_2020.3.0_HDRP_v1.1.unitypackage.meta
+Assets/Original Import Packages and Assets/LowPolyDungeonsLite/LowPolyDungeonsLite_2020.3.0_URP_v1.1.unitypackage.meta
+Assets/Original Import Packages and Assets/LowPolyMedievalPropsLite/LowPolyMedievalPropsLite_2020.3.0_HDRP_v1.0.unitypackage.meta
+Assets/Original Import Packages and Assets/LowPolyMedievalPropsLite/LowPolyMedievalPropsLite_2020.3.0_URP_v1.0.unitypackage.meta
+Assets/Original Import Packages and Assets/PlayFabEditorExtensions/Editor/Resources/MostRecentPackage.unitypackage.meta

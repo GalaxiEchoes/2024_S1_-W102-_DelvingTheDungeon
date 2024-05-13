@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 474549462607510175}
+  - component: {fileID: 6826280679702403256}
   m_Layer: 3
   m_Name: DiningCorner
   m_TagString: Untagged
@@ -35,6 +36,20 @@ Transform:
   - {fileID: 6148462121924494388}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6826280679702403256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2911848377612073501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1735758fd57da1448c4fcdab6c4672b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chests: []
+  doors: []
 --- !u!1001 &633110843335465048
 PrefabInstance:
   m_ObjectHideFlags: 0
