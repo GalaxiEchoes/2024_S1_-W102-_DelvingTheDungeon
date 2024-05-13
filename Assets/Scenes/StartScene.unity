@@ -2492,7 +2492,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 634567223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 324a9e82b5c136a4aa666135a96be400, type: 3}
+  m_Script: {fileID: 11500000, guid: ee9c60d275f55e849a4866f93737aab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Register: {fileID: 1620272131}
@@ -6458,6 +6458,7 @@ MonoBehaviour:
     attack: 0
     defense: 0
     maxHealth: 100
+    maxStamina: 0
   playerGameObject: {fileID: 0}
   playerCamera: {fileID: 0}
   cameraSwitcher: {fileID: 0}
