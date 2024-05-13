@@ -15,7 +15,7 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private InventoryHolder Inventory;
     [SerializeField] private Player playerData;
-    [SerializeField] private SwitchCameraStyle CameraSwitcher;
+    [SerializeField] private CameraStyleManager CameraSwitcher;
 
     public Transform playerTransform;
     public Transform orientation;

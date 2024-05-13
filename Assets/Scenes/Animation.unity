@@ -924,9 +924,9 @@ MonoBehaviour:
     m_Bits: 0
   Inventory: {fileID: 0}
   playerData: {fileID: 0}
-  CameraSwitcher: {fileID: 0}
-  playerTransform: {fileID: 0}
-  orientation: {fileID: 0}
+  CameraSwitcher: {fileID: 133734906}
+  playerTransform: {fileID: 1825377390}
+  orientation: {fileID: 141872517}
 --- !u!114 &551321156
 MonoBehaviour:
   m_ObjectHideFlags: 0
