@@ -48,6 +48,11 @@ public class ChestLogic : MonoBehaviour
         if(IsOpen) transform.localRotation = Quaternion.Euler(-RotationAmount, 0, 0); 
     }
 
+    public void SetIsLocked(bool isLocked)
+    {
+        IsLocked = isLocked;
+    }
+
     public void Open(InventoryHolder inventory)
     {
         inventoryHolder = inventory;

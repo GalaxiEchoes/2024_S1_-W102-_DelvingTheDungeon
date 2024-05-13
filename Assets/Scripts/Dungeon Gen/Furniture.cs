@@ -7,6 +7,7 @@ using static FurnitureSpawner;
 [Serializable] public class Furniture
 {
     public List<bool> chestStates;
+    public List<bool> chestLockStates;
     [NonSerialized] public GameObject currentInstance;
     [SerializeField] public FurniturePrefabData prefabData;
     [SerializeField] public Vector3Int pos;
@@ -16,6 +17,7 @@ using static FurnitureSpawner;
     public Furniture(Vector3Int pos, float angle, Vector3Int scale, Furniture furniture)
     {
         chestStates = new List<bool>();
+        chestLockStates = new List<bool>();
         prefabData = furniture.prefabData;
         this.pos = pos;
         this.angle = angle;
@@ -33,7 +35,7 @@ using static FurnitureSpawner;
 
         if(prefabTr != null)
         {
-            prefabTr.LoadInteractables(chestStates);
+            prefabTr.LoadInteractables(chestStates, chestLockStates);
         }
     }
 
@@ -43,7 +45,7 @@ using static FurnitureSpawner;
 
         if (prefabTr != null)
         {
-            prefabTr.SaveInteractables(chestStates);
+            prefabTr.SaveInteractables(chestStates, chestLockStates);
         }
     }
 }
