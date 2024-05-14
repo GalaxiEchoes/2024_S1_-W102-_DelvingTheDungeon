@@ -9,18 +9,22 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class Player : MonoBehaviour
 {
+    public int money;
     public int health;
     public float stamina;
     public int attack;
     public int defense;
     public int maxHealth = 100;
     public float maxStamina = 100;
+    public int startMoney = 50;
 
+    public MoneyTracker moneyTracker;
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
 
     private void Start()
     {
+        money = startMoney;
         health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         stamina = maxStamina; 
@@ -29,6 +33,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        moneyTracker.setMoney(money);
+
         //On Death
         if (health <= 0)
         {
@@ -81,5 +87,15 @@ public class Player : MonoBehaviour
         health -= damage;
 
         healthBar.SetHealth(health);
+    }
+
+    public void addMoney(int amount)
+    {
+        money += amount;
+    }
+
+    public void minusMoney(int amount)
+    {
+        money -= amount;
     }
 }
