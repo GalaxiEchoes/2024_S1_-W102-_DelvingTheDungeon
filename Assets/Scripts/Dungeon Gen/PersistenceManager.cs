@@ -61,6 +61,7 @@ public class PersistenceManager : MonoBehaviour
     {
         //Player level
         //Player money
+        public int money;
         public int health;
         public float stamina;
         public int attack;
@@ -307,6 +308,7 @@ public class PersistenceManager : MonoBehaviour
     {
         //Player
         Player current = playerGameObject.GetComponent<Player>();
+        permanantGameData.money = current.money;
         permanantGameData.health = current.health;
         permanantGameData.stamina = current.stamina;
         permanantGameData.attack = current.attack;
@@ -333,6 +335,7 @@ public class PersistenceManager : MonoBehaviour
 
         //Player Stats
         Player original = playerGameObject.GetComponent<Player>();
+        original.money = permanantGameData.money;
         original.health = permanantGameData.health;
         original.stamina = permanantGameData.stamina;
         original.attack = permanantGameData.attack;
