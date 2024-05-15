@@ -8,38 +8,43 @@ using static PersistenceManager;
 public class EndMenu : MonoBehaviour
 {
     public int bossLevel = 5;
+    PersistenceManager manager;
+
+    public void Start()
+    {
+        manager = GetComponent<PersistenceManager>();
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
 
     public void ExitToMain()
     {
-        StartNewGame();
+        manager.StartNewGame();
         SceneManager.LoadScene(0);
-        //plus logic to reset stats
     }
 
     public void Respawn()
     {
-        StartNewGame();
+        manager.StartNewGame();
         SceneManager.LoadScene(1);
-        //plus logic to reset stats
     }
 
-    private void StartNewGame()
+    public void ClearLoginStatus()
     {
-        for (int currentLevel = 0; currentLevel < bossLevel; currentLevel++)
-        {
-            string directoryPath = Application.dataPath + "/Saves";
-            string filePath = directoryPath + "/" + currentLevel + "world_state.json";
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
 
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-        string levelTrackerPath = Application.dataPath + "/Saves" + "/level_tracker.json";
-        if (File.Exists(levelTrackerPath))
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
         {
-            File.Delete(levelTrackerPath);
+            ClearLoginStatus();
         }
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }

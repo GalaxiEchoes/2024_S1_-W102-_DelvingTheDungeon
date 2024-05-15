@@ -6,15 +6,24 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PersistenceManager;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
+    public PersistenceManager persistenceManager;
     public GameObject pauseScreen;
-    public GameObject mainMenuScreen;
     public GameObject inventoryScreen;
+    public GameObject settingsManager;
+    public GameObject settingsMenu;
     public GameObject healthBar;
     public GameObject staminaBar;
+    public GameObject ThirdPersonUseText;
     public int bossLevel = 5;
+
+    private void Start()
+    {
+        Pause();
+    }
 
     // Update is called once per frame
     void Update()
@@ -87,78 +96,90 @@ public class MenuManager : MonoBehaviour
         ExitGame();
     }
 
+    public void OnSettingsButtonClick()
+    {
+        SwitchToSettingsScreen();
+    }
+
+    public void OnBackButtonClick()
+    {
+        SwitchToPauseScreen();
+    }
+
     private void SwitchToGameScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         healthBar.SetActive(true);
         staminaBar.SetActive(true);
+        ThirdPersonUseText.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     private void SwitchToPauseScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(true);
         inventoryScreen.SetActive(false);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void SwitchToSettingsScreen()
+    {
+        settingsMenu.SetActive(true);
+        settingsManager.SetActive(true);
+        pauseScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        healthBar.SetActive(false);
+        staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     private void SwitchToMainMenuScreen()
     {
-        mainMenuScreen.SetActive(true);
-        pauseScreen.SetActive(false);
-        inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-
-        //Add logic to save the current game state and update to playfab database
+        persistenceManager.SaveWorldState();
+        SceneManager.LoadScene(0);
     }
 
     private void SwitchToInventoryScreen()
     {
-        mainMenuScreen.SetActive(false);
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(true);
         healthBar.SetActive(false);
         staminaBar.SetActive(false);
+        ThirdPersonUseText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        //Add logic to save the current game state and update to playfab database
     }
 
     private void ExitGame()
     {
-        //Add logic to save the current game state and update to playfab database
+        persistenceManager.SaveWorldState();
         Debug.Log("Game Ended");
         Application.Quit();
     }
 
     public void StartNewGame()
     {
-        for (int currentLevel = 0; currentLevel < bossLevel; currentLevel++)
-        {
-            string directoryPath = Application.dataPath + "/Saves";
-            string filePath = directoryPath + "/" + currentLevel + "world_state.json";
+        persistenceManager.StartNewGame();
 
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-        string levelTrackerPath = Application.dataPath + "/Saves" + "/level_tracker.json";
-        if (File.Exists(levelTrackerPath))
-        {
-            File.Delete(levelTrackerPath);
-        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void StartNewRun()
+    {
+        persistenceManager.StartNewRun();
     }
 }

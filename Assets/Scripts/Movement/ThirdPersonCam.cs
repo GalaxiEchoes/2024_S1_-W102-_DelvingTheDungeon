@@ -8,6 +8,7 @@ public class ThirdPersonCam : MonoBehaviour
     [SerializeField] private Transform orientation;
     [SerializeField] private Transform player;
     [SerializeField] private Transform playerObj;
+    [SerializeField] private Transform CameraPos;
 
     void Start()
     {
@@ -21,5 +22,6 @@ public class ThirdPersonCam : MonoBehaviour
         Vector3 viewDir = player.position - new Vector3(transform.position.x, player.position.y, transform.position.z);
         orientation.forward = viewDir.normalized;
         playerObj.forward = viewDir.normalized;
+        CameraPos.forward = viewDir.normalized;
     }
 }
