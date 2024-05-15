@@ -3,9 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
-    public int health = 150;
+    public void Damage(int damageAmount)
+    {
+        Debug.Log("Damage: " + damageAmount);
+    }
+
+
+    /*public int health = 150;
     public Material red;
     public Material green;
 
@@ -51,5 +57,6 @@ public class Enemy : MonoBehaviour
         go.GetComponent<Renderer>().material = green;
 
         IsRunning = false;
-    }
+    }*/
+
 }

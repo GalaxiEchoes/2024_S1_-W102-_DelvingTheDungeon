@@ -105,9 +105,36 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "StrongAttack",
+                    "type": "Button",
+                    "id": "3ddea75f-533f-4e21-a334-40b4c880cde5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Attack",
-                    "type": "PassThrough",
-                    "id": "f38025f9-4dc5-4936-99fb-e32a6ab59429",
+                    "type": "Button",
+                    "id": "7db4c9ca-1f02-4294-b4c9-685facfbe42e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "282fe8d6-cab6-4edb-89f2-1e3848d5f045",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "DrawOrSheath",
+                    "type": "Button",
+                    "id": "569171e6-0202-4a14-96af-fd437aae8d7c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -239,7 +266,7 @@
                 {
                     "name": "",
                     "id": "3785ab20-025a-4c73-83a0-3a18bba8851f",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/t",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -281,13 +308,68 @@
                     "isPartOfComposite": false
                 },
                 {
+                    "name": "One Modifier",
+                    "id": "6b0f49ed-70f1-4c0a-b9d9-e97ecae6cbb9",
+                    "path": "OneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StrongAttack",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "ded873ca-4e26-4136-999c-ba5352d3bd9e",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "StrongAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "binding",
+                    "id": "5fe1fe62-dd97-4c49-a6e6-6193147df0c2",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "StrongAttack",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "719e53fa-7f39-4d03-8888-a98d6f8e69fb",
+                    "id": "3dbd549c-f345-4a60-8211-477b3daaf876",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fa776f93-73f8-4669-88d4-052de09e549d",
+                    "path": "<Pointer>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "90be0c04-21b6-43d1-b874-cb348ec03d7c",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "DrawOrSheath",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -361,6 +443,11 @@
                 {
                     "devicePath": "<Keyboard>",
                     "isOptional": true,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
                     "isOR": false
                 }
             ]

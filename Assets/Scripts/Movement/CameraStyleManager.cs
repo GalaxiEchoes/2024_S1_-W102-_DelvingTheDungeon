@@ -45,7 +45,7 @@ public class CameraStyleManager : MonoBehaviour
 
         if (newStyle == CameraStyle.FirstPersonCam) { 
             headReference.transform.localScale = Vector3.zero;
-            firstPersonCam.transform.position = cameraPos.transform.position; 
+            transform.position = cameraPos.transform.position; 
         }
         if (newStyle == CameraStyle.CombatCam)
         {

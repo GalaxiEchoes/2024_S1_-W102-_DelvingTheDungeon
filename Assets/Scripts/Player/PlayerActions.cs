@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine.InputSystem.XR;
 using UnityEngine.ProBuilder.Shapes;
 using PlayFab.EconomyModels;
+using UnityEngine.InputSystem;
 
 public class PlayerActions : MonoBehaviour
 {
@@ -12,13 +13,20 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private Transform Camera;
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
-    [SerializeField] private LayerMask EnemyLayers;
     [SerializeField] private InventoryHolder Inventory;
     [SerializeField] private Player playerData;
     [SerializeField] private CameraStyleManager CameraSwitcher;
 
     public Transform playerTransform;
     public Transform orientation;
+
+    //private Animator animator;
+
+    [SerializeField] private float DamageAfterTime;
+    [SerializeField] private float StrongDamageAfterTime;
+    [SerializeField] private int Damage;
+    [SerializeField] private AttackArea AttackArea;
+    public bool isAttacking;
 
     private void Awake()
     {
@@ -35,13 +43,13 @@ public class PlayerActions : MonoBehaviour
         {
             playerData = player.GetComponent<Player>();
             Inventory = player.GetComponent<InventoryHolder>();
+            //animator = player.GetComponentInChildren<Animator>();
         }
             
     }
 
     public void OnInteract()
     {
-        //if (Physics.Raycast(Camera.position, Camera.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, UseLayers))
         {
             if (hit.collider.TryGetComponent<DoorLogic>(out DoorLogic door))
@@ -74,17 +82,29 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
-    public void OnAttack()
+    public void OnAttack(InputValue value)
     {
-        Debug.Log("Attack");
-        if (Physics.Raycast(playerTransform.position, orientation.forward, out RaycastHit hit, MaxUseDistance, EnemyLayers))
+        if (isAttacking) return;
+        StartCoroutine(Hit(false));
+    }
+
+    public void OnStrongAttack(InputValue value)
+    {
+        if(isAttacking) return;
+        StartCoroutine (Hit(true));
+    }
+
+    private  IEnumerator Hit(bool strong)
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(strong ? StrongDamageAfterTime : DamageAfterTime);
+        var damageables = AttackArea.Damageables;
+        foreach (var attackAreaDamageables in damageables)
         {
-            if (hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
-            {
-                Debug.Log("Hit Enemy");
-                enemy.TakeDamage(playerData.attack);
-            }
+            attackAreaDamageables.Damage(Damage * (strong? 3:1));
         }
+        yield return new WaitForSeconds(strong ? StrongDamageAfterTime : DamageAfterTime);
+        isAttacking = false;
     }
 
     void Update()
@@ -114,11 +134,6 @@ public class PlayerActions : MonoBehaviour
         else
         {
             UseText.gameObject.SetActive(false);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnAttack();
         }
     } 
 }

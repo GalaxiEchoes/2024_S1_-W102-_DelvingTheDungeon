@@ -6,19 +6,59 @@ using UnityEngine.InputSystem;
 
 public class AnimationHandler : MonoBehaviour
 {
-    Animator animator;
-
     float xVelocity = 0.0f;
     float zVelocity = 0.0f;
     public float acceleration = 2f;
     public float deceleration = 2f;
     public float maxWalkVelocity = 0.5f;
     public float maxRunVelocity = 1f;
-    public InputSystemPlayerMovement PlayerMovement;
+
+    Animator animator;
+    InputSystemPlayerMovement PlayerMovement;
+    public PlayerActions PlayerActions;
+    public GameObject Player;
+    private bool isDrawn;
 
     public void Start()
     {
-        animator = GetComponent<Animator>();
+        isDrawn = false;
+        animator = Player.GetComponentInChildren<Animator>();
+        PlayerMovement = Player.GetComponent<InputSystemPlayerMovement>();
+    }
+
+    public void Update()
+    {
+        bool runPressed = InputManager.instance.SprintBeingHeld && PlayerMovement.state == InputSystemPlayerMovement.MovementState.sprinting;
+        bool forwardPressed = InputManager.instance.MoveInput.y > 0;
+        bool backPressed = InputManager.instance.MoveInput.y < 0;
+        bool leftPressed = InputManager.instance.MoveInput.x < 0;
+        bool rightPressed = InputManager.instance.MoveInput.x > 0;
+        bool crouchPressed = InputManager.instance.CrouchBeingHeld;
+        bool jumpPressed = PlayerMovement.readyToJump == false;
+        bool isGrounded = Physics.Raycast(Player.transform.position, Vector3.down, PlayerMovement.playerHeight * 0.5f + 0.2f, PlayerMovement.ground);
+        bool isFalling = PlayerMovement.state == InputSystemPlayerMovement.MovementState.air;
+        bool drawOrSheathPressed = InputManager.instance.DrawOrSheathWeapon;
+        bool attackPressed = InputManager.instance.SimpleAttack;
+        bool strongAttackPressed = InputManager.instance.StrongAttack;
+
+        float max = runPressed && !crouchPressed ? maxRunVelocity : maxWalkVelocity;
+
+        ChangeVelocity(forwardPressed, leftPressed, rightPressed, backPressed, max);
+        LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, backPressed, max);
+
+        if (zVelocity > 0.05 || zVelocity < -0.05 || xVelocity > 0.05 || xVelocity < -0.05) animator.SetBool("IsMoving", true);
+        else animator.SetBool("IsMoving", false);
+
+        if (attackPressed && PlayerActions.isAttacking) animator.SetTrigger("SimpleAttack");
+        if (strongAttackPressed && PlayerActions.isAttacking) animator.SetTrigger("StrongAttack");
+        if (!jumpPressed) animator.SetBool("IsGrounded", isGrounded);
+        if (drawOrSheathPressed) isDrawn = !isDrawn;
+        if(animator.GetBool("WeaponDrawn") !=  isDrawn) animator.SetBool("WeaponDrawn", isDrawn);
+        animator.SetBool("IsFalling", isFalling);
+        animator.SetBool("IsJumping", jumpPressed);
+        animator.SetBool("IsCrouched", crouchPressed);
+        animator.SetFloat("VelocityZ", zVelocity);
+        animator.SetFloat("VelocityX", xVelocity);
     }
 
     void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool backPressed, float max)
@@ -105,29 +145,5 @@ public class AnimationHandler : MonoBehaviour
                 if(zVelocity < -max && zVelocity > (-max -0.05f)) zVelocity = -max;
             }
         }
-    }
-
-    public void Update()
-    {
-        bool runPressed = InputManager.instance.SprintBeingHeld;
-        //Check if we are out of stamina tho?
-
-        bool forwardPressed = InputManager.instance.MoveInput.y > 0;
-        bool backPressed = InputManager.instance.MoveInput.y < 0;
-        bool leftPressed = InputManager.instance.MoveInput.x < 0;
-        bool rightPressed = InputManager.instance.MoveInput.x > 0;
-        bool crouchPressed = InputManager.instance.CrouchBeingHeld;
-        bool jumpPressed = PlayerMovement.readyToJump == false;
-
-        float max = runPressed && !crouchPressed? maxRunVelocity : maxWalkVelocity;
-
-        ChangeVelocity(forwardPressed, leftPressed, rightPressed, backPressed, max);
-        LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, backPressed, max);
-
-        
-        if(jumpPressed) animator.SetTrigger("IsJumping");
-        animator.SetBool("IsCrouched", crouchPressed);
-        animator.SetFloat("VelocityZ", zVelocity);
-        animator.SetFloat("VelocityX", xVelocity);
     }
 }

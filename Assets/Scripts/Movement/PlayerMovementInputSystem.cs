@@ -36,9 +36,9 @@ public class InputSystemPlayerMovement : MonoBehaviour
     private float startYScale;
 
     [Header("Ground Check")]
-    [SerializeField] private float playerHeight;
-    [SerializeField] private LayerMask ground;
-    private bool grounded;
+    [SerializeField] public float playerHeight;
+    [SerializeField] public LayerMask ground;
+    public bool grounded;
 
     [Header("Stair Handling")]
     [SerializeField] private GameObject stepRayUpper;
