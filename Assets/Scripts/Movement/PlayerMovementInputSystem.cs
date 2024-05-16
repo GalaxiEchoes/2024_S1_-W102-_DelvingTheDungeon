@@ -29,16 +29,24 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
-    private bool readyToJump;
+    public bool readyToJump;
 
     [Header("Crouch Settings")]
-    [SerializeField] private float crouchYScale;
-    private float startYScale;
+    [SerializeField] private CapsuleCollider capsuleCollider;
+    [SerializeField] private BoxCollider boxCollider;
+    private Vector3 capsuleCenter;
+    private float capsuleHeight;
+    private Vector3 boxCenter;
+    private Vector3 boxHeight;
+    [SerializeField] Vector3 crouchCapsuleCenter;
+    [SerializeField] float crouchCapsuleHeight;
+    [SerializeField] Vector3 crouchBoxCenter;
+    [SerializeField] Vector3 crouchBoxHeight;
 
     [Header("Ground Check")]
-    [SerializeField] private float playerHeight;
-    [SerializeField] private LayerMask ground;
-    private bool grounded;
+    [SerializeField] public float playerHeight;
+    [SerializeField] public LayerMask ground;
+    public bool grounded;
 
     [Header("Stair Handling")]
     [SerializeField] private GameObject stepRayUpper;
@@ -47,7 +55,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float stepSmooth;
     [SerializeField] private LayerMask stairs;
 
-    private bool onStairs;
+    public bool onStairs;
     private RaycastHit stairHit;
     private float stairsDownTimer = 0f;
     private float stairsDownDelay = 0.2f;
@@ -56,7 +64,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float maxSlopeAngle;
     [SerializeField] private float slopeSmooth;
     private RaycastHit slopeHit;
-    private bool onSlope;
+    public bool onSlope;
 
     [Header("Object Reference")]
     [SerializeField] private Transform orientation;
@@ -71,6 +79,12 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     public Coroutine recharge;
 
+    [Header("Animation Blockers")]
+    public bool blockJump;
+    public bool blockCrouch;
+    public bool blockMoving;
+    public float blockedSpeed = 0.1f;
+
     void Start()
     {
         player = GetComponent<Player>();
@@ -78,10 +92,17 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
         rb.freezeRotation = true;
         readyToJump = true;
-        startYScale = transform.localScale.y;
-
         Stamina = player.stamina;
         MaxStamina = player.maxStamina;
+
+        capsuleCollider = GetComponentInChildren<CapsuleCollider>();
+        boxCollider = GetComponent<BoxCollider>();
+
+        //Get Original Crouch Values
+        capsuleCenter = capsuleCollider.center;
+        capsuleHeight = capsuleCollider.height;
+        boxCenter = boxCollider.center;
+        boxHeight = boxCollider.size;
     }
     private void Update()
     {
@@ -110,6 +131,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
     }
 
     private void MyInput()
@@ -118,24 +140,30 @@ public class InputSystemPlayerMovement : MonoBehaviour
         verticalInput = InputManager.instance.MoveInput.y;
 
         //When to jump
-        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (grounded || onStairs || onSlope))
+        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (grounded || onStairs || onSlope)&& !blockJump)
         {
             readyToJump = false;
             Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
         }
 
         //Crouching
-        if (InputManager.instance.CrouchJustPressed)
+        if (InputManager.instance.CrouchJustPressed && !blockCrouch)
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            //Set Crouch Values
+            capsuleCollider.center = crouchCapsuleCenter;
+            capsuleCollider.height = crouchCapsuleHeight;
+            boxCollider.center = crouchBoxCenter;
+            boxCollider.size = crouchBoxHeight;
+
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
         //Stop crouching
         if (InputManager.instance.CrouchReleased)
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            capsuleCollider.center = capsuleCenter;
+            capsuleCollider.height = capsuleHeight;
+            boxCollider.center = boxCenter;
+            boxCollider.size = boxHeight;
         }
     }
 
@@ -164,7 +192,11 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
-        if (InputManager.instance.CrouchBeingHeld)
+        if (blockMoving)
+        {
+            moveSpeed = blockedSpeed;
+        }
+        else if (InputManager.instance.CrouchBeingHeld && !blockCrouch)
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
@@ -299,7 +331,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void ResetJump()
+    public void ResetJump()
     {
         readyToJump = true;
     }
