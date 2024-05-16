@@ -71,7 +71,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     [Header("Stamina Handling")]
     public Image StaminaBar;
-
+    public Player player;
     public float Stamina;
     public float MaxStamina;
     public float RunCost;
@@ -87,9 +87,13 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     void Start()
     {
+        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
+
         rb.freezeRotation = true;
         readyToJump = true;
+        Stamina = player.stamina;
+        MaxStamina = player.maxStamina;
 
         capsuleCollider = GetComponentInChildren<CapsuleCollider>();
         boxCollider = GetComponent<BoxCollider>();
@@ -102,6 +106,15 @@ public class InputSystemPlayerMovement : MonoBehaviour
     }
     private void Update()
     {
+        if(player.maxStamina != MaxStamina)
+        {
+            MaxStamina = player.maxStamina;
+        }
+        if(player.stamina  != Stamina)
+        {
+            player.stamina = Stamina;
+        }
+
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
         onStairs = Physics.Raycast(transform.position, Vector3.down, out stairHit, playerHeight * 0.5f + 0.3f, stairs);
         onSlope = CalcOnSlope();
@@ -250,13 +263,11 @@ public class InputSystemPlayerMovement : MonoBehaviour
             {
                 if (onStairs) //On stairs with incline
                 {
-                    Debug.Log("Stairs with incline");
                     rb.transform.Translate(Vector3.up * slopeSmooth * Time.deltaTime * moveSpeed);
                     rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
                 }
                 else //On slight slope
                 {
-                    Debug.Log("Slight Slope");
                     rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
                     if (rb.velocity.y > 0)
                     {
@@ -266,7 +277,6 @@ public class InputSystemPlayerMovement : MonoBehaviour
             }
             else //Bump/stair handling
             {
-                Debug.Log("Bump handling");
                 rb.transform.Translate(Vector3.up * stepSmooth * Time.deltaTime);
                 rb.AddForce(moveDirection.normalized * (moveSpeed * 1.75f) * 20f, ForceMode.Force);
             }
@@ -277,7 +287,6 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             if (onStairs)//Down Stairs
             {
-                Debug.Log("Down Stairs");
                 stairsDownTimer += Time.deltaTime;
 
                 if (stairsDownTimer >= stairsDownDelay)

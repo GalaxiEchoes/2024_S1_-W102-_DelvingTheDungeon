@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+[Serializable]
 public class PlayerStatsData : MonoBehaviour
 {
     public TextMeshProUGUI Health;
@@ -22,7 +24,7 @@ public class PlayerStatsData : MonoBehaviour
     private void Update()
     {
         Health.text = "Health " + AssignedPlayer.health.ToString();
-        Stamina.text = "Stamina " + AssignedPlayer.stamina.ToString();
+        Stamina.text = "Stamina " + AssignedPlayer.stamina.ToString("F0");
         Attack.text = "Attack " + AssignedPlayer.attack.ToString();
         Defense.text = "Defense " + AssignedPlayer.defense.ToString();
     }
