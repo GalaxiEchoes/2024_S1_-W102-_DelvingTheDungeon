@@ -28,6 +28,13 @@ public class DamageDealer : MonoBehaviour
                 if(!hasDealtDamage.Contains(hit.transform.gameObject))
                 {
                     Debug.Log("Damage");
+                    Enemy enemy = hit.transform.gameObject.GetComponent<Enemy>();
+
+                    if(enemy != null)
+                    {
+                        enemy.Damage(10);
+                    }
+
                     hasDealtDamage.Add(hit.transform.gameObject);
                 }
             }

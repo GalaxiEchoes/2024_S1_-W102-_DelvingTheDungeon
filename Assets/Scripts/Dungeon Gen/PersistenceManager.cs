@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using static DungeonGenerator;
-using static SwitchCameraStyle;
+using static CameraStyleManager;
 using static FurnitureSpawner;
 
 public class PersistenceManager : MonoBehaviour
@@ -37,7 +37,7 @@ public class PersistenceManager : MonoBehaviour
     public CurrentLevel levelTracker;
     [SerializeField] GameObject player;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] SwitchCameraStyle cameraSwitcher;
+    [SerializeField] CameraStyleManager cameraSwitcher;
 
     Controller controller;
     DungeonGenerator dungeonGenerator;

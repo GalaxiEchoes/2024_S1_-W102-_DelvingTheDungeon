@@ -19,6 +19,8 @@ public class PlayerCam : MonoBehaviour
     public float xRotation;
     public float yRotation;
     private bool rotationActive;
+    private float mouseX;
+    private float mouseY;
 
     private void Start()
     {
@@ -27,10 +29,6 @@ public class PlayerCam : MonoBehaviour
         rotationActive = true;
     }
 
-    public float mouseX;
-    public float mouseY;
-    public float clampValue;
-
     private void Update()
     {
         mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
@@ -38,7 +36,7 @@ public class PlayerCam : MonoBehaviour
 
         yRotation += mouseX;
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -60f, 60f);
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 

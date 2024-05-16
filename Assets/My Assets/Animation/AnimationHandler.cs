@@ -36,7 +36,7 @@ public class AnimationHandler : MonoBehaviour
     public void Start()
     {
         isDrawn = false;
-        readyToJump = false;
+        readyToJump = true;
         animator = Player.GetComponentInChildren<Animator>();
         PlayerMovement = Player.GetComponent<InputSystemPlayerMovement>();
         prevHeight = Player.transform.position.y;
@@ -44,18 +44,14 @@ public class AnimationHandler : MonoBehaviour
     
     public void Update()
     {
+        //Limits Movement, Jumping or Crouching if in attack mode
         if (isAttacking && InputManager.instance.CrouchBeingHeld)
         {
-            //limit movement
-            //no jump
             PlayerMovement.blockMoving = true;
             PlayerMovement.blockJump = true;
         }
         else if (isAttacking)
         {
-            //limit movement
-            //no crouch
-            //no jump
             PlayerMovement.blockMoving = true;
             PlayerMovement.blockJump = true;
             PlayerMovement.blockCrouch = true;
