@@ -1,3 +1,4 @@
+using PlayFab.MultiplayerModels;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,6 +11,7 @@ using UnityEngine.TextCore.Text;
 
 public class AnimationHandler : MonoBehaviour
 {
+    [Header("Velocity Variables")]
     float xVelocity = 0.0f;
     float zVelocity = 0.0f;
     public float acceleration = 2f;
@@ -17,69 +19,150 @@ public class AnimationHandler : MonoBehaviour
     public float maxWalkVelocity = 0.5f;
     public float maxRunVelocity = 1f;
 
-    Animator animator;
-    InputSystemPlayerMovement PlayerMovement;
-    public PlayerActions PlayerActions;
+    [Header("Player Reference")]
     public GameObject Player;
+    public LayerMask groundTypes;
+
+    //Local References
+    private Animator animator;
+    private InputSystemPlayerMovement PlayerMovement;
     private bool isDrawn;
+    private bool isAttacking = false;
+    public float drawCooldown = 1.5f;
+    private float drawCooldownTimer = 0;
+    private float prevHeight;
+    private bool readyToJump;
 
     public void Start()
     {
         isDrawn = false;
+        readyToJump = false;
         animator = Player.GetComponentInChildren<Animator>();
         PlayerMovement = Player.GetComponent<InputSystemPlayerMovement>();
+        prevHeight = Player.transform.position.y;
     }
-
+    
     public void Update()
     {
+        if (isAttacking && InputManager.instance.CrouchBeingHeld)
+        {
+            //limit movement
+            //no jump
+            PlayerMovement.blockMoving = true;
+            PlayerMovement.blockJump = true;
+        }
+        else if (isAttacking)
+        {
+            //limit movement
+            //no crouch
+            //no jump
+            PlayerMovement.blockMoving = true;
+            PlayerMovement.blockJump = true;
+            PlayerMovement.blockCrouch = true;
+        }
+        else
+        {
+            PlayerMovement.blockMoving = false;
+            PlayerMovement.blockJump = false;
+            PlayerMovement.blockCrouch = false;
+        }
+
+        HandleJumping();
+        HandleAttack();
+        HandleMovement();
+    }
+
+    void HandleJumping()
+    {
+        //IsGrounded
+        bool isGrounded = Physics.Raycast(Player.transform.position, Vector3.down, PlayerMovement.playerHeight * 0.5f + 0.7f, groundTypes) || PlayerMovement.onSlope || PlayerMovement.onStairs || PlayerMovement.grounded;
+        animator.SetBool("IsGrounded", isGrounded);
+
+        //IsFalling
+        float currentHeight = Player.transform.position.y;
+        if (Mathf.Abs(currentHeight - prevHeight) > 0.05f)
+        {
+            animator.SetBool("IsFalling", true);
+        }
+        else
+        {
+            animator.SetBool("IsFalling", false);
+        }
+
+        //IsJumping
+        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (PlayerMovement.grounded || PlayerMovement.onStairs || PlayerMovement.onSlope) &&!isAttacking)
+        {
+            readyToJump = false;
+            animator.SetTrigger("StartJump");
+        }
+
+        animator.SetBool("IsJumping", !readyToJump); 
+    }
+
+    void HandleAttack()
+    {
+        //Button Bools
+        bool drawOrSheathPressed = InputManager.instance.DrawOrSheathWeapon;
+        bool attackPressed = InputManager.instance.SimpleAttack;
+
+        if(drawCooldownTimer > 0)
+        {
+            drawCooldownTimer -= Time.deltaTime;
+        }
+
+        //Handles Drawing or Sheathing Weapon
+        if (drawOrSheathPressed && drawCooldownTimer <= 0)
+        {
+            drawCooldownTimer = drawCooldown;
+            isDrawn = !isDrawn;
+            if (isDrawn) animator.SetTrigger("DrawWeapon");
+            else animator.SetTrigger("SheathWeapon");
+        }
+
+        //Attacking
+        if (attackPressed && isDrawn)
+        {
+            isAttacking = true;
+            animator.SetTrigger("SimpleAttack");
+        }
+    }
+
+    void HandleMovement()
+    {
+        //WASD, Run and Crouch Bools
         bool runPressed = InputManager.instance.SprintBeingHeld && PlayerMovement.state == InputSystemPlayerMovement.MovementState.sprinting;
         bool forwardPressed = InputManager.instance.MoveInput.y > 0;
         bool backPressed = InputManager.instance.MoveInput.y < 0;
         bool leftPressed = InputManager.instance.MoveInput.x < 0;
         bool rightPressed = InputManager.instance.MoveInput.x > 0;
         bool crouchPressed = InputManager.instance.CrouchBeingHeld;
-        bool jumpPressed = PlayerMovement.readyToJump == false;
-        bool isGrounded = Physics.Raycast(Player.transform.position, Vector3.down, PlayerMovement.playerHeight * 0.5f + 0.2f, PlayerMovement.ground);
-        bool isFalling = PlayerMovement.state == InputSystemPlayerMovement.MovementState.air;
-        bool drawOrSheathPressed = InputManager.instance.DrawOrSheathWeapon;
-        bool attackPressed = InputManager.instance.SimpleAttack;
-        //bool strongAttackPressed = InputManager.instance.StrongAttack;
 
+        //Setting the current Max Velocity
         float max = runPressed && !crouchPressed ? maxRunVelocity : maxWalkVelocity;
 
+        //Changing Velocity based on inputs
         ChangeVelocity(forwardPressed, leftPressed, rightPressed, backPressed, max);
         LockResetVelocity(forwardPressed, leftPressed, rightPressed, runPressed, backPressed, max);
 
-        if (zVelocity > 0.05 || zVelocity < -0.05 || xVelocity > 0.05 || xVelocity < -0.05) animator.SetBool("IsMoving", true);
-        else animator.SetBool("IsMoving", false);
-
-        //if (attackPressed && PlayerActions.isAttacking) animator.SetTrigger("SimpleAttack");
-        //if (strongAttackPressed && PlayerActions.isAttacking) animator.SetTrigger("StrongAttack");
-        if (!jumpPressed) animator.SetBool("IsGrounded", isGrounded);
-        if (drawOrSheathPressed)
-        {
-            isDrawn = !isDrawn;
-            if (isDrawn) animator.SetTrigger("DrawWeapon");
-            else animator.SetTrigger("SheathWeapon");
-
-        }
-        animator.SetBool("IsFalling", isFalling);
-        animator.SetBool("IsJumping", jumpPressed); //Need to make sure if crouched no jumping?
+        //Setting Animator Parameters
         animator.SetBool("IsCrouched", crouchPressed);
 
-        HandleAttack(attackPressed);
-
-        //If attacking, no moving just root motion
-        if (!isAttacking)
+        //Handling Velocity if attacking
+        if (isAttacking)
+        {
+            animator.SetFloat("VelocityZ", 0.0f);
+            animator.SetFloat("VelocityX", 0.0f);
+            //Add call to InputManager to stop player from moving
+        }
+        else
         {
             animator.SetFloat("VelocityZ", zVelocity);
             animator.SetFloat("VelocityX", xVelocity);
         }
-        else
-        {
-            animator.SetFloat("VelocityZ", 0.0f);
-            animator.SetFloat("VelocityX", 0.0f);
-        }
+
+        //Sets if Bool for if player is moving
+        if (zVelocity > 0.05 || zVelocity < -0.05 || xVelocity > 0.05 || xVelocity < -0.05) animator.SetBool("IsMoving", true);
+        else animator.SetBool("IsMoving", false);
     }
 
     void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool backPressed, float max)
@@ -168,93 +251,18 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
-
-    float timePassed = 0f;
-    float clipLength;
-    float clipSpeed;
-    bool isAttacking = false;
-
-    void HandleAttack(bool attackPressed)
+    void HandleAttackExit()
     {
-        if (attackPressed) //Attack has just been pressed
+        if (!animator.GetBool("SimpleAttack"))
         {
-            isAttacking = true;
-            animator.SetTrigger("SimpleAttack");
-            animator.applyRootMotion = true;
+            isAttacking = false;
+            animator.SetTrigger("StopAttacking");
         }
-        
-        if(isAttacking)
-        {
-
-        }
-
-
-
-
-
-
-
-
-        /*if (attackPressed && !isAttacking)//Enter Attack state
-        {
-            animator.applyRootMotion = true;
-            timePassed = 0f;
-            animator.SetTrigger("SimpleAttack");
-        }
-
-        if (attackPressed)
-        {
-            isAttacking = true;
-        }
-
-        if (isAttacking)
-        {
-            timePassed += Time.deltaTime;
-            clipLength = animator.GetCurrentAnimatorClipInfo(1)[0].clip.length;
-            clipSpeed = animator.GetCurrentAnimatorStateInfo(1).speed;
-
-            if(timePassed >= clipLength / clipSpeed && isAttacking)
-            {
-                //Still attacking, restart
-                isAttacking = false;
-                HandleAttack(attackPressed);
-            }
-            if (timePassed >= clipLength / clipSpeed)
-            {
-                animator.SetTrigger("StopAttacking"); //attacking state expired?
-            }
-        }*/
     }
 
-    /*
- float timePassed;
-float clipLength;
-float clipSpeed;
-bool isAttacking; on entering state is false
-//enter
-apply root motion character.animator.applyRootMotion = true
-timePassed = 0f;
-animator.setTrigger("attack");
-animator.setFloat("Speed", 0 ); //either set velocity or not needed?
-
-
-handling input, if left mouse clicked, attack = true
-
-
-LogicUpdate
-
-timePassed += Time.deltaTime;
-clipLength = animator.GetCurrentAnimatorClipInfo(1)[0].clip.length;
-clipSpeed = animator.GetCurrentAnimatorStateInfo(1).speed;
-
-if(timePassed>= cliplength / clipSpeed && attack){
-    statemachine.changestate(character.attacking); ->attack state enter?
-}
-if(timepassed >=cliplength/clipspeed){
-    statemachine.changestate(character.combatting); -> normal combat state
-    character.animator.SetTrigger("move")
-}
-
-exit -> rootmotion = false
- */
+    void ResetJump()
+    {
+        readyToJump = true;
+        PlayerMovement.ResetJump();
+    }
 }

@@ -21,7 +21,6 @@ public class InputManager : MonoBehaviour
     public bool CombatCamPressed { get; private set; }
     public bool ThirdPersonCamPressed { get; private set; }
     public bool SimpleAttack { get; private set; }
-    public bool StrongAttack {  get; private set; }
     public bool DrawOrSheathWeapon { get; private set; }
 
     //Actual Keys
@@ -34,7 +33,6 @@ public class InputManager : MonoBehaviour
     private InputAction _combatCamAction;
     private InputAction _thirdPersonCamAction;
     private InputAction _attackAction;
-    private InputAction _strongAttackAction;
     private InputAction _drawOrSheathAction;
 
     //UI interaction
@@ -77,7 +75,6 @@ public class InputManager : MonoBehaviour
         _UIMenuCloseAction = PlayerInput.actions["MenuCloseAction"];
         _UIInventoryCloseAction = PlayerInput.actions["InventoryClose"];
         _attackAction = PlayerInput.actions["Attack"];
-        _strongAttackAction = PlayerInput.actions["StrongAttack"];
         _drawOrSheathAction = PlayerInput.actions["DrawOrSheath"];
     }
 
@@ -98,8 +95,7 @@ public class InputManager : MonoBehaviour
         UIMenuCloseInput = _UIMenuCloseAction.WasPressedThisFrame();
         InventoryOpen = _InventoryOpenAction.WasPressedThisFrame();
         InventoryClose = _UIInventoryCloseAction.WasPressedThisFrame();
-        StrongAttack = _strongAttackAction.WasPressedThisFrame();
-        if(!StrongAttack) SimpleAttack = _attackAction.WasPressedThisFrame();
+        SimpleAttack = _attackAction.WasPressedThisFrame();
         DrawOrSheathWeapon = _drawOrSheathAction.WasPressedThisFrame();
     }
 

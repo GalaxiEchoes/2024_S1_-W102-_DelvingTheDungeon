@@ -9,24 +9,20 @@ using UnityEngine.InputSystem;
 
 public class PlayerActions : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro UseText;
-    [SerializeField] private Transform Camera;
+    [Header("Raycast Variables")]
+    private Transform Camera;
     [SerializeField] private float MaxUseDistance = 5f;
     [SerializeField] private LayerMask UseLayers;
-    [SerializeField] private InventoryHolder Inventory;
-    [SerializeField] private Player playerData;
-    [SerializeField] private CameraStyleManager CameraSwitcher;
-
-    public Transform playerTransform;
+    private Transform playerTransform;
     public Transform orientation;
 
-    //private Animator animator;
+    [Header("Use Text Variables")]
+    private TextMeshPro UseText;
+    [SerializeField] private CameraStyleManager CameraSwitcher;
 
-    [SerializeField] private float DamageAfterTime;
-    [SerializeField] private float StrongDamageAfterTime;
-    [SerializeField] private int Damage;
-    [SerializeField] private AttackArea AttackArea;
-    public bool isAttacking;
+    [Header("Interact Variables")]
+    private InventoryHolder Inventory;
+    private Player playerData;
 
     private void Awake()
     {
@@ -43,9 +39,8 @@ public class PlayerActions : MonoBehaviour
         {
             playerData = player.GetComponent<Player>();
             Inventory = player.GetComponent<InventoryHolder>();
-            //animator = player.GetComponentInChildren<Animator>();
+            playerTransform = player.transform;
         }
-            
     }
 
     public void OnInteract()
@@ -80,31 +75,6 @@ public class PlayerActions : MonoBehaviour
                 chest.Open(Camera.transform.position, Inventory);
             }
         }
-    }
-
-    public void OnAttack(InputValue value)
-    {
-        if (isAttacking) return;
-        StartCoroutine(Hit(false));
-    }
-
-    public void OnStrongAttack(InputValue value)
-    {
-        if(isAttacking) return;
-        StartCoroutine (Hit(true));
-    }
-
-    private  IEnumerator Hit(bool strong)
-    {
-        isAttacking = true;
-        yield return new WaitForSeconds(strong ? StrongDamageAfterTime : DamageAfterTime);
-        var damageables = AttackArea.Damageables;
-        foreach (var attackAreaDamageables in damageables)
-        {
-            attackAreaDamageables.Damage(Damage * (strong? 3:1));
-        }
-        yield return new WaitForSeconds(strong ? StrongDamageAfterTime : DamageAfterTime);
-        isAttacking = false;
     }
 
     void Update()
