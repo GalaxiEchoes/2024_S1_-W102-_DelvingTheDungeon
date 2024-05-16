@@ -9,11 +9,16 @@ public class DamageDealer : MonoBehaviour
 
     [SerializeField] float weaponLength;
     [SerializeField] float weaponDamage;
+    public AudioSource audioSource;
+    public AudioClip clipOne;
+    public AudioClip clipTwo;
+    int clipTracker;
 
     void Start()
     {
         canDealDamage = false;
         hasDealtDamage = new List<GameObject>();
+        audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
     }
 
     void Update()
@@ -43,6 +48,18 @@ public class DamageDealer : MonoBehaviour
 
     public void StartDealDamage()
     {
+        
+        if(clipTracker % 2 == 0)
+        {
+            clipTracker = 0;
+            audioSource.PlayOneShot(clipOne);
+        }
+        else
+        {
+            audioSource.PlayOneShot(clipTwo);
+        }
+        clipTracker++;
+
         canDealDamage = true;
         hasDealtDamage.Clear();
     }
@@ -50,11 +67,5 @@ public class DamageDealer : MonoBehaviour
     public void EndDealDamage()
     {
         canDealDamage=false;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position - transform.up * weaponLength);
     }
 }

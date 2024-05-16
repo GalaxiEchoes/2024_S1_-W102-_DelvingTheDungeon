@@ -134,3 +134,4 @@ Temporary Items
 !*.*.meta
 *.fbx.meta
 *anim.meta
+!*1HSword.prefab.meta

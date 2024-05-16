@@ -18,20 +18,22 @@ public class InputManager : MonoBehaviour
     public bool CrouchReleased { get; private set; }
     public bool CrouchBeingHeld { get; private set; }
     public bool SprintBeingHeld { get; private set; }
-
     public bool FirstPersonCamPressed { get; private set; }
     public bool CombatCamPressed { get; private set; }
     public bool ThirdPersonCamPressed { get; private set; }
+    public bool SimpleAttack { get; private set; }
+    public bool DrawOrSheathWeapon { get; private set; }
 
     //Actual Keys
     private InputAction _moveAction;
     private InputAction _jumpAction;
-    private InputAction _attackAction;
     private InputAction _crouchAction;
     private InputAction _sprintAction;
     private InputAction _firstPersonCamAction;
     private InputAction _combatCamAction;
     private InputAction _thirdPersonCamAction;
+    private InputAction _attackAction;
+    private InputAction _drawOrSheathAction;
 
     //UI interaction
     public bool MenuOpenCloseInput { get; private set; }
@@ -76,6 +78,8 @@ public class InputManager : MonoBehaviour
         _InventoryOpenAction = PlayerInput.actions["Inventory"];
         _UIMenuCloseAction = PlayerInput.actions["MenuCloseAction"];
         _UIInventoryCloseAction = PlayerInput.actions["InventoryClose"];
+        _attackAction = PlayerInput.actions["Attack"];
+        _drawOrSheathAction = PlayerInput.actions["DrawOrSheath"];
     }
 
     private void UpdateInputs()
@@ -98,7 +102,8 @@ public class InputManager : MonoBehaviour
         InventoryClose = _UIInventoryCloseAction.WasPressedThisFrame();
         InteractBeingHeld = _InteractAction.IsPressed();
         InteractReleased = _InteractAction.WasReleasedThisFrame();
-
+        SimpleAttack = _attackAction.WasPressedThisFrame();
+        DrawOrSheathWeapon = _drawOrSheathAction.WasPressedThisFrame();
     }
 
     void Update()

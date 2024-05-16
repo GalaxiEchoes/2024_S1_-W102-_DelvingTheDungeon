@@ -42,8 +42,13 @@ public class PlayerCam : MonoBehaviour
 
         if (InputManager.instance.FirstPersonCamPressed)
         {
-            rotationActive = !rotationActive;
+            rotationActive = true;
         }
+        else if(InputManager.instance.CombatCamPressed || InputManager.instance.ThirdPersonCamPressed)
+        {
+            rotationActive = false;
+        }
+
         if (rotationActive)
         {
             playerObj.rotation = orientation.transform.rotation;

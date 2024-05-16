@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PauseManager : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class PauseManager : MonoBehaviour
     {
         IsPaused = true;
         Time.timeScale = 0f;
-
         InputManager.PlayerInput.SwitchCurrentActionMap("UI");
     }
 
