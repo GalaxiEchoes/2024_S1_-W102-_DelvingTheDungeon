@@ -3,27 +3,31 @@ using System.Collections.Generic;
 using Random = System.Random;
 using UnityEngine;
 using UnityEngine.UIElements;
+using System;
 
+[Serializable]
 public class ChestLogic : MonoBehaviour
 {
     [Header("Rotation Configs")]
     [SerializeField] private float RotationAmount = 75f;
-
-    private Vector3 StartRotation;
-
-    private Coroutine AnimationCoroutine;
-    bool IsRunning = false;
-
+    [SerializeField] private Vector3 StartRotation;
+    [SerializeField] private Coroutine AnimationCoroutine;
+    [SerializeField] private Random rand;
+    [NonSerialized] private InventoryHolder inventoryHolder;
     [SerializeField] GameObject[] possibleItems;
-    [SerializeField] GameObject[] items;
-    Random rand;
-    InventoryHolder inventoryHolder;
+    [SerializeField] List<GameObject> items;
+
+    [Header("Object States")]
+    [SerializeField] public bool IsOpen = false;
+    [SerializeField] private bool IsRunning = false;
+    [SerializeField] public bool IsLocked = false;
 
     private void Awake()
     {
         rand = new Random();
-        StartRotation = transform.rotation.eulerAngles;
-        items = new GameObject[4];
+        IsLocked = rand.Next(0,2) == 0;
+        StartRotation = transform.localRotation.eulerAngles;
+        items = new List<GameObject>();
 
         float chance;
         int index = 0;
@@ -32,16 +36,27 @@ public class ChestLogic : MonoBehaviour
         {
             chance = (float)rand.NextDouble();
             int nextItem = rand.Next(0, possibleItems.Length);
-            items[index] = possibleItems[nextItem];
+            items.Add(possibleItems[nextItem]);
             index++;
 
         } while (chance <= 0.8f && index < 3);
     }
+    
+    public void SetIsOpen(bool isOpen)
+    {
+        IsOpen = isOpen;
+        if(IsOpen) transform.localRotation = Quaternion.Euler(-RotationAmount, 0, 0); 
+    }
 
-    public void Open(Vector3 UserPosition, InventoryHolder inventory)
+    public void SetIsLocked(bool isLocked)
+    {
+        IsLocked = isLocked;
+    }
+
+    public void Open(InventoryHolder inventory)
     {
         inventoryHolder = inventory;
-        if (!IsRunning)
+        if (!IsRunning && !IsOpen)
         {
             IsRunning = true;
             AnimationCoroutine = StartCoroutine(DoRotationOpen());
@@ -50,13 +65,13 @@ public class ChestLogic : MonoBehaviour
 
     private IEnumerator DoRotationOpen()
     { 
-        Quaternion startRotation = transform.rotation;
-        Quaternion endRotation = Quaternion.Euler(new(startRotation.x - RotationAmount, 180, 0));
+        Quaternion startRotation = transform.localRotation;
+        Quaternion endRotation = Quaternion.Euler(new(startRotation.x - RotationAmount, 0, 0));
 
         float time = 0;
         while(time < 1)
         {
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, time);
+            transform.localRotation = Quaternion.Lerp(startRotation, endRotation, time);
             yield return null;
             time+= Time.deltaTime;
         }
@@ -66,6 +81,8 @@ public class ChestLogic : MonoBehaviour
 
     void EventAfterRotation()
     {
+        IsOpen = true;
+        List<GameObject> toRemove = new List<GameObject>();
         foreach (GameObject item in items)
         {
             if(item != null)
@@ -76,9 +93,29 @@ public class ChestLogic : MonoBehaviour
                 if (inventoryHolder.InventorySystem.AddToInventory(ipu.ItemData, 1))
                 {
                     Destroy(go);
+                    toRemove.Add(item);
                 }
-                //Else Close
+                else
+                {
+                    AnimationCoroutine = StartCoroutine(DoRotationClose());
+                }
             }
         }
+        items.RemoveAll(item => toRemove.Contains(item));
+    }
+
+    private IEnumerator DoRotationClose()
+    {
+        Quaternion startRotation = transform.localRotation;
+        Quaternion endRotation = Quaternion.Euler(new(0, 0, 0));
+        float time = 0;
+        while (time < 1)
+        {
+            transform.localRotation = Quaternion.Lerp(startRotation, endRotation, time);
+            yield return null;
+            time += Time.deltaTime;
+        }
+        IsRunning = false;
+        IsOpen = false;
     }
 }
