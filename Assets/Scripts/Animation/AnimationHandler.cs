@@ -59,7 +59,7 @@ public class AnimationHandler : MonoBehaviour
         HandleMovement();
     }
 
-    void HandleJumping()
+    private void HandleJumping()
     {
         //IsGrounded
         bool isGrounded = Physics.Raycast(Player.transform.position, Vector3.down, PlayerMovement.playerHeight * 0.5f + 0.7f, groundTypes) || PlayerMovement.onSlope || PlayerMovement.onStairs || PlayerMovement.grounded;
@@ -86,7 +86,7 @@ public class AnimationHandler : MonoBehaviour
         animator.SetBool("IsJumping", !readyToJump); 
     }
 
-    void HandleAttack()
+    private void HandleAttack()
     {
         //Button Bools
         bool drawOrSheathPressed = InputManager.instance.DrawOrSheathWeapon;
@@ -114,7 +114,7 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
-    void HandleMovement()
+    private void HandleMovement()
     {
         //WASD, Run and Crouch Bools
         bool runPressed = InputManager.instance.SprintBeingHeld && PlayerMovement.state == InputSystemPlayerMovement.MovementState.sprinting;
@@ -152,7 +152,7 @@ public class AnimationHandler : MonoBehaviour
         else animator.SetBool("IsMoving", false);
     }
 
-    void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool backPressed, float max)
+    private void ChangeVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool backPressed, float max)
     {
         //Acceleration
         if (forwardPressed && zVelocity < max) zVelocity += Time.deltaTime * acceleration;
@@ -167,7 +167,7 @@ public class AnimationHandler : MonoBehaviour
         if (!rightPressed && xVelocity > 0.0f) xVelocity -= Time.deltaTime * deceleration;
     }
 
-    void LockResetVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool runPressed, bool backPressed, float max)
+    private void LockResetVelocity(bool forwardPressed, bool leftPressed, bool rightPressed, bool runPressed, bool backPressed, float max)
     {
         //Centeres to 0,0 to idle 
         if (!forwardPressed && !backPressed && (zVelocity < 0.05f && zVelocity > -0.05f))
@@ -238,8 +238,9 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
-    void HandleAttackExit()
+    private void HandleAttackExit()
     {
+        //Triggered through Animation Event
         if (!animator.GetBool("SimpleAttack"))
         {
             isAttacking = false;
@@ -247,8 +248,9 @@ public class AnimationHandler : MonoBehaviour
         }
     }
 
-    void ResetJump()
+    private void ResetJump()
     {
+        //Triggered through Animation Event
         readyToJump = true;
         PlayerMovement.ResetJump();
     }

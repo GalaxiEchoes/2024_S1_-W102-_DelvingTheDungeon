@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class Player : MonoBehaviour
 {
-    public int health;
+    public int health = 100;
     public float stamina;
     public int attack;
     public int defense;
@@ -20,9 +20,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        healthBar.SetMaxHealth(maxHealth);
-        healthBar.SetHealth(health);
-        inventoryHolder = GetComponent<InventoryHolder>();
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(health);
+        }
+        if(inventoryHolder != null)
+        {
+            inventoryHolder = GetComponent<InventoryHolder>();
+        }
+        
     }
 
     private void Update()

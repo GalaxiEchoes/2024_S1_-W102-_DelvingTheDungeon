@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class EquipmentSystem : MonoBehaviour
 {
-    [SerializeField] GameObject weaponHolder;
-    [SerializeField] GameObject weapon;
-    [SerializeField] GameObject weaponSheath;
-    [SerializeField] Player player;
+    public GameObject weaponHolder;
+    public GameObject weapon;
+    public GameObject weaponSheath;
+    public Player player { get; private set; }
 
-    GameObject currentWeaponInHand;
-    GameObject currentWeaponInSheath;
+    //Weapon positions
+    public GameObject currentWeaponInHand { get; private set; }
+    public GameObject currentWeaponInSheath { get; private set; }
 
-    private void Start()
+    public void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         currentWeaponInSheath = Instantiate(weapon, weaponSheath.transform);
@@ -22,13 +23,18 @@ public class EquipmentSystem : MonoBehaviour
     {
         if(currentWeaponInHand != null)
         {
-            DamageDealer damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
+            DamageDealer damageDealer = currentWeaponInHand.GetComponent<DamageDealer>();
+            if(damageDealer == null)
+            {
+                damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
+            }
+
             if (damageDealer != null && player != null)
             {
                if( damageDealer.weaponDamage != player.attack)
                {
                     damageDealer.weaponDamage = player.attack;
-                }
+               }
             }
         }
     }
@@ -36,20 +42,24 @@ public class EquipmentSystem : MonoBehaviour
     public void DrawWeapon()
     {
         currentWeaponInHand = Instantiate(weapon, weaponHolder.transform);
+        Destroy(currentWeaponInSheath.gameObject);
 
-        DamageDealer damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
-        if(damageDealer != null && player != null)
+        DamageDealer damageDealer = currentWeaponInHand.GetComponent<DamageDealer>();
+        if (damageDealer == null)
+        {
+            damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
+        }
+
+        if (damageDealer != null && player != null)
         {
             damageDealer.weaponDamage = player.attack;
         }
-
-        Destroy(currentWeaponInSheath);
     }
 
     public void SheathWeapon()
     {
         currentWeaponInSheath = Instantiate (weapon, weaponSheath.transform);
-        Destroy(currentWeaponInHand);
+        Destroy(currentWeaponInHand.gameObject);
     }
 
     public void StartDealDamage()

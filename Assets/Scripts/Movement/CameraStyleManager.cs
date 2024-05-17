@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,9 +32,18 @@ public class CameraStyleManager : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.instance.FirstPersonCamPressed) SwitchCameraStyle(CameraStyle.FirstPersonCam);
-        if (InputManager.instance.CombatCamPressed) SwitchCameraStyle(CameraStyle.CombatCam);
-        if (InputManager.instance.ThirdPersonCamPressed) SwitchCameraStyle(CameraStyle.ThirdPersonCam);
+        if (InputManager.instance.FirstPersonCamPressed)
+        {
+            SwitchCameraStyle(CameraStyle.FirstPersonCam);
+        }
+        if (InputManager.instance.CombatCamPressed)
+        {
+            SwitchCameraStyle(CameraStyle.CombatCam);
+        }
+        if (InputManager.instance.ThirdPersonCamPressed)
+        {
+            SwitchCameraStyle(CameraStyle.ThirdPersonCam);
+        }
     }
 
     private void SwitchCameraStyle(CameraStyle newStyle)

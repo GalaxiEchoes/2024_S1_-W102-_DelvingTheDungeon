@@ -6,21 +6,50 @@ using UnityEngine.TestTools;
 
 public class AnimationHandlerTest
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void AnimationHandlerTestSimplePasses()
+    private GameObject handlerObject;
+    private AnimationHandler handler;
+    private Animator animator;
+    private InputManager inputManager;
+
+    [SetUp]
+    public void SetUp()
     {
-        // Use the Assert class to test conditions
+        /*
+         isDrawn = false;
+        readyToJump = true;
+        animator = Player.GetComponentInChildren<Animator>();
+        PlayerMovement = Player.GetComponent<InputSystemPlayerMovement>();
+        prevHeight = Player.transform.position.y;
+         */
+        handlerObject = new GameObject();
+        handler = handlerObject.AddComponent<AnimationHandler>();
+        animator = handlerObject.AddComponent<Animator>();
+        inputManager = new InputManager();
+
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator AnimationHandlerTestWithEnumeratorPasses()
+    [Test]
+    public void StartTest()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+
+    }
+
+    [Test]
+    public void UpdateTest()
+    {
+
+    }
+
+    [Test]
+    public void HandleAttackExitTest()
+    {
+
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+
     }
 }
 

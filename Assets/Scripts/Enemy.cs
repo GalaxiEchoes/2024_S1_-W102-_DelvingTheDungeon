@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
 
     public void Damage(int damageAmount)
     {
+        //This is where we would modify the enemy health
         audioSource.PlayOneShot(hitClip);
         Debug.Log("Damage: " + damageAmount);
     }
