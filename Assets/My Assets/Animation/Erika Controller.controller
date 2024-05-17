@@ -1639,9 +1639,9 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: Arms Layer
-    m_StateMachine: {fileID: -4819881112893027346}
-    m_Mask: {fileID: 31900000, guid: d0b5fc73b1520964eaf34cca5896d6ee, type: 2}
+    m_Name: HeadLayer
+    m_StateMachine: {fileID: -957247040852995138}
+    m_Mask: {fileID: 31900000, guid: b5d27ba6966547c45910f236e0727151, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0
@@ -1651,9 +1651,9 @@ AnimatorController:
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
   - serializedVersion: 5
-    m_Name: HeadLayer
-    m_StateMachine: {fileID: -957247040852995138}
-    m_Mask: {fileID: 31900000, guid: b5d27ba6966547c45910f236e0727151, type: 2}
+    m_Name: Arms Layer
+    m_StateMachine: {fileID: -4819881112893027346}
+    m_Mask: {fileID: 31900000, guid: d0b5fc73b1520964eaf34cca5896d6ee, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 0

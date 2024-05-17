@@ -6,20 +6,38 @@ using UnityEngine.TestTools;
 
 public class EnemyTest
 {
-    // A Test behaves as an ordinary method
-    [Test]
-    public void EnemyTestSimplePasses()
+    private GameObject enemyGameObject;
+    private GameObject audioGameObject;
+    private Enemy enemy;
+
+    [SetUp]
+    public void Setup()
     {
-        // Use the Assert class to test conditions
+        enemyGameObject = new GameObject();
+        enemy = enemyGameObject.AddComponent<Enemy>();
+        enemyGameObject.layer = 1 << 9;
+
+        audioGameObject = new GameObject();
+        audioGameObject.AddComponent<AudioSource>();
+        audioGameObject.tag = "Audio";
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator EnemyTestWithEnumeratorPasses()
+    [Test]
+    public void StartTest()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        enemy.Start();
+        Assert.IsNotNull(enemy.audioSource);
+    }
+
+    [Test]
+    public void DamageTest()
+    {
+        int damageAmount = 10;
+        AudioClip hitClip = AudioClip.Create("HitClip", 1, 1, 44100, false);
+        enemy.hitClip = hitClip;
+
+        LogAssert.Expect(LogType.Log, "Damage: " + damageAmount);
+        enemy.Damage(damageAmount);
+        Assert.IsTrue(enemy.audioSource.isPlaying);
     }
 }

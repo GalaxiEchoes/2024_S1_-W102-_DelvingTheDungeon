@@ -136,6 +136,10 @@ public class PersistenceManager : MonoBehaviour
 
             return true;
         }
+        else
+        {
+            LoadCurrentStats();
+        }
         return false;
     }
 
@@ -329,16 +333,25 @@ public class PersistenceManager : MonoBehaviour
         {
             String json = File.ReadAllText(filePath);
             permanantGameData = JsonUtility.FromJson<PermanentGameData>(json);
-        }
 
-        //Player Stats
-        Player original = playerGameObject.GetComponent<Player>();
-        original.health = permanantGameData.health;
-        original.stamina = permanantGameData.stamina;
-        original.attack = permanantGameData.attack;
-        original.defense = permanantGameData.defense;
-        original.maxHealth = permanantGameData.maxHealth;
-        original.maxStamina = permanantGameData.maxStamina;
+            //Player Stats
+            Player original = playerGameObject.GetComponent<Player>();
+            original.health = permanantGameData.health;
+            original.stamina = permanantGameData.stamina;
+            original.attack = permanantGameData.attack;
+            original.defense = permanantGameData.defense;
+            original.maxHealth = permanantGameData.maxHealth;
+            original.maxStamina = permanantGameData.maxStamina;
+
+            if (original.stamina < original.maxStamina)
+            {
+                InputSystemPlayerMovement movement = playerGameObject.GetComponent<InputSystemPlayerMovement>();
+                if (movement != null)
+                {
+                    movement.recharge = StartCoroutine(movement.RechargeStamina());
+                }
+            }
+        }
     }
 
     public void IncreaseCurrentLevel()

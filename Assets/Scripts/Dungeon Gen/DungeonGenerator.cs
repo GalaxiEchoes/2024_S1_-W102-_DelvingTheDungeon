@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
-using Graphs;
 using System;
+using Graphs;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -159,40 +159,6 @@ public class DungeonGenerator : MonoBehaviour
                 grid[pos] = CellType.Room;
             }
         }
-
-        //Adding two extra rooms for triangulation
-        /*int currentRoomCount = 0;
-        while (currentRoomCount < 2)
-        {
-            //Random Location
-            Vector3Int location = new Vector3Int(
-                random.Next(0, size.x),
-                random.Next(0, size.y),
-                random.Next(0, size.z)
-            );
-
-            Vector3Int roomSize = Vector3Int.one;
-            bool add = true;
-            Room newRoom = new Room(location, roomSize);
-            Room buffer = new Room(location + new Vector3Int(-1, 0, -1), roomSize + new Vector3Int(2, 0, 2));
-
-            //Checks with each existing room for intersection
-            foreach (var room in rooms)
-            {
-                if (Room.Intersect(room, buffer))
-                {
-                    add = false;
-                    break;
-                }
-            }
-
-            if (add)
-            {
-                rooms.Add(newRoom);
-                grid[newRoom.bounds.position] = CellType.Room;
-                currentRoomCount++;
-            }
-        }*/
     }
 
     void PlaceRooms()
@@ -421,8 +387,6 @@ public class DungeonGenerator : MonoBehaviour
                                 stairs.Add(new Stairs(stairEndOne, DetermineStairDirection(stairEndOne, stairEndTwo)));
                             }
                         }
-
-                        Debug.DrawLine(prev + new Vector3(0.5f, 0.5f, 0.5f), current + new Vector3(0.5f, 0.5f, 0.5f), Color.blue, 100, false);
                     }
                 }
             }

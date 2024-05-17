@@ -1,0 +1,24 @@
+{
+    "name": "AssemblyCode",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:1826c0224c0d048b88112c79bbb0cd85",
+        "GUID:0da6d172d18a54e4389d0dce1e1ffdf2",
+        "GUID:ddb3b52475abaeb4eb5e54bdaf1903bf",
+        "GUID:343deaaf83e0cee4ca978e7df0b80d21",
+        "GUID:2bafac87e7f4b9b418d9448d219b01ab",
+        "GUID:b93f844d45cfcc44fa2b0eed5c9ec6bb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

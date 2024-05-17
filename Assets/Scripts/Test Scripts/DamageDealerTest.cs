@@ -6,6 +6,19 @@ using UnityEngine.TestTools;
 
 public class DamageDealerTest
 {
+    private GameObject damageDealerGameObject;
+    private DamageDealer damageDealer;
+
+
+
+
+
+
+
+
+
+
+
     // A Test behaves as an ordinary method
     [Test]
     public void DamageDealerTestSimplePasses()

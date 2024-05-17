@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +12,16 @@ public class Player : MonoBehaviour
     public float stamina;
     public int attack;
     public int defense;
-    public int maxHealth = 100;
-    public float maxStamina = 100;
+    public int maxHealth;
+    public float maxStamina;
 
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
 
     private void Start()
     {
-        health = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        stamina = maxStamina; 
+        healthBar.SetHealth(health);
         inventoryHolder = GetComponent<InventoryHolder>();
     }
 

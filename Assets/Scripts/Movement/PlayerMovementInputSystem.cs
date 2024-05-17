@@ -110,9 +110,10 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             MaxStamina = player.maxStamina;
         }
-        if(player.stamina  != Stamina)
+        if(player.stamina != Stamina)
         {
             player.stamina = Stamina;
+            StaminaBar.fillAmount = Stamina / MaxStamina;
         }
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
@@ -366,7 +367,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
-    private IEnumerator RechargeStamina()
+    public IEnumerator RechargeStamina()
     {
         yield return new WaitForSeconds(3f);
 
