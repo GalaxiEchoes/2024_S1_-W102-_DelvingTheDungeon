@@ -1226,7 +1226,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5169420653031608743}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 321c53615355f864a843234e2bed9f96, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 6988bfcd57f62184fabbb955b4c3b6f9, type: 2}
   m_Controller: {fileID: 9100000, guid: 8927c9c298832ca40a575e518d0909d0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1297,6 +1297,7 @@ MonoBehaviour:
   weaponHolder: {fileID: 8730890492904543601}
   weapon: {fileID: 3418011884731919454, guid: 79337c78270d8564881de233bb66dc95, type: 3}
   weaponSheath: {fileID: 8792330798640198379}
+  player: {fileID: 0}
 --- !u!1 &5207417519789809601
 GameObject:
   m_ObjectHideFlags: 0
