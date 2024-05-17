@@ -1562,7 +1562,7 @@ GameObject:
   - component: {fileID: 4329022364535117750}
   - component: {fileID: 8585767438814072719}
   m_Layer: 9
-  m_Name: Capsule
+  m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1668,6 +1668,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bbd47d30c9ddd44a59197565a7235d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  hitClip: {fileID: 8300000, guid: fc0b2f0c4ff513c4787687cb27766298, type: 3}
 --- !u!1 &6900106458297429459
 GameObject:
   m_ObjectHideFlags: 0
@@ -21991,6 +21993,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71bbd47d30c9ddd44a59197565a7235d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
+  hitClip: {fileID: 8300000, guid: fc0b2f0c4ff513c4787687cb27766298, type: 3}
 --- !u!4 &7028583651359633006 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6864088404152450902, guid: d6069e64bf7bd3b48a0548283484d8fc, type: 3}
@@ -35775,7 +35779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2391107237035722283, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
       propertyPath: _id
-      value: 56780716-e4fe-49ca-bc43-1a587df5105d
+      value: e4713672-a341-4893-bbfa-909037ed5c4a
       objectReference: {fileID: 0}
     - target: {fileID: 4562144130116693390, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -44189,7 +44193,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1461107132870958590, guid: f52fa3d083ed144478e9417c2d044b19, type: 3}
       propertyPath: _id
-      value: 32dc4ed6-c1e8-4c33-af41-8a4f785afedc
+      value: f7e67e70-e09f-4533-936f-1b401307f3d3
       objectReference: {fileID: 0}
     - target: {fileID: 1763390778755754927, guid: f52fa3d083ed144478e9417c2d044b19, type: 3}
       propertyPath: m_LocalPosition.x

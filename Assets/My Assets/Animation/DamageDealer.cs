@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class DamageDealer : MonoBehaviour
 {
+    [Header("Damage variables")]
     bool canDealDamage;
     List<GameObject> hasDealtDamage;
-
     [SerializeField] float weaponLength;
-    [SerializeField] float weaponDamage;
+    [SerializeField] public float weaponDamage;
+
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip clipOne;
     public AudioClip clipTwo;
@@ -32,12 +34,11 @@ public class DamageDealer : MonoBehaviour
             {
                 if(!hasDealtDamage.Contains(hit.transform.gameObject))
                 {
-                    Debug.Log("Damage");
                     Enemy enemy = hit.transform.gameObject.GetComponent<Enemy>();
 
                     if(enemy != null)
                     {
-                        enemy.Damage(10);
+                        enemy.Damage((int) weaponDamage);
                     }
 
                     hasDealtDamage.Add(hit.transform.gameObject);
@@ -48,7 +49,6 @@ public class DamageDealer : MonoBehaviour
 
     public void StartDealDamage()
     {
-        
         if(clipTracker % 2 == 0)
         {
             clipTracker = 0;
