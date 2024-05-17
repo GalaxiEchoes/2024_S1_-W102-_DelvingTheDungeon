@@ -5,25 +5,25 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     [Header("Damage variables")]
-    bool canDealDamage;
+    private bool canDealDamage;
     List<GameObject> hasDealtDamage;
-    [SerializeField] float weaponLength;
+    [SerializeField] public float weaponLength;
     [SerializeField] public float weaponDamage;
 
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip clipOne;
     public AudioClip clipTwo;
-    int clipTracker;
+    private int clipTracker;
 
-    void Start()
+    public void Start()
     {
         canDealDamage = false;
         hasDealtDamage = new List<GameObject>();
         audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
     }
 
-    void Update()
+    public void Update()
     {
         if(canDealDamage)
         {

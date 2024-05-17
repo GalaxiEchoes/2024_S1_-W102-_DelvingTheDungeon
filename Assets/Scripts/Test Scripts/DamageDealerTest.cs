@@ -8,19 +8,40 @@ public class DamageDealerTest
 {
     private GameObject damageDealerGameObject;
     private DamageDealer damageDealer;
+    private GameObject audioGameObject;
 
+    [SetUp]
+    public void Setup()
+    {
+        damageDealerGameObject = new GameObject();
+        damageDealer = damageDealerGameObject.AddComponent<DamageDealer>();
 
+        audioGameObject = new GameObject();
+        audioGameObject.AddComponent<AudioSource>();
+        audioGameObject.tag = "Audio";
 
+        damageDealer.clipOne = AudioClip.Create("ClipOne", 1, 1, 44100, false);
+        damageDealer.clipTwo = AudioClip.Create("ClipTwo", 1, 1, 44100, false);
+    }
 
-
-
-
-
-
-
-
-    // A Test behaves as an ordinary method
     [Test]
+    public void StartDealDamageTest()
+    {
+
+    }
+
+    public void EndDealDamageTest()
+    {
+        damageDealer.EndDealDamage();
+
+        //Assert.IsFalse(damageDealer.canDealDamage);
+    }
+
+
+
+
+        // A Test behaves as an ordinary method
+        [Test]
     public void DamageDealerTestSimplePasses()
     {
         // Use the Assert class to test conditions
