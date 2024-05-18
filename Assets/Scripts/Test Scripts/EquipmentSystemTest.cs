@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -96,26 +95,29 @@ public class EquipmentSystemTest
         Assert.That(equipmentSystem.currentWeaponInSheath == null || equipmentSystem.currentWeaponInSheath.ToString() == "<null>");
     }
 
-    [Test]
-    public void SheathWeaponTest()
+    [UnityTest]
+    public IEnumerator SheathWeaponTest()
     {
         //Setup
         equipmentSystem.Start();
+        equipmentSystem.DrawWeapon();
+        yield return null;
 
         equipmentSystem.SheathWeapon();
+        yield return null;
 
         //Testing for correct values
-        Assert.IsNull(equipmentSystem.currentWeaponInHand);
         Assert.IsNotNull(equipmentSystem.currentWeaponInSheath);
         Assert.AreEqual(weaponSheathPos, equipmentSystem.currentWeaponInSheath.transform.position);
+        Assert.That(equipmentSystem.currentWeaponInHand == null || equipmentSystem.currentWeaponInHand.ToString() == "<null>");
     }
 
     [TearDown]
     public void TearDown()
     {
-        Object.DestroyImmediate(equipmentSystem);
-        Object.DestroyImmediate(playerObject);
-        Object.DestroyImmediate(weapon);
-        Object.DestroyImmediate(equipmentSystemObject);
+        Object.Destroy(equipmentSystem);
+        Object.Destroy(playerObject);
+        Object.Destroy(weapon);
+        Object.Destroy(equipmentSystemObject);
     }
 }

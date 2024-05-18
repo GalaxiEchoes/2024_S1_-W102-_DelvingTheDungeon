@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EquipmentSystem : MonoBehaviour
@@ -23,11 +21,7 @@ public class EquipmentSystem : MonoBehaviour
     {
         if(currentWeaponInHand != null)
         {
-            DamageDealer damageDealer = currentWeaponInHand.GetComponent<DamageDealer>();
-            if(damageDealer == null)
-            {
-                damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
-            }
+            DamageDealer damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
 
             if (damageDealer != null && player != null)
             {
@@ -44,11 +38,7 @@ public class EquipmentSystem : MonoBehaviour
         currentWeaponInHand = Instantiate(weapon, weaponHolder.transform);
         Destroy(currentWeaponInSheath.gameObject);
 
-        DamageDealer damageDealer = currentWeaponInHand.GetComponent<DamageDealer>();
-        if (damageDealer == null)
-        {
-            damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
-        }
+        DamageDealer damageDealer = currentWeaponInHand.GetComponentInChildren<DamageDealer>();
 
         if (damageDealer != null && player != null)
         {

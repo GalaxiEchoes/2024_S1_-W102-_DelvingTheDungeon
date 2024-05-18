@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +6,8 @@ public class DamageDealer : MonoBehaviour
     [Header("Damage variables")]
     [SerializeField] public float weaponLength;
     [SerializeField] public float weaponDamage;
-    [SerializeField] public List<GameObject> hasDealtDamage { get; private set; }
-    public bool canDealDamage { get; private set; }
+    public List<GameObject> hasDealtDamage { get; private set; }
+    public bool canDealDamage;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -30,21 +29,19 @@ public class DamageDealer : MonoBehaviour
     private void Update()
     {
         //Checks if the weapon can deal damage 
-        if(canDealDamage)
+        if (canDealDamage)
         {
             RaycastHit hit;
-
-            int layerMask = 9;
+            int layerMask = 1 << 9;
             //Finds any enemy's along the swords length
             if(Physics.Raycast(transform.position, -transform.up, out hit, weaponLength, layerMask))
             {
                 //Checks if we have already dealt damage to this object
-                if(!hasDealtDamage.Contains(hit.transform.gameObject))
+                if (!hasDealtDamage.Contains(hit.transform.gameObject))
                 {
-                    Enemy enemy = hit.transform.gameObject.GetComponent<Enemy>();
-
+                    Enemy enemy = hit.transform.gameObject.GetComponentInChildren<Enemy>();
                     //If the object has an enemy script we can invoke deal damage
-                    if(enemy != null)
+                    if (enemy != null)
                     {
                         enemy.Damage((int) weaponDamage);
                     }

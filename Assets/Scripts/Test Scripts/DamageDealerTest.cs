@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using NUnit.Framework;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class DamageDealerTest
 {
@@ -68,6 +64,7 @@ public class DamageDealerTest
     {
         //Setup for test
         damageDealer.Start();
+        damageDealer.canDealDamage = true;
 
         damageDealer.EndDealDamage();
 

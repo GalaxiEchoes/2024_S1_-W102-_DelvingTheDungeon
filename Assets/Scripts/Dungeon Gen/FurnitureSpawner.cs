@@ -619,13 +619,21 @@ public class FurnitureSpawner : MonoBehaviour
     {
         Vector3 position = new Vector3((furn.pos.x * 6.5f), (furn.pos.y * 5f), (furn.pos.z * 6.5f));
         Quaternion rot = Quaternion.Euler(0, furn.angle, 0);
-        GameObject go = Instantiate(furn.prefabData.prefab, position, rot);
-        go.GetComponent<Transform>().localScale = furn.scale;
-        Transform furnitureParent = GeneratedDungeonParent.Find("Furniture");
-        go.transform.SetParent(furnitureParent);
+        if(furn != null && furn.prefabData != null && furn.prefabData.prefab != null)
+        {
+            GameObject go = Instantiate(furn.prefabData.prefab, position, rot);
+            go.GetComponent<Transform>().localScale = furn.scale;
+            Transform furnitureParent = GeneratedDungeonParent.Find("Furniture");
+            go.transform.SetParent(furnitureParent);
 
-        furn.currentInstance = go;
-        furn.LoadInteractables();
+            furn.currentInstance = go;
+            furn.LoadInteractables();
+        }
+        else
+        {
+            Debug.Log(furn);
+            Debug.Log(furn.prefabData);
+        }
     }
 
     public void LoadFurniture()
