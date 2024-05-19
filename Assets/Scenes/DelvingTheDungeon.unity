@@ -5300,6 +5300,7 @@ MonoBehaviour:
     EquipmentInventorySystem:
       equipmentSlots: []
   permanantGameData:
+    money: 0
     health: 0
     stamina: 0
     attack: 0
@@ -14503,7 +14504,7 @@ MonoBehaviour:
   jumpForce: 6
   jumpCooldown: 0.25
   airMultiplier: 0.1
-  crouchYScale: 0.5
+  crouchYScale: 0
   playerHeight: 2
   ground:
     serializedVersion: 2
@@ -14580,14 +14581,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184af72bbe90a42b0ac9731be9289f45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  money: 0
+  money: 50
   health: 100
   stamina: 100
   attack: 50
   defense: 50
   maxHealth: 100
   maxStamina: 100
-  startMoney: 50
   moneyTracker: {fileID: 1450487203}
   healthBar: {fileID: 1905166274}
 --- !u!65 &1971517938
