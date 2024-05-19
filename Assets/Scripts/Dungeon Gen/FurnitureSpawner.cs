@@ -141,7 +141,7 @@ public class FurnitureSpawner : MonoBehaviour
 
     bool CheckIfLightPlacable(Vector3Int pos, Direction dir)
     {
-        Vector3Int location = pos;
+        Vector3Int location = new(pos.x, pos.y, pos.z);
         if (dir == Direction.North) location += Vector3Int.forward;
         else if (dir == Direction.East) location += Vector3Int.right;
         else if (dir == Direction.South) location += Vector3Int.back;
@@ -151,7 +151,8 @@ public class FurnitureSpawner : MonoBehaviour
         {
             switch (grid[pos])
             {
-                case CellType.Room:
+                case CellType.Room: //Fallthrough
+                case CellType.RoomInPath:
                     Vector3Int roomPosTwo = pos;
                     if (dir == Direction.North) roomPosTwo += Vector3Int.left;
                     else if (dir == Direction.East) roomPosTwo += Vector3Int.forward;
@@ -168,34 +169,27 @@ public class FurnitureSpawner : MonoBehaviour
                     }
 
                     break;
-                case CellType.Hallway:
-                    if (grid[location] == CellType.Hallway) return true;
-                    break;
-                case CellType.RoomInPath:
-
-                    Vector3Int ripPostwo = pos;
-                    if (dir == Direction.North) ripPostwo += Vector3Int.left;
-                    else if (dir == Direction.East) ripPostwo += Vector3Int.forward;
-                    else if (dir == Direction.South) ripPostwo += Vector3Int.right;
-                    else ripPostwo += Vector3Int.back;
-
-                    if (IsWithinGridBounds(ripPostwo))
-                    {
-                        if ((grid[location] == CellType.Room || grid[location] == CellType.RoomInPath) && (grid[ripPostwo] != CellType.Room && grid[ripPostwo] != CellType.RoomInPath)) return true;
-                    }
-                    else if ((grid[location] == CellType.Room || grid[location] == CellType.RoomInPath))
-                    {
-                        return true;
-                    }
-                    break;
-                case CellType.Stairs:
-                    break;
-                case CellType.StairEnd:
-                    break;
+                case CellType.Hallway: //Fallthrough
                 case CellType.StartingRoom:
-                    if (grid[location] == CellType.Hallway) return true;
-                    break;
-                case CellType.EndingRoom:
+                    if(dir == Direction.North || dir == Direction.East)
+                    {
+                        if (grid[location] == CellType.Hallway) return true;
+                    }
+                    else if(dir == Direction.South && IsWithinGridBounds(pos + Vector3Int.back))
+                    {
+                        if((grid[pos + Vector3Int.back] != CellType.StairEnd || grid[location + Vector3Int.back] != CellType.StairEnd))
+                        {
+                            return true;
+                        }
+                    }
+                    else if(IsWithinGridBounds(pos + Vector3Int.left))
+                    {
+                        if ((grid[pos + Vector3Int.left] != CellType.StairEnd || grid[location + Vector3Int.left] != CellType.StairEnd))
+                        {
+                            return true;
+                        }
+                    }
+
                     break;
             }
         }
@@ -231,7 +225,6 @@ public class FurnitureSpawner : MonoBehaviour
 
     HallType GetHallType(Vector3Int pos)
     {
-
         bool[] isWall = new bool[4];
 
         if ((!IsWithinGridBounds(pos + Vector3Int.forward))
@@ -359,7 +352,7 @@ public class FurnitureSpawner : MonoBehaviour
                 }
             }
 
-            Style style = getRoomStyle(positions.Count);
+            Style style = GetRoomStyle(positions.Count);
             possibleFurniture = GetPossibleFurniture(style, (room.bounds.size.x > room.bounds.size.z) ? room.bounds.size.x : room.bounds.size.z);
 
             int groups = 0;
@@ -583,7 +576,7 @@ public class FurnitureSpawner : MonoBehaviour
         return spawnGrid[pos];
     }
 
-    Style getRoomStyle(int viablePositions)
+    Style GetRoomStyle(int viablePositions)
     {
         if (viablePositions > 20)
         {
