@@ -9,14 +9,13 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class Player : MonoBehaviour
 {
-    public int money;
-    public int health;
+    public int money = 50;
+    public int health = 100;
     public float stamina;
     public int attack;
     public int defense;
-    public int maxHealth = 100;
-    public float maxStamina = 100;
-    public int startMoney = 50;
+    public int maxHealth;
+    public float maxStamina;
 
     public MoneyTracker moneyTracker;
     public HealthBar healthBar;
@@ -24,11 +23,19 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        money = startMoney;
-        health = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        stamina = maxStamina; 
-        inventoryHolder = GetComponent<InventoryHolder>();
+        if (moneyTracker != null)
+        {
+            moneyTracker.setMoney(money);
+        }
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(health);
+        }
+        if (inventoryHolder != null)
+        {
+            inventoryHolder = GetComponent<InventoryHolder>();
+        }
     }
 
     private void Update()
