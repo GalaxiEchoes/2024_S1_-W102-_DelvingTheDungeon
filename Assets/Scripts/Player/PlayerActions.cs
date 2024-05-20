@@ -188,12 +188,6 @@ public class PlayerActions : MonoBehaviour
 
             UpdateTimer();
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            OnAttack();
-        }
-
     }
 
     public void UpdateTimer()
