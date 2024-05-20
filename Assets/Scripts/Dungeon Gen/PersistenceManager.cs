@@ -122,7 +122,7 @@ public class PersistenceManager : MonoBehaviour
     public bool LoadWorldState()
     {
         LoadCurrentLevel();
-        
+
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/" + gameData.currentLevel + "world_state.json";
 
@@ -135,6 +135,10 @@ public class PersistenceManager : MonoBehaviour
             UploadDependencies();
 
             return true;
+        }
+        else
+        {
+            LoadCurrentStats();
         }
         return false;
     }
@@ -329,16 +333,26 @@ public class PersistenceManager : MonoBehaviour
         {
             String json = File.ReadAllText(filePath);
             permanantGameData = JsonUtility.FromJson<PermanentGameData>(json);
+
+            //Player Stats
+            Player original = playerGameObject.GetComponent<Player>();
+            original.health = permanantGameData.health;
+            original.stamina = permanantGameData.stamina;
+            original.attack = permanantGameData.attack;
+            original.defense = permanantGameData.defense;
+            original.maxHealth = permanantGameData.maxHealth;
+            original.maxStamina = permanantGameData.maxStamina;
+
+            if (original.stamina < original.maxStamina)
+            {
+                InputSystemPlayerMovement movement = playerGameObject.GetComponent<InputSystemPlayerMovement>();
+                if (movement != null)
+                {
+                    movement.recharge = StartCoroutine(movement.RechargeStamina());
+                }
+            }
         }
 
-        //Player Stats
-        Player original = playerGameObject.GetComponent<Player>();
-        original.health = permanantGameData.health;
-        original.stamina = permanantGameData.stamina;
-        original.attack = permanantGameData.attack;
-        original.defense = permanantGameData.defense;
-        original.maxHealth = permanantGameData.maxHealth;
-        original.maxStamina = permanantGameData.maxStamina;
     }
 
     public void IncreaseCurrentLevel()

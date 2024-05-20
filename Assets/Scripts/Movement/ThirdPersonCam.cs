@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class ThirdPersonCam : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Transform playerObj;
     [SerializeField] private Transform CameraPos;
+    [SerializeField] private Transform mainCamera;
 
     void Start()
     {
