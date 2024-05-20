@@ -6189,7 +6189,7 @@ PrefabInstance:
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 319201980}
+      objectReference: {fileID: 634567228}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6200,7 +6200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: SettingsManager, AssemblyCode
+      value: CanvasManager, AssemblyCode
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
