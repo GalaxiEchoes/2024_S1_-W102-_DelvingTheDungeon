@@ -50,6 +50,7 @@ public class PersistenceManager : MonoBehaviour
         public int currentLevel;
         public InventorySystem InventorySystem;
         public EquipmentInventorySystem EquipmentInventorySystem;
+        public int maxLevelReached;
     }
 
     /*
@@ -94,6 +95,7 @@ public class PersistenceManager : MonoBehaviour
             gameData.currentLevel = -1;
             gameData.InventorySystem = new InventorySystem(39);
             gameData.EquipmentInventorySystem = new EquipmentInventorySystem(4);
+            gameData.maxLevelReached = -1;
 
             if (worldState == null) worldState = new WorldState();
             controller = gameObject.GetComponent<Controller>();
@@ -304,6 +306,7 @@ public class PersistenceManager : MonoBehaviour
         else if (gameData.currentLevel == -1)
         {
             gameData.currentLevel = 0;
+            gameData.maxLevelReached = 0;
             SaveCurrentLevel();
         }
     }
@@ -359,37 +362,45 @@ public class PersistenceManager : MonoBehaviour
     }
 
 
-        public void IncreaseCurrentLevel()
+    public void IncreaseCurrentLevel()
+    {
+        gameData.currentLevel++;
+        if (gameData.currentLevel > gameData.maxLevelReached)
         {
-            gameData.currentLevel++;
+            gameData.maxLevelReached = gameData.currentLevel;
+            // Increase player money
+            Player player = playerGameObject.GetComponent<Player>();
+            player.addMoney(25);
+            SaveCurrentStats(); // Save the updated player stats
+        }
+        SaveCurrentLevel();
+    }
+
+    public void DecreaseCurrentLevel()
+    {
+        if (gameData.currentLevel > 0)
+        {
+            gameData.currentLevel--;
             SaveCurrentLevel();
         }
+    }
 
-        public void DecreaseCurrentLevel()
-        {
-            if (gameData.currentLevel > 0)
-            {
-                gameData.currentLevel--;
-                SaveCurrentLevel();
-            }
-        }
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
 
-        public void ClearLoginStatus()
-        {
-            PlayerPrefs.DeleteKey("IsLoggedIn");
-            PlayerPrefs.Save();
-        }
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
 
-        private void OnApplicationQuit()
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
         {
             ClearLoginStatus();
         }
-
-        private void OnDisable()
-        {
-            if (!Application.isPlaying)
-            {
-                ClearLoginStatus();
-            }
-        }
     }
+}
