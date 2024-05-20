@@ -177,14 +177,14 @@ public class FurnitureSpawner : MonoBehaviour
                     }
                     else if(dir == Direction.South && IsWithinGridBounds(pos + Vector3Int.back))
                     {
-                        if((grid[pos + Vector3Int.back] != CellType.StairEnd || grid[location + Vector3Int.back] != CellType.StairEnd))
+                        if((grid[location] == CellType.Hallway) && (grid[pos + Vector3Int.back] != CellType.StairEnd || grid[location + Vector3Int.back] != CellType.StairEnd))
                         {
                             return true;
                         }
                     }
                     else if(IsWithinGridBounds(pos + Vector3Int.left))
                     {
-                        if ((grid[pos + Vector3Int.left] != CellType.StairEnd || grid[location + Vector3Int.left] != CellType.StairEnd))
+                        if ((grid[location] == CellType.Hallway) && (grid[pos + Vector3Int.left] != CellType.StairEnd || grid[location + Vector3Int.left] != CellType.StairEnd))
                         {
                             return true;
                         }
