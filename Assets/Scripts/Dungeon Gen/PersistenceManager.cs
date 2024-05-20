@@ -73,7 +73,7 @@ public class PersistenceManager : MonoBehaviour
     //Save Data
     public WorldState worldState;
     public GameData gameData;
-    public PermanentGameData permanantGameData; 
+    public PermanentGameData permanantGameData;
     [SerializeField] GameObject playerGameObject;
     [SerializeField] GameObject playerCamera;
     [SerializeField] CameraStyleManager cameraSwitcher;
@@ -87,7 +87,7 @@ public class PersistenceManager : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (currentScene.name.CompareTo("DelvingTheDungeon") == 0 )
+        if (currentScene.name.CompareTo("DelvingTheDungeon") == 0)
         {
             permanantGameData = new PermanentGameData();
             gameData = new GameData();
@@ -108,7 +108,7 @@ public class PersistenceManager : MonoBehaviour
                 Directory.CreateDirectory(directoryPath);
             }
         }
-        
+
     }
 
     public void SaveWorldState()
@@ -227,7 +227,7 @@ public class PersistenceManager : MonoBehaviour
         //Player Inventory
         InventoryHolder target = playerGameObject.GetComponent<InventoryHolder>();
 
-        if ( target != null)
+        if (target != null)
         {
             target.EquipmentInventorySystem = gameData.EquipmentInventorySystem;
             target.InventorySystem = gameData.InventorySystem;
@@ -326,7 +326,7 @@ public class PersistenceManager : MonoBehaviour
         File.WriteAllText(filePath, dataJson);
     }
 
-    private void LoadCurrentStats() 
+    private void LoadCurrentStats()
     {
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/permanant_data";
@@ -338,7 +338,7 @@ public class PersistenceManager : MonoBehaviour
 
             //Player Stats
             Player original = playerGameObject.GetComponent<Player>();
-            
+
             original.money = permanantGameData.money;
             original.health = permanantGameData.health;
             original.stamina = permanantGameData.stamina;
@@ -356,39 +356,40 @@ public class PersistenceManager : MonoBehaviour
                 }
             }
         }
-
-
-    public void IncreaseCurrentLevel()
-    {
-        gameData.currentLevel++;
-        SaveCurrentLevel();
     }
 
-    public void DecreaseCurrentLevel()
-    {
-        if (gameData.currentLevel > 0)
+
+        public void IncreaseCurrentLevel()
         {
-            gameData.currentLevel--;
+            gameData.currentLevel++;
             SaveCurrentLevel();
         }
-    }
 
-    public void ClearLoginStatus()
-    {
-        PlayerPrefs.DeleteKey("IsLoggedIn");
-        PlayerPrefs.Save();
-    }
+        public void DecreaseCurrentLevel()
+        {
+            if (gameData.currentLevel > 0)
+            {
+                gameData.currentLevel--;
+                SaveCurrentLevel();
+            }
+        }
 
-    private void OnApplicationQuit()
-    {
-        ClearLoginStatus();
-    }
+        public void ClearLoginStatus()
+        {
+            PlayerPrefs.DeleteKey("IsLoggedIn");
+            PlayerPrefs.Save();
+        }
 
-    private void OnDisable()
-    {
-        if (!Application.isPlaying)
+        private void OnApplicationQuit()
         {
             ClearLoginStatus();
         }
+
+        private void OnDisable()
+        {
+            if (!Application.isPlaying)
+            {
+                ClearLoginStatus();
+            }
+        }
     }
-}
