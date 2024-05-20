@@ -17,12 +17,6 @@ public class EndMenu : MonoBehaviour
         Cursor.visible = true;
     }
 
-    public void Start()
-    {
-        manager = GetComponent<PersistenceManager>();
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-    }
     public void ExitToMain()
     {
         manager.StartNewGame();
