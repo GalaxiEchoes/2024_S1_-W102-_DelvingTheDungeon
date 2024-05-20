@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,22 +8,27 @@ using UnityEngine.SceneManagement;
 [Serializable]
 public class Player : MonoBehaviour
 {
-    public int health;
+    public int health = 100;
     public float stamina;
     public int attack;
     public int defense;
-    public int maxHealth = 100;
-    public float maxStamina = 100;
+    public int maxHealth;
+    public float maxStamina;
 
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
 
     private void Start()
     {
-        health = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
-        stamina = maxStamina; 
-        inventoryHolder = GetComponent<InventoryHolder>();
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+            healthBar.SetHealth(health);
+        }
+        if(inventoryHolder != null)
+        {
+            inventoryHolder = GetComponent<InventoryHolder>();
+        }
     }
 
     private void Update()
