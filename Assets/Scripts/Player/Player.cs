@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
             healthBar.SetHealth(health);
         }
 
-        if(inventoryHolder != null)
+        if(inventoryHolder == null)
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }
