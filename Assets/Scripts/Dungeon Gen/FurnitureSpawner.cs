@@ -1,18 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 using static DungeonGenerator;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.UI.Image;
 using Random = System.Random;
 using Direction = DungeonGenerator.Direction;
-using Unity.VisualScripting;
 
 public class FurnitureSpawner : MonoBehaviour
 {

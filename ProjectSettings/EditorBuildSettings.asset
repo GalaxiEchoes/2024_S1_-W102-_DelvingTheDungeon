@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/StartScene.unity
     guid: 8ad0d23038ad6a643afe3774eb541acc
   - enabled: 1
     path: Assets/Scenes/DelvingTheDungeon.unity
     guid: df94f2aa383338142b4199593e6dd346
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/EndScene.unity
     guid: bfcfdaa19e1ddfb43bdf9f570ca2e4f9
   m_configObjects: {}
