@@ -352,6 +352,7 @@ public class PersistenceManager : MonoBehaviour
                 }
             }
         }
+
     }
 
     public void IncreaseCurrentLevel()

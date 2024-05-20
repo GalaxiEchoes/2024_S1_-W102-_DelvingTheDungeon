@@ -29,7 +29,6 @@ public class Player : MonoBehaviour
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }
-        
     }
 
     private void Update()

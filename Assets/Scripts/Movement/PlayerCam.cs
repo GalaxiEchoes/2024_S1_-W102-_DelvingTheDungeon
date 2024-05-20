@@ -31,8 +31,6 @@ public class PlayerCam : MonoBehaviour
 
     private void Update()
     {
-        
-
         if (InputManager.instance.FirstPersonCamPressed)
         {
             rotationActive = true;
@@ -42,19 +40,16 @@ public class PlayerCam : MonoBehaviour
             rotationActive = false;
         }
 
-        //if (rotationActive)
-        {
-            float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-            float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
-            yRotation += mouseX;
-            xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -60f, 60f);
-            transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
-            orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-
-            playerObj.rotation = orientation.transform.rotation;
-        }
+        yRotation += mouseX;
+        xRotation -= mouseY;
+        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
+        orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+        playerObj.rotation = orientation.transform.rotation;
+        
         
     }
 }

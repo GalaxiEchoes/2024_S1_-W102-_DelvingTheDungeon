@@ -110,6 +110,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             MaxStamina = player.maxStamina;
         }
+        
         if(player.stamina != Stamina)
         {
             player.stamina = Stamina;

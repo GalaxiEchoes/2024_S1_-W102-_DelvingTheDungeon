@@ -94,6 +94,18 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    public void OnAttack()
+    {
+        if (Physics.Raycast(CameraPos.transform.position, Camera.transform.forward, out RaycastHit hit, MaxUseDistance, EnemyLayers))
+        {
+            //if (hit.collider.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                Debug.Log("Hit Enemy");
+                //enemy.TakeDamage(playerData.attack);
+            }
+        }
+    }
+
     public void Update()
     {
         //Handles the change between first and third person object interaction positions
@@ -187,6 +199,11 @@ public class PlayerActions : MonoBehaviour
             UseText.gameObject.SetActive(false);
 
             UpdateTimer();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            OnAttack();
         }
 
     }
