@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,12 +26,14 @@ public class Player : MonoBehaviour
         {
             moneyTracker.setMoney(money);
         }
+
         if (healthBar != null)
         {
             healthBar.SetMaxHealth(maxHealth);
             healthBar.SetHealth(health);
         }
-        if (inventoryHolder != null)
+
+        if(inventoryHolder != null)
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }

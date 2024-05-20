@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
-using UnityEditor.Experimental.GraphView;
 
 [Serializable]
 public class MouseItemData : MonoBehaviour

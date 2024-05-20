@@ -123,7 +123,7 @@ public class PersistenceManager : MonoBehaviour
     public bool LoadWorldState()
     {
         LoadCurrentLevel();
-        
+
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/" + gameData.currentLevel + "world_state.json";
 
@@ -338,6 +338,7 @@ public class PersistenceManager : MonoBehaviour
 
             //Player Stats
             Player original = playerGameObject.GetComponent<Player>();
+            
             original.money = permanantGameData.money;
             original.health = permanantGameData.health;
             original.stamina = permanantGameData.stamina;
@@ -355,7 +356,7 @@ public class PersistenceManager : MonoBehaviour
                 }
             }
         }
-    }
+
 
     public void IncreaseCurrentLevel()
     {
