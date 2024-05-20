@@ -2226,7 +2226,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 569532427}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 634567228}
+        m_TargetAssemblyTypeName: CanvasManager, AssemblyCode
+        m_MethodName: OnRegisterButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &569532427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2492,7 +2504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 634567223}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 324a9e82b5c136a4aa666135a96be400, type: 3}
+  m_Script: {fileID: 11500000, guid: ee9c60d275f55e849a4866f93737aab5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Register: {fileID: 1620272131}
@@ -4368,7 +4380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1174944493}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 634567228}
+        m_TargetAssemblyTypeName: CanvasManager, AssemblyCode
+        m_MethodName: OnLoginButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1174944493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4750,7 +4774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CanvasManager, Assembly-CSharp
+      value: CanvasManager, AssemblyCode
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6165,7 +6189,7 @@ PrefabInstance:
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 634567228}
+      objectReference: {fileID: 319201980}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -6176,7 +6200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: CanvasManager, Assembly-CSharp
+      value: SettingsManager, AssemblyCode
       objectReference: {fileID: 0}
     - target: {fileID: 9081007810539213086, guid: 3debdb0f4390347b2a8468ca6f588496, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -6458,6 +6482,7 @@ MonoBehaviour:
     attack: 0
     defense: 0
     maxHealth: 100
+    maxStamina: 0
   playerGameObject: {fileID: 0}
   playerCamera: {fileID: 0}
   cameraSwitcher: {fileID: 0}
