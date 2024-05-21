@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a6d2f7104bc7d44182010227cf54615, type: 3}
   m_Name: DungeonWall
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2911848377612073501, guid: a3606dd1f5bd17145879aa3ba3a7028d, type: 3}
+  prefab: {fileID: 2911848377612073501, guid: f080b4a4d7781094f98154949a29b8fa, type: 3}
   size: {x: 1, y: 1, z: 1}
   style: 0
   hallType: 0

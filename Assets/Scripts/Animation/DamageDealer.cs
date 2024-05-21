@@ -55,18 +55,21 @@ public class DamageDealer : MonoBehaviour
     public void StartDealDamage()
     {
         //Switches between the two swing sound clips
-        if(clipTracker % 2 == 0)
+        if(audioSource != null && clipOne != null && clipTwo != null)
         {
-            clipTracker = 0;
-            audioSource.clip = clipOne;
-            audioSource.PlayOneShot(clipOne);
+            if(clipTracker % 2 == 0)
+            {
+                clipTracker = 0;
+                audioSource.clip = clipOne;
+                audioSource.PlayOneShot(clipOne);
+            }
+            else
+            {
+                audioSource.clip = clipTwo;
+                audioSource.PlayOneShot(clipTwo);
+            }
+            clipTracker++;
         }
-        else
-        {
-            audioSource.clip = clipTwo;
-            audioSource.PlayOneShot(clipTwo);
-        }
-        clipTracker++;
 
         //Starts dealing damage and empties last swing
         canDealDamage = true;
