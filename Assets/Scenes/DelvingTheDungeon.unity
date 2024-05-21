@@ -6653,7 +6653,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &950858034
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11102,9 +11102,9 @@ MonoBehaviour:
   ThirdPersonCam: {fileID: 198201508}
   CombatCam: {fileID: 823141734}
   CurrentCamPos: {x: 0, y: 0, z: 0}
-  unlockTimer: 1
+  loadTimer: 1
   maxUnlockTimerValue: 1
-  radialUnlockUI: {fileID: 399634470}
+  radialLoadingUI: {fileID: 399634470}
 --- !u!1 &1570093898
 GameObject:
   m_ObjectHideFlags: 0
@@ -14862,7 +14862,7 @@ GameObject:
   - component: {fileID: 1971517936}
   - component: {fileID: 1971517937}
   - component: {fileID: 1971517938}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -15260,7 +15260,7 @@ RectTransform:
   m_Father: {fileID: 1905166273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

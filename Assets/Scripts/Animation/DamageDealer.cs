@@ -32,23 +32,45 @@ public class DamageDealer : MonoBehaviour
         if (canDealDamage)
         {
             RaycastHit hit;
-            int layerMask = 1 << 9;
+            int layerMask = (1 << 9) | (1 << 8);
             //Finds any enemy's along the swords length
-            if(Physics.Raycast(transform.position, -transform.up, out hit, weaponLength, layerMask))
+            if(weaponLength > 0)
             {
-                //Checks if we have already dealt damage to this object
-                if (!hasDealtDamage.Contains(hit.transform.gameObject))
+                if (Physics.Raycast(transform.position, -transform.up, out hit, weaponLength, layerMask))
                 {
-                    IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<Enemy>();
-                    //If the object has an enemy script we can invoke deal damage
-                    if (enemy != null)
+                    //Checks if we have already dealt damage to this object
+                    if (!hasDealtDamage.Contains(hit.transform.gameObject))
                     {
-                        enemy.Damage((int) weaponDamage);
-                    }
+                        IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<IDamageable>();
+                        //If the object has an enemy script we can invoke deal damage
+                        if (enemy != null)
+                        {
+                            enemy.Damage((int)weaponDamage);
+                        }
 
-                    hasDealtDamage.Add(hit.transform.gameObject);
+                        hasDealtDamage.Add(hit.transform.gameObject);
+                    }
                 }
             }
+            else
+            {
+                if (Physics.Raycast(transform.position, transform.up, out hit, Mathf.Abs(weaponLength), layerMask))
+                {
+                    //Checks if we have already dealt damage to this object
+                    if (!hasDealtDamage.Contains(hit.transform.gameObject))
+                    {
+                        IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<IDamageable>();
+                        //If the object has an enemy script we can invoke deal damage
+                        if (enemy != null)
+                        {
+                            enemy.Damage((int)weaponDamage);
+                        }
+
+                        hasDealtDamage.Add(hit.transform.gameObject);
+                    }
+                }
+            }
+            
         }
     }
 
@@ -80,5 +102,11 @@ public class DamageDealer : MonoBehaviour
     {
         //Stops Dealing damage
         canDealDamage = false;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(transform.position, transform.position - transform.up * weaponLength);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TrapLogic : MonoBehaviour
 {
-    bool isActive;
+    public bool isActive;
     [SerializeField] GameObject trapWeapon;
     Animator animator;
     DamageDealer damageDealer;
@@ -18,16 +18,26 @@ public class TrapLogic : MonoBehaviour
         animator.SetBool("IsActive", isActive);
     }
 
+    public void Update()
+    {
+        if (isActive && !animator.GetBool("IsActive"))
+        {
+            ArmTrap();
+        }
+        else if (!isActive && animator.GetBool("IsActive"))
+        {
+            DisarmTrap();
+        }
+    }
+
     public void DisarmTrap()
     {
-        isActive = false;
         animator.SetBool("IsActive", isActive);
         animator.SetTrigger("DisarmTrap");
     }
 
     public void ArmTrap()
     {
-        isActive = true;
         animator.SetBool("IsActive", isActive);
         animator.SetTrigger("ArmTrap");
     }

@@ -25,7 +25,8 @@ public class Player : MonoBehaviour, IDamageable
             healthBar.SetMaxHealth(maxHealth);
             healthBar.SetHealth(health);
         }
-        if(inventoryHolder != null)
+
+        if(inventoryHolder == null)
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }
@@ -52,7 +53,6 @@ public class Player : MonoBehaviour, IDamageable
         }
 
         if(Input.GetKeyDown("l"))
-
         {
             Damage(20);
         }

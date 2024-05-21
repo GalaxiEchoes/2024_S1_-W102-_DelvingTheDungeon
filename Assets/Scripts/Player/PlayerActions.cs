@@ -29,10 +29,10 @@ public class PlayerActions : MonoBehaviour
     [SerializeField] private Vector3 CurrentCamPos;
 
     [Header("Unlock Handling")]
-    [SerializeField] private float unlockTimer = 1.0f;
+    [SerializeField] private float loadTimer = 1.0f;
     [SerializeField] private float maxUnlockTimerValue = 1.0f;
-    [SerializeField] private Image radialUnlockUI = null;
-    private bool updateUnlockTimer = false;
+    [SerializeField] private Image radialLoadingUI = null;
+    private bool updateLoadingTimer = false;
 
     private void Awake()
     {
@@ -118,7 +118,9 @@ public class PlayerActions : MonoBehaviour
             {
                 if(door.IsLocked)
                 {
-                    HandleUnlocking(ref door.IsLocked);
+                    ThirdPersonUseText.SetText("Unlock Hold (E)");
+                    UseText.SetText("Unlock Hold (E)");
+                    HandleLoading(ref door.IsLocked);
                 }
                 else
                 {
@@ -139,7 +141,9 @@ public class PlayerActions : MonoBehaviour
             {
                 if (chest.IsLocked)
                 {
-                    HandleUnlocking(ref chest.IsLocked);
+                    ThirdPersonUseText.SetText("Unlock Hold (E)");
+                    UseText.SetText("Unlock Hold (E)");
+                    HandleLoading(ref chest.IsLocked);
                 }
                 else
                 {
@@ -157,15 +161,21 @@ public class PlayerActions : MonoBehaviour
             }
             else if(hit.collider.TryGetComponent<TrapLogic>(out TrapLogic trap))
             {
-                if (trap.IsActive)
+                if (trap.isActive)
                 {
-                    
+                    ThirdPersonUseText.SetText("Disarm (E)");
+                    UseText.SetText("Disarm (E)");
                 }
+                else
+                {
+                    ThirdPersonUseText.SetText("Arm Trap (E)");
+                    UseText.SetText("Arm Trap (E)");
+                }
+                HandleLoading(ref trap.isActive);
             }
             else
             {
                 //Not doors
-
                 ThirdPersonUseText.SetText("Use (E)");
                 UseText.SetText("Use (E)");
 
@@ -185,7 +195,6 @@ public class PlayerActions : MonoBehaviour
                 UseText.gameObject.SetActive(false);
                 ThirdPersonUseText.gameObject.SetActive(true);
             }
-            
         }
         else
         {
@@ -198,45 +207,42 @@ public class PlayerActions : MonoBehaviour
 
     public void UpdateTimer()
     {
-        if (!updateUnlockTimer)
+        if (!updateLoadingTimer)
         {
-            updateUnlockTimer = true;
+            updateLoadingTimer = true;
         }
 
-        if (updateUnlockTimer)
+        if (updateLoadingTimer)
         {
-            unlockTimer += Time.deltaTime;
-            radialUnlockUI.fillAmount = unlockTimer;
+            loadTimer += Time.deltaTime;
+            radialLoadingUI.fillAmount = loadTimer;
 
-            if (unlockTimer >= maxUnlockTimerValue)
+            if (loadTimer >= maxUnlockTimerValue)
             {
-                unlockTimer = maxUnlockTimerValue;
-                radialUnlockUI.fillAmount = maxUnlockTimerValue;
-                radialUnlockUI.enabled = false;
-                updateUnlockTimer = false;
+                loadTimer = maxUnlockTimerValue;
+                radialLoadingUI.fillAmount = maxUnlockTimerValue;
+                radialLoadingUI.enabled = false;
+                updateLoadingTimer = false;
             }
         }
     }
 
-    public void HandleUnlocking(ref bool lockedObject)
+    public void HandleLoading(ref bool objectState)
     {
-        ThirdPersonUseText.SetText("Unlock Hold (E)");
-        UseText.SetText("Unlock Hold (E)");
-
         //Handles Unlocking the door
         if (InputManager.instance.InteractBeingHeld)
         {
-            updateUnlockTimer = false;
-            unlockTimer -= Time.deltaTime;
-            radialUnlockUI.enabled = true;
-            radialUnlockUI.fillAmount = unlockTimer;
+            updateLoadingTimer = false;
+            loadTimer -= Time.deltaTime;
+            radialLoadingUI.enabled = true;
+            radialLoadingUI.fillAmount = loadTimer;
 
-            if (unlockTimer <= 0)
+            if (loadTimer <= 0)
             {
-                unlockTimer = maxUnlockTimerValue;
-                radialUnlockUI.fillAmount = maxUnlockTimerValue;
-                radialUnlockUI.enabled = false;
-                lockedObject = false;
+                loadTimer = maxUnlockTimerValue;
+                radialLoadingUI.fillAmount = maxUnlockTimerValue;
+                radialLoadingUI.enabled = false;
+                objectState = !objectState;
             }
         }
         else
@@ -246,7 +252,7 @@ public class PlayerActions : MonoBehaviour
 
         if (InputManager.instance.InteractReleased)
         {
-            updateUnlockTimer = true;
+            updateLoadingTimer = true;
         }
     }
 }

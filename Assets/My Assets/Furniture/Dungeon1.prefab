@@ -156,6 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5672c008ca483ef4fb283dd7468576dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   trapWeapon: {fileID: 6436072023512239097}
 --- !u!1001 &1054669904540729285
 PrefabInstance:
@@ -533,31 +534,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.37034655
+      value: 0.324
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.032218933
+      value: -1.13
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 4424326145804476218, guid: dcb5f2e9c2d39974998b3c180a7b8bee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -621,7 +622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0ebfca16b743d64a9fa42616e13b657, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponLength: 0.5
+  weaponLength: -0.7
   weaponDamage: 10
   canDealDamage: 0
   audioSource: {fileID: 0}
