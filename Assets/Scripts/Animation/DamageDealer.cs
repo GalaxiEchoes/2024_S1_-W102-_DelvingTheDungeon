@@ -39,7 +39,7 @@ public class DamageDealer : MonoBehaviour
                 //Checks if we have already dealt damage to this object
                 if (!hasDealtDamage.Contains(hit.transform.gameObject))
                 {
-                    Enemy enemy = hit.transform.gameObject.GetComponentInChildren<Enemy>();
+                    IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<Enemy>();
                     //If the object has an enemy script we can invoke deal damage
                     if (enemy != null)
                     {

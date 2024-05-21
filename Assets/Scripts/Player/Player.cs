@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 
 [Serializable]
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     public int health = 100;
     public float stamina;
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown("l"))
 
         {
-            takeDamage(20);
+            Damage(20);
         }
     }
 
@@ -80,9 +80,9 @@ public class Player : MonoBehaviour
 
     }
 
-    void takeDamage(int damage)
+    public void Damage(int damageAmount)
     {
-        health -= damage;
+        health -= damageAmount;
 
         healthBar.SetHealth(health);
     }

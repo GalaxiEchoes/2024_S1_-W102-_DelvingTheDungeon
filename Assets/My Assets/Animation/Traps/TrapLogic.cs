@@ -5,14 +5,15 @@ using UnityEngine;
 public class TrapLogic : MonoBehaviour
 {
     bool isActive;
+    [SerializeField] GameObject trapWeapon;
     Animator animator;
     DamageDealer damageDealer;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = GetComponent<Animator>();
-        damageDealer = GetComponent<DamageDealer>();
+        animator = trapWeapon.GetComponentInChildren<Animator>();
+        damageDealer = trapWeapon.GetComponentInChildren<DamageDealer>();
         isActive = true;
         animator.SetBool("IsActive", isActive);
     }

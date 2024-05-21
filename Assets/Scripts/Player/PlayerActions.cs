@@ -89,7 +89,6 @@ public class PlayerActions : MonoBehaviour
                 {
                     chest.Open(Inventory);
                 }
-                
             }
         }
     }
@@ -154,6 +153,13 @@ public class PlayerActions : MonoBehaviour
                         ThirdPersonUseText.SetText("Open (E)");
                         UseText.SetText("Open (E)");
                     }
+                }
+            }
+            else if(hit.collider.TryGetComponent<TrapLogic>(out TrapLogic trap))
+            {
+                if (trap.IsActive)
+                {
+                    
                 }
             }
             else
