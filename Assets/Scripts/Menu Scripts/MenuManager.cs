@@ -19,6 +19,7 @@ public class MenuManager : MonoBehaviour
     public GameObject staminaBar;
     public GameObject moneyHUD;
     public GameObject ThirdPersonUseText;
+    public GameObject xpBar;
     public int bossLevel = 5;
 
     private void Start()
@@ -117,6 +118,7 @@ public class MenuManager : MonoBehaviour
         staminaBar.SetActive(true);
         moneyHUD.SetActive(true);
         ThirdPersonUseText.SetActive(true);
+        xpBar.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -131,6 +133,7 @@ public class MenuManager : MonoBehaviour
         staminaBar.SetActive(false);
         moneyHUD.SetActive(false);
         ThirdPersonUseText.SetActive(false);
+        xpBar.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -145,6 +148,7 @@ public class MenuManager : MonoBehaviour
         staminaBar.SetActive(false);
         moneyHUD.SetActive(false);
         ThirdPersonUseText.SetActive(false);
+        xpBar.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -165,6 +169,7 @@ public class MenuManager : MonoBehaviour
         staminaBar.SetActive(false);
         moneyHUD.SetActive(false);
         ThirdPersonUseText.SetActive(false);
+        xpBar.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
