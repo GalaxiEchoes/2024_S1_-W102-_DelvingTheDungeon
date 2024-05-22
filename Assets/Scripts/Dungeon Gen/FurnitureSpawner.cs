@@ -171,20 +171,30 @@ public class FurnitureSpawner : MonoBehaviour
                     break;
                 case CellType.Hallway: //Fallthrough
                 case CellType.StartingRoom:
-                    if(dir == Direction.North || dir == Direction.East)
+                    if(dir == Direction.North && IsWithinGridBounds(pos + Vector3Int.left))
                     {
-                        if (grid[location] == CellType.Hallway) return true;
-                    }
-                    else if(dir == Direction.South && IsWithinGridBounds(pos + Vector3Int.back))
-                    {
-                        if((grid[location] == CellType.Hallway) && (grid[pos + Vector3Int.back] != CellType.StairEnd || grid[location + Vector3Int.back] != CellType.StairEnd))
+                        if ((grid[location] == CellType.Hallway) && !(grid[pos + Vector3Int.left] == CellType.StairEnd && grid[location + Vector3Int.left] == CellType.StairEnd))
                         {
                             return true;
                         }
                     }
-                    else if(IsWithinGridBounds(pos + Vector3Int.left))
+                    else if(dir == Direction.East)
                     {
-                        if ((grid[location] == CellType.Hallway) && (grid[pos + Vector3Int.left] != CellType.StairEnd || grid[location + Vector3Int.left] != CellType.StairEnd))
+                        if (grid[location] == CellType.Hallway)
+                        {
+                            return true;
+                        }
+                    }
+                    else if(dir == Direction.South )
+                    {
+                        if (grid[location] == CellType.Hallway)
+                        {
+                            return true;
+                        }
+                    }
+                    else if(dir == Direction.West && IsWithinGridBounds(pos + Vector3Int.back))
+                    {
+                        if ((grid[location] == CellType.Hallway) && !(grid[pos + Vector3Int.back] == CellType.StairEnd && grid[location + Vector3Int.back] == CellType.StairEnd))
                         {
                             return true;
                         }

@@ -8,6 +8,7 @@ public class DamageDealer : MonoBehaviour
     [SerializeField] public float weaponDamage;
     public List<GameObject> hasDealtDamage { get; private set; }
     public bool canDealDamage;
+    public bool IsPlayerWeapon;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -32,7 +33,18 @@ public class DamageDealer : MonoBehaviour
         if (canDealDamage)
         {
             RaycastHit hit;
-            int layerMask = (1 << 9) | (1 << 8);
+            int layerMask;
+
+            //Determines if it deals damage to player or everyone
+            if (IsPlayerWeapon)
+            {
+                layerMask = (1 << 9);
+            }
+            else
+            {
+                layerMask = (1 << 9) | (1 << 8);
+            }
+
             //Finds any enemy's along the swords length
             if(weaponLength > 0)
             {

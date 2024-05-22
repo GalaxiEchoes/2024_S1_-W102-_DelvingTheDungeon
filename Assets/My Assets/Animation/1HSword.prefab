@@ -130,6 +130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponLength: 1.3
   weaponDamage: 1
+  canDealDamage: 0
+  IsPlayerWeapon: 1
   audioSource: {fileID: 0}
   clipOne: {fileID: 8300000, guid: 1f2f913a36fb74b4b807dc914a84b8e0, type: 3}
   clipTwo: {fileID: 8300000, guid: 48592b21186723c419b503e584cac5e1, type: 3}
