@@ -15,11 +15,10 @@ public class MenuManager : MonoBehaviour
     public GameObject inventoryScreen;
     public GameObject settingsManager;
     public GameObject settingsMenu;
-    public GameObject healthBar;
-    public GameObject staminaBar;
-    public GameObject moneyHUD;
-    public GameObject ThirdPersonUseText;
-    public GameObject xpBar;
+    //public GameObject healthBar;
+    //public GameObject staminaBar;
+    //public GameObject ThirdPersonUseText;
+    public GameObject InGameDisplay;
     public int bossLevel = 5;
 
     private void Start()
@@ -114,11 +113,7 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(true);
-        staminaBar.SetActive(true);
-        moneyHUD.SetActive(true);
-        ThirdPersonUseText.SetActive(true);
-        xpBar.SetActive(true);
+        InGameDisplay.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -129,11 +124,7 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(true);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
-        moneyHUD.SetActive(false);
-        ThirdPersonUseText.SetActive(false);
-        xpBar.SetActive(false);
+        InGameDisplay.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -144,11 +135,7 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(true);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
-        moneyHUD.SetActive(false);
-        ThirdPersonUseText.SetActive(false);
-        xpBar.SetActive(false);
+        InGameDisplay.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -165,11 +152,7 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(true);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
-        moneyHUD.SetActive(false);
-        ThirdPersonUseText.SetActive(false);
-        xpBar.SetActive(false);
+        InGameDisplay.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }

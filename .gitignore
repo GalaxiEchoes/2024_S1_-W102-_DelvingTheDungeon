@@ -134,6 +134,6 @@ Temporary Items
 !*.*.meta
 !*1HSword.prefab.meta
 !.mesh.meta
-*state.json
+*.unitypackage.meta
 *state.json.meta
-*unitypackage.meta
+*state.json
