@@ -50,6 +50,7 @@ public class PersistenceManager : MonoBehaviour
         public int currentLevel;
         public InventorySystem InventorySystem;
         public EquipmentInventorySystem EquipmentInventorySystem;
+        public int maxLevelReached;
     }
 
     /*
@@ -61,6 +62,7 @@ public class PersistenceManager : MonoBehaviour
     {
         //Player level
         //Player money
+        public int money;
         public int health;
         public float stamina;
         public int attack;
@@ -72,7 +74,7 @@ public class PersistenceManager : MonoBehaviour
     //Save Data
     public WorldState worldState;
     public GameData gameData;
-    public PermanentGameData permanantGameData; 
+    public PermanentGameData permanantGameData;
     [SerializeField] GameObject playerGameObject;
     [SerializeField] GameObject playerCamera;
     [SerializeField] CameraStyleManager cameraSwitcher;
@@ -86,13 +88,14 @@ public class PersistenceManager : MonoBehaviour
     {
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (currentScene.name.CompareTo("DelvingTheDungeon") == 0 )
+        if (currentScene.name.CompareTo("DelvingTheDungeon") == 0)
         {
             permanantGameData = new PermanentGameData();
             gameData = new GameData();
             gameData.currentLevel = -1;
             gameData.InventorySystem = new InventorySystem(39);
             gameData.EquipmentInventorySystem = new EquipmentInventorySystem(4);
+            gameData.maxLevelReached = -1;
 
             if (worldState == null) worldState = new WorldState();
             controller = gameObject.GetComponent<Controller>();
@@ -107,7 +110,7 @@ public class PersistenceManager : MonoBehaviour
                 Directory.CreateDirectory(directoryPath);
             }
         }
-        
+
     }
 
     public void SaveWorldState()
@@ -226,7 +229,7 @@ public class PersistenceManager : MonoBehaviour
         //Player Inventory
         InventoryHolder target = playerGameObject.GetComponent<InventoryHolder>();
 
-        if ( target != null)
+        if (target != null)
         {
             target.EquipmentInventorySystem = gameData.EquipmentInventorySystem;
             target.InventorySystem = gameData.InventorySystem;
@@ -303,6 +306,7 @@ public class PersistenceManager : MonoBehaviour
         else if (gameData.currentLevel == -1)
         {
             gameData.currentLevel = 0;
+            gameData.maxLevelReached = 0;
             SaveCurrentLevel();
         }
     }
@@ -311,6 +315,7 @@ public class PersistenceManager : MonoBehaviour
     {
         //Player
         Player current = playerGameObject.GetComponent<Player>();
+        permanantGameData.money = current.money;
         permanantGameData.health = current.health;
         permanantGameData.stamina = current.stamina;
         permanantGameData.attack = current.attack;
@@ -324,7 +329,7 @@ public class PersistenceManager : MonoBehaviour
         File.WriteAllText(filePath, dataJson);
     }
 
-    private void LoadCurrentStats() 
+    private void LoadCurrentStats()
     {
         string directoryPath = Application.dataPath + "/Saves";
         string filePath = directoryPath + "/permanant_data";
@@ -336,6 +341,8 @@ public class PersistenceManager : MonoBehaviour
 
             //Player Stats
             Player original = playerGameObject.GetComponent<Player>();
+
+            original.money = permanantGameData.money;
             original.health = permanantGameData.health;
             original.stamina = permanantGameData.stamina;
             original.attack = permanantGameData.attack;
@@ -352,12 +359,20 @@ public class PersistenceManager : MonoBehaviour
                 }
             }
         }
-
     }
+
 
     public void IncreaseCurrentLevel()
     {
         gameData.currentLevel++;
+        if (gameData.currentLevel > gameData.maxLevelReached)
+        {
+            gameData.maxLevelReached = gameData.currentLevel;
+            // Increase player money
+            Player player = playerGameObject.GetComponent<Player>();
+            player.addMoney(25);
+            SaveCurrentStats(); // Save the updated player stats
+        }
         SaveCurrentLevel();
     }
 

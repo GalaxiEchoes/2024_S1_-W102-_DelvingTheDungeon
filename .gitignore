@@ -137,3 +137,4 @@ Temporary Items
 *.unitypackage.meta
 *state.json.meta
 *state.json
+Assets/Saves/0world_state.json
