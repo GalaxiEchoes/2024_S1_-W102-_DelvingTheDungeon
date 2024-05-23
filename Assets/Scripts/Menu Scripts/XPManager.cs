@@ -17,9 +17,12 @@ public class XPManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] Image XPFill;
 
+    [SerializeField] Player player; // Reference to the Player class
+
     void Start()
     {
         updateLevel();
+        updateInterface();
     }
 
     void Update()
@@ -42,6 +45,7 @@ public class XPManager : MonoBehaviour
         if(totalXP >= nextLevelXP)
         {
             currentLevel++;
+            increaseStats();
             updateLevel();
         }
     }
@@ -60,5 +64,18 @@ public class XPManager : MonoBehaviour
 
         levelText.text = currentLevel.ToString();
         XPFill.fillAmount = (float)start / (float)end; 
+    }
+
+    void increaseStats()
+    {
+        // Increasing player stats slightly upon leveling up:
+        player.addStats(20, 10, 2, 1);
+        player.resetHealth(); // Resetting health to max health
+
+        if(player.healthBar != null)
+        {
+            player.healthBar.SetMaxHealth(player.maxHealth);
+            player.healthBar.SetHealth(player.health);
+        }
     }
 }
