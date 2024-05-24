@@ -89,6 +89,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         maxHealth += increaseHealth;
         maxStamina += increaseStamina;
+        stamina = maxStamina;
         attack += increaseAttack;
         defense += increaseDefense;
 

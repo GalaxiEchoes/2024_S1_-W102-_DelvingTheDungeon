@@ -136,6 +136,11 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     }
 
+    public void setMaxStamina(float maxStamina)
+    {
+        Stamina = maxStamina;
+        StaminaBar.fillAmount = Stamina / MaxStamina;
+    }
     private void MyInput()
     {
         horizontalInput = InputManager.instance.MoveInput.x;

@@ -17,6 +17,8 @@ public class XPManager : MonoBehaviour
     int increaseAttack = 5;
     int increseDefense = 3;
 
+    InputSystemPlayerMovement inputSystemPlayerMovement;
+
     [SerializeField] AnimationCurve XPCurve;
 
     [SerializeField] TextMeshProUGUI levelText;
@@ -28,6 +30,7 @@ public class XPManager : MonoBehaviour
     {
         updateLevel();
         updateInterface();
+        inputSystemPlayerMovement = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<InputSystemPlayerMovement>();
     }
 
     void Update()
@@ -81,6 +84,7 @@ public class XPManager : MonoBehaviour
         {
             player.healthBar.SetMaxHealth(player.maxHealth);
             player.healthBar.SetHealth(player.health);
+            inputSystemPlayerMovement.setMaxStamina(player.maxStamina);
         }
     }
 }
