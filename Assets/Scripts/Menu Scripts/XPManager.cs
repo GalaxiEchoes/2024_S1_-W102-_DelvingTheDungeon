@@ -12,6 +12,11 @@ public class XPManager : MonoBehaviour
     int prevLevelXP;
     int nextLevelXP;
 
+    int increaseHealth = 20;
+    int increaseStamina = 10;
+    int increaseAttack = 5;
+    int increseDefense = 3;
+
     [SerializeField] AnimationCurve XPCurve;
 
     [SerializeField] TextMeshProUGUI levelText;
@@ -69,7 +74,7 @@ public class XPManager : MonoBehaviour
     void increaseStats()
     {
         // Increasing player stats slightly upon leveling up:
-        player.addStats(20, 10, 2, 1);
+        player.increaseStats(increaseHealth, increaseStamina, increaseAttack, increseDefense);
         player.resetHealth(); // Resetting health to max health
 
         if(player.healthBar != null)

@@ -20,6 +20,8 @@ public class Player : MonoBehaviour, IDamageable
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
 
+    public XPManager xpManager;
+
     private void Start()
     {
         if (moneyTracker != null)
@@ -81,6 +83,15 @@ public class Player : MonoBehaviour, IDamageable
         stamina -= _stamina;
         attack -= _attack;
         defense -= _defense;
+    }
+
+    public void increaseStats(int increaseHealth, int increaseStamina, int increaseAttack, int increaseDefense)
+    {
+        maxHealth += increaseHealth;
+        maxStamina += increaseStamina;
+        attack += increaseAttack;
+        defense += increaseDefense;
+
     }
 
     public void resetHealth()

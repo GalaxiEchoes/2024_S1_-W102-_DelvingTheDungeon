@@ -6,10 +6,17 @@ public class Enemy : MonoBehaviour, IDamageable
     public AudioClip hitClip;
     int health = 100;
     int playerXP = 10;
+    
+    XPManager xpManager;
 
     public void Start()
     {
         audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        Player player = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player>();
+        if(player != null )
+        {
+            xpManager = player.xpManager;
+        }
     }
 
     public void Update()
@@ -30,6 +37,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
     void Die()
     {
+        if(xpManager != null)
+        {
+            xpManager.addXP(playerXP);
+        }
         Destroy(gameObject);
     }
 }
