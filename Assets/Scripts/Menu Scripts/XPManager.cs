@@ -7,10 +7,10 @@ using TMPro;
 
 public class XPManager : MonoBehaviour
 {
-    int currentLevel;
-    int totalXP;
-    int prevLevelXP;
-    int nextLevelXP;
+    public int currentLevel;
+    public int totalXP;
+    public int prevLevelXP;
+    public int nextLevelXP;
 
     [SerializeField] AnimationCurve XPCurve;
 

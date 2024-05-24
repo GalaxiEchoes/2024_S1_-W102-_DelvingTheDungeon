@@ -60,8 +60,10 @@ public class PersistenceManager : MonoBehaviour
     [Serializable]
     public class PermanentGameData
     {
-        //Player level
-        //Player money
+        public int currentLevel;
+        public int totalXP;
+        public int prevLevelXP;
+        public int nextLevelXP;
         public int money;
         public int health;
         public float stamina;
@@ -74,7 +76,9 @@ public class PersistenceManager : MonoBehaviour
     //Save Data
     public WorldState worldState;
     public GameData gameData;
-    public PermanentGameData permanantGameData;
+    public PermanentGameData permanentGameData;
+
+    //Objects to retrieve/set data
     [SerializeField] GameObject playerGameObject;
     [SerializeField] GameObject playerCamera;
     [SerializeField] CameraStyleManager cameraSwitcher;
@@ -90,7 +94,7 @@ public class PersistenceManager : MonoBehaviour
 
         if (currentScene.name.CompareTo("DelvingTheDungeon") == 0)
         {
-            permanantGameData = new PermanentGameData();
+            permanentGameData = new PermanentGameData();
             gameData = new GameData();
             gameData.currentLevel = -1;
             gameData.InventorySystem = new InventorySystem(39);
@@ -315,40 +319,48 @@ public class PersistenceManager : MonoBehaviour
     {
         //Player
         Player current = playerGameObject.GetComponent<Player>();
-        permanantGameData.money = current.money;
-        permanantGameData.health = current.health;
-        permanantGameData.stamina = current.stamina;
-        permanantGameData.attack = current.attack;
-        permanantGameData.defense = current.defense;
-        permanantGameData.maxHealth = current.maxHealth;
-        permanantGameData.maxStamina = current.maxStamina;
+        permanentGameData.currentLevel = current.xpManager.currentLevel;
+        permanentGameData.totalXP = current.xpManager.totalXP;
+        permanentGameData.prevLevelXP = current.xpManager.prevLevelXP;
+        permanentGameData.nextLevelXP = current.xpManager.nextLevelXP;
+        permanentGameData.money = current.money;
+        permanentGameData.health = current.health;
+        permanentGameData.stamina = current.stamina;
+        permanentGameData.attack = current.attack;
+        permanentGameData.defense = current.defense;
+        permanentGameData.maxHealth = current.maxHealth;
+        permanentGameData.maxStamina = current.maxStamina;
 
         string directoryPath = Application.dataPath + "/Saves";
-        string dataJson = JsonUtility.ToJson(permanantGameData);
-        string filePath = directoryPath + "/permanant_data";
+        string dataJson = JsonUtility.ToJson(permanentGameData);
+        string filePath = directoryPath + "/permanent_data";
         File.WriteAllText(filePath, dataJson);
     }
 
     private void LoadCurrentStats()
     {
         string directoryPath = Application.dataPath + "/Saves";
-        string filePath = directoryPath + "/permanant_data";
+        string filePath = directoryPath + "/permanent_data";
 
         if (File.Exists(filePath))
         {
             String json = File.ReadAllText(filePath);
-            permanantGameData = JsonUtility.FromJson<PermanentGameData>(json);
+            permanentGameData = JsonUtility.FromJson<PermanentGameData>(json);
 
             //Player Stats
             Player original = playerGameObject.GetComponent<Player>();
 
-            original.money = permanantGameData.money;
-            original.health = permanantGameData.health;
-            original.stamina = permanantGameData.stamina;
-            original.attack = permanantGameData.attack;
-            original.defense = permanantGameData.defense;
-            original.maxHealth = permanantGameData.maxHealth;
-            original.maxStamina = permanantGameData.maxStamina;
+            original.xpManager.currentLevel = permanentGameData.currentLevel;
+            original.xpManager.totalXP = permanentGameData.totalXP;
+            original.xpManager.prevLevelXP = permanentGameData.prevLevelXP;
+            original.xpManager.nextLevelXP = permanentGameData.nextLevelXP;
+            original.money = permanentGameData.money;
+            original.health = permanentGameData.health;
+            original.stamina = permanentGameData.stamina;
+            original.attack = permanentGameData.attack;
+            original.defense = permanentGameData.defense;
+            original.maxHealth = permanentGameData.maxHealth;
+            original.maxStamina = permanentGameData.maxStamina;
 
             if (original.stamina < original.maxStamina)
             {

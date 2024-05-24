@@ -5262,7 +5262,11 @@ MonoBehaviour:
     EquipmentInventorySystem:
       equipmentSlots: []
     maxLevelReached: 0
-  permanantGameData:
+  permanentGameData:
+    currentLevel: 0
+    totalXP: 0
+    prevLevelXP: 0
+    nextLevelXP: 0
     money: 0
     health: 0
     stamina: 0
@@ -6575,6 +6579,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460832c485626ba4d86e45cd6b7b2d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLevel: 0
+  totalXP: 0
+  prevLevelXP: 0
+  nextLevelXP: 0
   XPCurve:
     serializedVersion: 2
     m_Curve:
@@ -15220,6 +15228,7 @@ MonoBehaviour:
   maxStamina: 100
   moneyTracker: {fileID: 1450487203}
   healthBar: {fileID: 1905166274}
+  xpManager: {fileID: 949036878}
 --- !u!65 &1971517938
 BoxCollider:
   m_ObjectHideFlags: 0

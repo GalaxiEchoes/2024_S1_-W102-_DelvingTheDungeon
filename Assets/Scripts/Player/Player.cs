@@ -19,6 +19,7 @@ public class Player : MonoBehaviour, IDamageable
     public MoneyTracker moneyTracker;
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
+    public XPManager xpManager;
 
     private void Start()
     {
@@ -41,7 +42,10 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        moneyTracker.setMoney(money);
+        if (moneyTracker != null) 
+        {
+            moneyTracker.setMoney(money);
+        }
 
         //On Death
         if (health <= 0)
