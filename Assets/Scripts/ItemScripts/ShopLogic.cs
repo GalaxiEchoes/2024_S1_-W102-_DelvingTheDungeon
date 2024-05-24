@@ -1,28 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using static MenuManager;
 using UnityEngine;
 
 public class ShopLogic : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    //Shop instance reference
+    public static ShopLogic shopInstance;
 
-    // Update is called once per frame
-    void Update()
+    private MenuManager menuManager;
+
+    [Header("Object States")]
+    public bool isOpen = false;
+
+    private void Awake()
     {
-        
+        if (shopInstance == null)
+        {
+            shopInstance = this;
+        }
     }
 
     public void Open()
     {
-        Debug.Log("Open Shop");
+        if (!isOpen)
+        {
+            Debug.Log("Open Shop");
+            isOpen = true;
+        }
     }
 
     public void Close()
     {
-        Debug.Log("Close Shop");
+        if (isOpen)
+        {
+            Debug.Log("Close Shop");
+            isOpen = false;
+        }
     }
 }
