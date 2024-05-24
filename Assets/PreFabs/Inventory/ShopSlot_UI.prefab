@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1662025623779470357}
   - component: {fileID: 2031310666147320611}
   - component: {fileID: 5671589469764603157}
+  - component: {fileID: 7822806009240060132}
   m_Layer: 5
   m_Name: ShopSlot_UI
   m_TagString: Untagged
@@ -122,6 +123,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7822806009240060132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2652621560122974842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85c51a444de924db29c577477eb7c9c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 3816752190264289616}
+  itemCost: {fileID: 1292683721202456949}
+  assignedItemSlot:
+    itemData: {fileID: 0}
+    stackSize: -1
+    equipmentTag: 0
 --- !u!1 &3820849367569966150
 GameObject:
   m_ObjectHideFlags: 0
