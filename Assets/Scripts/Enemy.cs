@@ -5,6 +5,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public AudioSource audioSource;
     public AudioClip hitClip;
     int health = 100;
+    int playerXP = 10;
 
     public void Start()
     {
