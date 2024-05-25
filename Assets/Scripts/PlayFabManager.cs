@@ -4,6 +4,8 @@ using UnityEngine;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
+using static PersistenceManager;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 public class PlayFabManager : MonoBehaviour
 {
@@ -11,6 +13,23 @@ public class PlayFabManager : MonoBehaviour
     public CanvasManager canvasManager;
     public TMP_InputField emailInput; 
     public TMP_InputField passwordInput;
+
+    PersistenceManager manager;
+    int bossLevel = 5;
+
+    void Awake()
+    {
+        manager = GetComponent<PersistenceManager>();
+        if (canvasManager != null)
+        {
+            canvasManager.SetLoggedIn(IsLoggedIn());
+        }
+    }
+
+    public bool IsLoggedIn()
+    {
+        return PlayFabClientAPI.IsClientLoggedIn();
+    }
 
     public void RegisterButton()
     {
@@ -29,7 +48,7 @@ public class PlayFabManager : MonoBehaviour
         PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnError);
     }
 
-    void OnRegisterSuccess(RegisterPlayFabUserResult result)
+    private void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
         text.text = "Registered and logged in!";
         canvasManager.SetLoggedIn(true);
@@ -46,18 +65,21 @@ public class PlayFabManager : MonoBehaviour
             PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
     }
 
-    void OnLoginSuccess(LoginResult result)
+    private void OnLoginSuccess(LoginResult result)
     {
         text.text = "Logged in!";
         Debug.Log("Successful login/account create!");
         canvasManager.SetLoggedIn(true);
         canvasManager.OnMenuButtonClick();
-        //get info
+        GetGameData();
     }
 
-    void OnError(PlayFabError error)
+    private void OnError(PlayFabError error)
     {
-        text.text = error.ErrorMessage;
+        if (text != null)
+        {
+            text.text = error.ErrorMessage;
+        }
         Debug.Log("Error while logging in/creating account!");
         Debug.Log(error.GenerateErrorReport());
     }
@@ -71,66 +93,140 @@ public class PlayFabManager : MonoBehaviour
         PlayFabClientAPI.SendAccountRecoveryEmail(request, OnPasswordReset, OnError);
     }
 
-    void OnPasswordReset(SendAccountRecoveryEmailResult result)
+    private void OnPasswordReset(SendAccountRecoveryEmailResult result)
     {
         text.text = "Password reset mail sent!";
     }
 
-    /*public void SaveGameData()
+    public void SaveData()
     {
+        SavePermanentData();
+        SaveWorldData();
+        SaveGameData();
+    }
+
+    public void SavePermanentData()
+    {
+        string dataJson = JsonUtility.ToJson(manager.permanentGameData);
+
         var request = new UpdateUserDataRequest
         {
             Data = new Dictionary<string, string>
             {
-                // here
+                {"permanent_data", dataJson}
             }
         };
         PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
     }
 
-    public void GetGameData()
+    public void SaveGameData()
     {
+        string dataJson = JsonUtility.ToJson(manager.gameData);
 
-    }*/
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //Login(); 
+        var request = new UpdateUserDataRequest
+        {
+            Data = new Dictionary<string, string>
+            {
+                {"game_data", dataJson}
+            }
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
     }
 
-    /*void Login()
+    public void SaveWorldData()
     {
-        var request = new LoginWithCustomIDRequest
+        for (int i = 0; i <= bossLevel; i++)
         {
-            CustomId = SystemInfo.deviceUniqueIdentifier,
-            CreateAccount = true
+            if (manager.LoadWorldState(i))
+            {
+                string dataJson = JsonUtility.ToJson(manager.worldState);
+
+                var request = new UpdateUserDataRequest
+                {
+                    Data = new Dictionary<string, string>
+                    {
+                        {i + "world_state", dataJson}
+                    }
+                };
+                PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+            }
+        }
+    }
+
+    private void OnDataSend(UpdateUserDataResult result)
+    {
+        Debug.Log("Data Sent");
+    }
+
+    public void GetGameData()
+    {
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
+    }
+
+    private void OnDataRecieved(GetUserDataResult result)
+    {
+        if(result.Data != null)
+        {
+            if (result.Data.ContainsKey("permanent_data"))
+            {
+                manager.permanentGameData = JsonUtility.FromJson<PermanentGameData>(result.Data["permanent_data"].Value);
+                manager.SavePermanentData();
+            }
+
+            if (result.Data.ContainsKey("game_data"))
+            {
+                manager.gameData = JsonUtility.FromJson<GameData>(result.Data["game_data"].Value);
+                manager.SaveGameData();
+            }
+
+            for (int i = 0; i <= bossLevel; i++)
+            {
+                if (result.Data.ContainsKey(i + "world_state"))
+                {
+                    manager.worldState = JsonUtility.FromJson<WorldState>(result.Data[i + "world_state"].Value);
+                    manager.SaveWorldState(i);
+                }
+            }
+            
+        }
+    }
+
+    //Deletes all data
+    public void StartNewGame()
+    {
+        List<string> keysToDelete = new List<string>();
+
+        for(int i = 0; i <= bossLevel; i++)
+        {
+            keysToDelete.Add(i + "world_state");
+        }
+        keysToDelete.Add("game_data");
+        keysToDelete.Add("permanent_data");
+
+        UpdateUserDataRequest request = new UpdateUserDataRequest
+        {
+            Data = null,
+            KeysToRemove = keysToDelete
         };
-        PlayFabClientAPI.LoginWithCustomID(request, OnSuccess, OnError);
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+    }
 
-    }*/
+    //Deletes world and level persistent data but not permanent data
+    public void StartNewRun()
+    {
+        List<string> keysToDelete = new List<string>();
 
-    
+        for (int i = 0; i <= bossLevel; i++)
+        {
+            keysToDelete.Add(i + "world_state");
+        }
+        keysToDelete.Add("game_data");
 
+        UpdateUserDataRequest request = new UpdateUserDataRequest
+        {
+            Data = null,
+            KeysToRemove = keysToDelete
+        };
+        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+    }
 }
-/*
- public void SaveAppearance(){
-    var request = new UpdateUserDataRequest {
-    Data = new Dictionary<string, string> {
-        {"Hat", characterEditor.Hat},
-    };
-    PlayFabCLientAPI.UpdateUserData(request, OnDataSend, OnError);
-}
-
-public void GetAppearance(){
-    PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataRecieved, OnError);
-
-}
-
-void OnDataRecieved(GetUserDataResult result){
-    Debug.Log("Recieved user data");
-}
-
-//data saved as key value pairs like result.Data["Hat"].Value
- */

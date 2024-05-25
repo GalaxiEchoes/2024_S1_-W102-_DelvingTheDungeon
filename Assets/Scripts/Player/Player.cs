@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IDamageable
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
     public XPManager xpManager;
+    public PersistenceManager persistenceManager;
 
     private void Start()
     {
@@ -61,6 +62,11 @@ public class Player : MonoBehaviour, IDamageable
                     minusStats(slot.ItemData.healthEffect, slot.ItemData.staminaEffect, slot.ItemData.attackEffect, slot.ItemData.defenseEffect);
                 }
             }
+
+            //Reset permanent stuff
+            health = maxHealth;
+            stamina = maxStamina;
+            persistenceManager.SavePermanentData();
 
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }

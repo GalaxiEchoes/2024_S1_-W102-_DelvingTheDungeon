@@ -886,6 +886,7 @@ GameObject:
   - component: {fileID: 1298915202}
   - component: {fileID: 1298915204}
   - component: {fileID: 1298915205}
+  - component: {fileID: 1298915206}
   m_Layer: 5
   m_Name: EndMenu
   m_TagString: Untagged
@@ -1003,7 +1004,7 @@ MonoBehaviour:
       equipmentSlots: []
     maxLevelReached: 0
   permanentGameData:
-    currentLevel: 0
+    currentXPLevel: 0
     totalXP: 0
     prevLevelXP: 0
     nextLevelXP: 0
@@ -1017,6 +1018,22 @@ MonoBehaviour:
   playerGameObject: {fileID: 0}
   playerCamera: {fileID: 0}
   cameraSwitcher: {fileID: 0}
+--- !u!114 &1298915206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1298915200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bf877e83903364f822fd9ebe741fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  canvasManager: {fileID: 0}
+  emailInput: {fileID: 0}
+  passwordInput: {fileID: 0}
 --- !u!1 &1458648130
 GameObject:
   m_ObjectHideFlags: 0

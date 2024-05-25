@@ -1096,6 +1096,7 @@ GameObject:
   - component: {fileID: 352962147}
   - component: {fileID: 352962146}
   - component: {fileID: 352962145}
+  - component: {fileID: 352962153}
   m_Layer: 5
   m_Name: PlayerLogin
   m_TagString: Untagged
@@ -1260,6 +1261,57 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &352962153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 352962143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 563a5219a562a474088dddddd9bfded5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldState:
+    seed: 0
+    grid:
+      data: 
+      Size: {x: 0, y: 0, z: 0}
+      Offset: {x: 0, y: 0, z: 0}
+    gridSize: {x: 0, y: 0, z: 0}
+    stairs: []
+    rooms: []
+    bossLevel: 0
+    endRoomPos: {x: 0, y: 0, z: 0}
+    startRoomPos: {x: 0, y: 0, z: 0}
+    playerPos: {x: 0, y: 0, z: 0}
+    camPos: {x: 0, y: 0, z: 0}
+    spawnLocation: {x: 0, y: 0, z: 0}
+    currentStyle: 0
+    furnitureList: []
+  gameData:
+    currentLevel: 0
+    InventorySystem:
+      inventorySlots: []
+    EquipmentInventorySystem:
+      equipmentSlots: []
+    maxLevelReached: 0
+  permanentGameData:
+    currentXPLevel: 0
+    totalXP: 0
+    prevLevelXP: 0
+    nextLevelXP: 0
+    money: 0
+    health: 0
+    stamina: 0
+    attack: 0
+    defense: 0
+    maxHealth: 0
+    maxStamina: 0
+  playerGameObject: {fileID: 0}
+  playerCamera: {fileID: 0}
+  cameraSwitcher: {fileID: 0}
 --- !u!1 &388038169
 GameObject:
   m_ObjectHideFlags: 0
@@ -5926,7 +5978,6 @@ GameObject:
   - component: {fileID: 1769378345}
   - component: {fileID: 1769378344}
   - component: {fileID: 1769378346}
-  - component: {fileID: 1769378347}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -6010,57 +6061,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c8e9b863e74c4111a3c5ebac9450f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1769378347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769378342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 563a5219a562a474088dddddd9bfded5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  worldState:
-    seed: 0
-    grid:
-      data: 
-      Size: {x: 0, y: 0, z: 0}
-      Offset: {x: 0, y: 0, z: 0}
-    gridSize: {x: 0, y: 0, z: 0}
-    stairs: []
-    rooms: []
-    bossLevel: 0
-    endRoomPos: {x: 0, y: 0, z: 0}
-    startRoomPos: {x: 0, y: 0, z: 0}
-    playerPos: {x: 0, y: 0, z: 0}
-    camPos: {x: 0, y: 0, z: 0}
-    spawnLocation: {x: 0, y: 0, z: 0}
-    currentStyle: 0
-    furnitureList: []
-  gameData:
-    currentLevel: 0
-    InventorySystem:
-      inventorySlots: []
-    EquipmentInventorySystem:
-      equipmentSlots: []
-    maxLevelReached: 0
-  permanentGameData:
-    currentLevel: 0
-    totalXP: 0
-    prevLevelXP: 0
-    nextLevelXP: 0
-    money: 0
-    health: 0
-    stamina: 0
-    attack: 0
-    defense: 0
-    maxHealth: 0
-    maxStamina: 0
-  playerGameObject: {fileID: 0}
-  playerCamera: {fileID: 0}
-  cameraSwitcher: {fileID: 0}
+  PersistenceManager: {fileID: 352962153}
 --- !u!1 &1771125556
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,34 +9,16 @@ public class CanvasManager : MonoBehaviour
     public GameObject settingsManager;
     public GameObject settingsMenu;
 
+    private bool isLoggedIn;
+
     public void SetLoggedIn(bool value)
     {
-        PlayerPrefs.SetInt("IsLoggedIn", value ? 1 : 0);
-        PlayerPrefs.Save();
+        isLoggedIn = value;
     }
 
     public bool IsLoggedIn()
     {
-        return PlayerPrefs.GetInt("IsLoggedIn", 0) == 1;
-    }
-
-    public void ClearLoginStatus()
-    {
-        PlayerPrefs.DeleteKey("IsLoggedIn");
-        PlayerPrefs.Save();
-    }
-
-    private void OnApplicationQuit()
-    {
-        ClearLoginStatus();
-    }
-
-    private void OnDisable()
-    {
-        if (!Application.isPlaying)
-        {
-            ClearLoginStatus();
-        }
+        return isLoggedIn;
     }
 
     public void OnMenuButtonClick()
