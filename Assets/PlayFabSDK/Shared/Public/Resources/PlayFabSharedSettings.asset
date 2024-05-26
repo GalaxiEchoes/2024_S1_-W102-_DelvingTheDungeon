@@ -15,7 +15,7 @@ MonoBehaviour:
   TitleId: 91DB4
   DeveloperSecretKey: TO1RD31MB8BFUJSUSOD3EWO1D7CFK41XQNWCKNPS5Q9GHOIM76
   ProductionEnvironmentUrl: 
-  RequestType: 2
+  RequestType: 0
   DisableDeviceInfo: 0
   DisableFocusTimeCollection: 0
   RequestTimeout: 2000
