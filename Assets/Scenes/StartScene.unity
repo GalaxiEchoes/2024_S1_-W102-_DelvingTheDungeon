@@ -1139,11 +1139,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 352962143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c312fa50fcac2745b216e4bd9f8e7cd, type: 3}
+  m_Script: {fileID: 11500000, guid: fdb1701961055cc46af4dd0d2438d8b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstInput: {fileID: 1834560023}
-  submitLoginButton: {fileID: 898576704}
+  text: {fileID: 571201304}
+  canvasManager: {fileID: 634567228}
+  emailInput: {fileID: 1834560023}
+  passwordInput: {fileID: 288469492}
 --- !u!114 &352962146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1153,13 +1155,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 352962143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17bf877e83903364f822fd9ebe741fb9, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e2389194050c3d4b85d0946f8a38a20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 571201304}
-  canvasManager: {fileID: 634567228}
-  emailInput: {fileID: 1834560023}
-  passwordInput: {fileID: 288469492}
+  firstInput: {fileID: 1834560023}
+  submitLoginButton: {fileID: 898576704}
 --- !u!114 &352962147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,10 +1945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17bf877e83903364f822fd9ebe741fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 571201304}
-  canvasManager: {fileID: 634567228}
-  emailInput: {fileID: 1834560023}
-  passwordInput: {fileID: 288469492}
 --- !u!114 &597519916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2979,7 +2975,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 352962146}
+      - m_Target: {fileID: 352962145}
         m_TargetAssemblyTypeName: PlayFabManager, AssemblyCode
         m_MethodName: LoginButton
         m_Mode: 1
@@ -4410,7 +4406,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 352962146}
+      - m_Target: {fileID: 352962145}
         m_TargetAssemblyTypeName: PlayFabManager, AssemblyCode
         m_MethodName: RegisterButton
         m_Mode: 1
@@ -5028,7 +5024,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 352962146}
+      - m_Target: {fileID: 352962145}
         m_TargetAssemblyTypeName: PlayFabManager, AssemblyCode
         m_MethodName: ResetPasswordButton
         m_Mode: 1
@@ -5697,7 +5693,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1673631211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99af9bc80f162c14095f5e6772799b5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f13c23e21aba8346abe07d181c039bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   brightnessSlider: {fileID: 665684747}
@@ -7560,7 +7556,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2146961897}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5982fc24a2beb1648806aaff89e8c514, type: 3}
+  m_Script: {fileID: 11500000, guid: 974dad9d385b51644b40bc81a018ec7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundSlider: {fileID: 396646245}
