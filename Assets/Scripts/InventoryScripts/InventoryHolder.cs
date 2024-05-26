@@ -17,16 +17,3 @@ using UnityEngine.Events;
         EquipmentInventorySystem = new EquipmentInventorySystem(4);
     }
 }
-
-[System.Serializable]
-public struct InventorySaveData
-{
-    public InventorySystem InvSystem;
-    public EquipmentInventorySystem EquipInvSystem;
-
-    public InventorySaveData(InventorySystem invSystem, EquipmentInventorySystem eqipInvSystem)
-    {
-        InvSystem = invSystem;
-        EquipInvSystem = eqipInvSystem;
-    }
-}
