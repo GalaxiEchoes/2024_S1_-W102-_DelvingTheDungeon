@@ -3776,7 +3776,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 481263372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 974dad9d385b51644b40bc81a018ec7c, type: 3}
+  m_Script: {fileID: 11500000, guid: f0fa6d2e16f02464eaaa6ae84532d982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   soundSlider: {fileID: 313446665}
@@ -6494,7 +6494,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 785471289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdb1701961055cc46af4dd0d2438d8b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 842a74ea5f9fc334ba6c899a6c488b3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 0}
@@ -7073,7 +7073,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 868589376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f13c23e21aba8346abe07d181c039bd, type: 3}
+  m_Script: {fileID: 11500000, guid: fad8b5658886524409faba504380ca1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   brightnessSlider: {fileID: 1967341843}
@@ -12808,7 +12808,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 80
   field of view: 60
   orthographic: 0
   orthographic size: 5
