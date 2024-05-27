@@ -19,6 +19,8 @@ public class Player : MonoBehaviour, IDamageable
     public MoneyTracker moneyTracker;
     public HealthBar healthBar;
     private InventoryHolder inventoryHolder;
+    public XPManager xpManager;
+    public PersistenceManager persistenceManager;
 
     private void Start()
     {
@@ -41,7 +43,10 @@ public class Player : MonoBehaviour, IDamageable
 
     private void Update()
     {
-        moneyTracker.setMoney(money);
+        if (moneyTracker != null) 
+        {
+            moneyTracker.setMoney(money);
+        }
 
         //On Death
         if (health <= 0)
@@ -57,6 +62,11 @@ public class Player : MonoBehaviour, IDamageable
                     minusStats(slot.ItemData.healthEffect, slot.ItemData.staminaEffect, slot.ItemData.attackEffect, slot.ItemData.defenseEffect);
                 }
             }
+
+            //Reset permanent stuff
+            health = maxHealth;
+            stamina = maxStamina;
+            persistenceManager.SavePermanentData();
 
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
