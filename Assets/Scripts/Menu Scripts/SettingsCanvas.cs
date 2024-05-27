@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SettingsCanvas : MonoBehaviour
 {
     Resolution[] resolutions;
-
-    //public Dropdown dropdownResolution;
-
     public TMPro.TMP_Dropdown dropdownResolution;
 
     void Start()
@@ -20,13 +18,13 @@ public class SettingsCanvas : MonoBehaviour
         List<string> options = new List<string>();
 
         int curretResolutionIndex = 0;
-        for (int i = 0; i <resolutions.Length; i++)
+        for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " +  resolutions[i].height;
+            string option = resolutions[i].width + " x " + resolutions[i].height;
             options.Add(option);
 
-            if(resolutions[i].width == Screen.currentResolution.width &&
-                resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width == Screen.width &&
+                resolutions[i].height == Screen.height)
             {
                 curretResolutionIndex = i;
             }
@@ -41,15 +39,28 @@ public class SettingsCanvas : MonoBehaviour
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        AdjustCanvasScaler();
     }
 
-    /*
-    public void setFullScreen(bool isFullScreen)
+
+    public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
     }
-    */
+
+    void AdjustCanvasScaler()
+    {
+        CanvasScaler canvasScaler = FindObjectOfType<CanvasScaler>();
+        if (canvasScaler != null)
+        {
+            canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            canvasScaler.referenceResolution = new Vector2(1920, 1080);
+            canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            canvasScaler.matchWidthOrHeight = 0.5f;
+        }
+    }
 
 
-    
+
+
 }
