@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
-  m_Name: Sword
+  m_Name: Wooden Sword
   m_EditorClassIdentifier: 
-  itemName: Sword
-  Description: This is a sword
-  sprite: {fileID: 21300000, guid: dd501fa58ea59466b8eb55b32ba16c3a, type: 3}
+  itemName: Wooden Sword
+  Description: This is a wooden sword
+  sprite: {fileID: 21300000, guid: 7f1be1282b4ef484d9be94a43cfc8372, type: 3}
   MaxStackSize: 5
-  cost: 10
+  cost: 5
   itemTag: 1
-  ItemPrefab: {fileID: 2338380581556711503, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
+  ItemPrefab: {fileID: 2338380581556711503, guid: a5f2b4674803e48ffa66853cdeb42689, type: 3}
   healthEffect: 0
   staminaEffect: 0
-  attackEffect: 50
+  attackEffect: 20
   defenseEffect: 0

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
-  m_Name: Sword
+  m_Name: Gold Gloves
   m_EditorClassIdentifier: 
-  itemName: Sword
-  Description: This is a sword
-  sprite: {fileID: 21300000, guid: dd501fa58ea59466b8eb55b32ba16c3a, type: 3}
-  MaxStackSize: 5
-  cost: 10
-  itemTag: 1
-  ItemPrefab: {fileID: 2338380581556711503, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
+  itemName: Gold Gloves
+  Description: This is a pair of gold gloves
+  sprite: {fileID: 21300000, guid: 2c4d865ad95684a8490543d0cc18a39c, type: 3}
+  MaxStackSize: 1
+  cost: 20
+  itemTag: 4
+  ItemPrefab: {fileID: 8343904683319645141, guid: 5e1d3b595127f4c54bc4cfcda76f1f0a, type: 3}
   healthEffect: 0
   staminaEffect: 0
-  attackEffect: 50
-  defenseEffect: 0
+  attackEffect: 0
+  defenseEffect: 5

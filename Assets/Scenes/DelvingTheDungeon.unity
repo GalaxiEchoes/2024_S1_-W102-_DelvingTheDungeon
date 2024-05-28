@@ -7753,7 +7753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9380,7 +9380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -11617,7 +11617,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -13566,9 +13566,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shopItems:
-  - {fileID: 11400000, guid: 40bee3b36efe940a8b1dbbbff6f24e93, type: 2}
+  - {fileID: 11400000, guid: c9026fc222a984af79c1c94ea15cab9e, type: 2}
   - {fileID: 11400000, guid: 4fc16cc4b2df54db093620e959b58311, type: 2}
+  - {fileID: 11400000, guid: 9b0e39a2be5cf432282537d66cc51ff1, type: 2}
+  - {fileID: 11400000, guid: d2a04235aa00842a0b8366cefd4a7fc6, type: 2}
+  - {fileID: 11400000, guid: 8a2c50c08e19049d9baed27a4e5c4d28, type: 2}
+  - {fileID: 11400000, guid: aad03c62b191144eca174cf1867e336a, type: 2}
+  - {fileID: 11400000, guid: 5648fd2ee575340b1b4224fc382046a1, type: 2}
+  - {fileID: 11400000, guid: e5532f34260844d52a74517a2332ac9a, type: 2}
+  - {fileID: 11400000, guid: 802db80e99aec473fb0e4eb0a69360fa, type: 2}
+  - {fileID: 11400000, guid: 5fe3771702e234f27a0d4c4cd5b25239, type: 2}
+  - {fileID: 11400000, guid: 1736dc7a737f64c139b312a5282e409b, type: 2}
+  - {fileID: 11400000, guid: b7bf9d847cc764f9d9901fca8f7c9951, type: 2}
+  - {fileID: 11400000, guid: eab42fe124249430ba6cd5e9650c7ea4, type: 2}
+  - {fileID: 11400000, guid: bb6c0c33f936c47589814b935b170507, type: 2}
+  - {fileID: 11400000, guid: 40bee3b36efe940a8b1dbbbff6f24e93, type: 2}
   - {fileID: 11400000, guid: 1912e0e50765f472aa5fe2a4a09b043f, type: 2}
+  - {fileID: 11400000, guid: d1e8fb4a63d5c483ebcee123c855b644, type: 2}
+  - {fileID: 11400000, guid: e2c35727fa6f0415f90db6559b5e5dd3, type: 2}
+  - {fileID: 11400000, guid: e9ef288b39f9a4ec49b15e195a3a2e3f, type: 2}
+  - {fileID: 11400000, guid: a86c07b84d64f4fdda17d3a98b2a19ce, type: 2}
   itemDescriptionArea: {fileID: 654988888}
   currentPlayer: {fileID: 1971517937}
   slots:
@@ -15344,7 +15361,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 60.842346
+      value: 60.842285
       objectReference: {fileID: 0}
     - target: {fileID: 3010242416887052204, guid: eacb9fc665ed5419bae71c8ece354ef9, type: 3}
       propertyPath: m_AnchoredPosition.y

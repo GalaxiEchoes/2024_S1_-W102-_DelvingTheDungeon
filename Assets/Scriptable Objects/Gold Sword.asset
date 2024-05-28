@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
-  m_Name: Sword
+  m_Name: Gold Sword
   m_EditorClassIdentifier: 
-  itemName: Sword
-  Description: This is a sword
-  sprite: {fileID: 21300000, guid: dd501fa58ea59466b8eb55b32ba16c3a, type: 3}
-  MaxStackSize: 5
-  cost: 10
+  itemName: Gold Sword
+  Description: This is a gold sword
+  sprite: {fileID: 21300000, guid: 017e8d3e1ad7749f9abe42edab50763a, type: 3}
+  MaxStackSize: 3
+  cost: 100
   itemTag: 1
-  ItemPrefab: {fileID: 2338380581556711503, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
+  ItemPrefab: {fileID: 2338380581556711503, guid: 1d110e82c28134023b043b411aee4d2b, type: 3}
   healthEffect: 0
   staminaEffect: 0
-  attackEffect: 50
+  attackEffect: 100
   defenseEffect: 0

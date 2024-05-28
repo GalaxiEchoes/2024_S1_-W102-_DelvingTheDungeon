@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
-  m_Name: Sword
+  m_Name: Red Sword
   m_EditorClassIdentifier: 
-  itemName: Sword
-  Description: This is a sword
-  sprite: {fileID: 21300000, guid: dd501fa58ea59466b8eb55b32ba16c3a, type: 3}
+  itemName: Red Sword
+  Description: This is a red sword
+  sprite: {fileID: 21300000, guid: 8f2d3236dc5bf4b8fb0a91af9e957154, type: 3}
   MaxStackSize: 5
-  cost: 10
+  cost: 70
   itemTag: 1
-  ItemPrefab: {fileID: 2338380581556711503, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
+  ItemPrefab: {fileID: 2338380581556711503, guid: ad249864f987a4f9084ff721a78fd15f, type: 3}
   healthEffect: 0
   staminaEffect: 0
-  attackEffect: 50
+  attackEffect: 80
   defenseEffect: 0
