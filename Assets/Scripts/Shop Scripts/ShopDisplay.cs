@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopDisplay : MonoBehaviour
 {
     [SerializeField] InventoryItemData[] shopItems; // List of items to be sold in the shop
     [SerializeField] TextMeshProUGUI itemDescriptionArea;
+    [SerializeField] Image selectedItemImage;
+    [SerializeField] TextMeshProUGUI selectedItemDescriptionArea;
     [SerializeField] Player currentPlayer;
     [SerializeField] private ShopSlot_UI[] slots;
 
@@ -67,6 +70,8 @@ public class ShopDisplay : MonoBehaviour
         if (clickedUISlot.AssignedItemSlot.ItemData != null)
         {
             selectedItemData = clickedUISlot.AssignedItemSlot.ItemData;
+            selectedItemImage.sprite = selectedItemData.sprite;
+            selectedItemDescriptionArea.text = "Select Item: " + selectedItemData.itemName;
         }
     }
 

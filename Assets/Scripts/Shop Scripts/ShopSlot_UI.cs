@@ -42,7 +42,7 @@ public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
             itemSprite.sprite = slot.ItemData.sprite;
             itemSprite.color = Color.white;
 
-            itemCost.text = slot.ItemData.cost.ToString();
+            itemCost.text = "$"+slot.ItemData.cost.ToString();
         }
         else
         {
@@ -77,6 +77,5 @@ public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         parentDisplay?.OnHover(this);
-        Debug.Log("The cursor entered the selectable UI element.");
     }
 }
