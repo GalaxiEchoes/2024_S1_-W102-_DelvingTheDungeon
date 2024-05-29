@@ -9,7 +9,7 @@ using TMPro;
 
 public class Register : MonoBehaviour
 {
-    /*public TMPro.TextMeshProUGUI text;
+    public TMPro.TextMeshProUGUI text;
     public CanvasManager canvasManager;
     public TMP_InputField usernameInput;
     public TMP_InputField passwordInput;
@@ -68,5 +68,5 @@ public class Register : MonoBehaviour
             Debug.Log("Account Registered");
             canvasManager.OnLoginButtonClick();
         }
-    }*/
+    }
 }

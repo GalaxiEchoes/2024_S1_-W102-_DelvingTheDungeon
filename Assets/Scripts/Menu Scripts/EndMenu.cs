@@ -19,13 +19,32 @@ public class EndMenu : MonoBehaviour
 
     public void ExitToMain()
     {
-        manager.StartNewRun();
+        manager.StartNewGame();
         SceneManager.LoadScene(0);
     }
 
     public void Respawn()
     {
-        manager.StartNewRun();
+        manager.StartNewGame();
         SceneManager.LoadScene(1);
+    }
+
+    public void ClearLoginStatus()
+    {
+        PlayerPrefs.DeleteKey("IsLoggedIn");
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationQuit()
+    {
+        ClearLoginStatus();
+    }
+
+    private void OnDisable()
+    {
+        if (!Application.isPlaying)
+        {
+            ClearLoginStatus();
+        }
     }
 }

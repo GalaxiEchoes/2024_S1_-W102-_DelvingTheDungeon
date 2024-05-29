@@ -82,6 +82,7 @@ public class StartStairLogic : MonoBehaviour
 
     void EventAfterRotation()
     {
+        Debug.Log("LoadingPrevLevel.");
         controller.LoadPrevLevel();
     }
 }

@@ -49,12 +49,12 @@ public class Controller : MonoBehaviour
 
     public void SaveGame()
     {
-        persistenceManager.SaveEverything();
+        persistenceManager.SaveWorldState();
     }
 
     public void LoadGame()
     {
-        if (persistenceManager.LoadEverything())
+        if (persistenceManager.LoadWorldState())
         {
             dungeonSpawner.SpawnDungeonRooms();
             furnitureSpawner.LoadFurniture();
@@ -63,6 +63,7 @@ public class Controller : MonoBehaviour
         {
             //Generate new world
             randomSeed = rand.Next(0, int.MaxValue);
+            Debug.Log("RandomSeed " + randomSeed);
             persistenceManager.UpdateWorldState();
 
             dungeonGenerator.GenerateDungeon();

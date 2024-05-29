@@ -5,11 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] PersistenceManager PersistenceManager;
+    PersistenceManager PersistenceManager;
 
     private void Start()
     {
-
+        PersistenceManager = GetComponent<PersistenceManager>();
     }
 
     public void StartGame()

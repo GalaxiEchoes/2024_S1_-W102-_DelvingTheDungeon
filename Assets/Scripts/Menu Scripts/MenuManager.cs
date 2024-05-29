@@ -24,7 +24,7 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        Unpause();
+        Pause();
     }
 
     // Update is called once per frame
@@ -166,7 +166,7 @@ public class MenuManager : MonoBehaviour
 
     private void SwitchToMainMenuScreen()
     {
-        persistenceManager.SaveEverything();
+        persistenceManager.SaveWorldState();
         SceneManager.LoadScene(0);
     }
 
@@ -196,7 +196,7 @@ public class MenuManager : MonoBehaviour
 
     private void ExitGame()
     {
-        persistenceManager.SaveEverything();
+        persistenceManager.SaveWorldState();
         Debug.Log("Game Ended");
         Application.Quit();
     }

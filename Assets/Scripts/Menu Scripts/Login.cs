@@ -9,7 +9,7 @@ using TMPro;
 
 public class Login : MonoBehaviour
 {
-    /*public TMPro.TextMeshProUGUI text;
+    public TMPro.TextMeshProUGUI text;
     public CanvasManager canvasManager;
     public TMP_InputField username;
     public TMP_InputField password;
@@ -72,5 +72,5 @@ public class Login : MonoBehaviour
     void loadWelcomeScreen()
     {
         canvasManager.OnMenuButtonClick();
-    }*/
+    }
 }
