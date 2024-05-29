@@ -60,8 +60,10 @@ public class PersistenceManager : MonoBehaviour
     [Serializable]
     public class PermanentGameData
     {
-        //Player level
-        //Player money
+        public int currentXPLevel;
+        public int totalXP;
+        public int prevLevelXP;
+        public int nextLevelXP;
         public int money;
         public int health;
         public float stamina;
@@ -74,7 +76,9 @@ public class PersistenceManager : MonoBehaviour
     //Save Data
     public WorldState worldState;
     public GameData gameData;
-    public PermanentGameData permanantGameData;
+    public PermanentGameData permanentGameData;
+
+    //Objects to retrieve/set data
     [SerializeField] GameObject playerGameObject;
     [SerializeField] GameObject playerCamera;
     [SerializeField] CameraStyleManager cameraSwitcher;
@@ -83,14 +87,16 @@ public class PersistenceManager : MonoBehaviour
     DungeonGenerator dungeonGenerator;
     DungeonSpawner dungeonSpawner;
     FurnitureSpawner furnitureSpawner;
+    PlayFabManager playFabManager;
 
     private void Start()
     {
         Scene currentScene = SceneManager.GetActiveScene();
+        playFabManager = gameObject.GetComponent<PlayFabManager>();
 
         if (currentScene.name.CompareTo("DelvingTheDungeon") == 0)
         {
-            permanantGameData = new PermanentGameData();
+            permanentGameData = new PermanentGameData();
             gameData = new GameData();
             gameData.currentLevel = -1;
             gameData.InventorySystem = new InventorySystem(39);
@@ -113,35 +119,49 @@ public class PersistenceManager : MonoBehaviour
 
     }
 
-    public void SaveWorldState()
+    public void SaveEverything()
     {
-        DownloadDependencies();
-        string json = JsonUtility.ToJson(worldState);
-        string directoryPath = Application.dataPath + "/Saves";
-        string filePath = directoryPath + "/" + gameData.currentLevel + "world_state.json";
-        File.WriteAllText(filePath, json);
+        SaveGameData();
+        SavePermanentData();
+        SaveWorldState(gameData.currentLevel);
     }
 
-    public bool LoadWorldState()
+    public bool LoadEverything()
     {
-        LoadCurrentLevel();
+        LoadGameData();
 
+        bool hasLoadedLevel = LoadWorldState(gameData.currentLevel);
+        SetPlayerToLastPos();
+        LoadPermanentData();
+
+        return hasLoadedLevel;
+    }
+
+    public void SaveWorldState(int currentLevel)
+    {
+        DownloadWorldState();
+        string json = JsonUtility.ToJson(worldState);
         string directoryPath = Application.dataPath + "/Saves";
-        string filePath = directoryPath + "/" + gameData.currentLevel + "world_state.json";
+        string filePath = directoryPath + "/" + currentLevel + "world_state.json";
+        File.WriteAllText(filePath, json);
+
+        if(playFabManager != null && playFabManager.IsLoggedIn())
+        {
+            playFabManager.SaveWorldData();
+        }
+    }
+
+    public bool LoadWorldState(int currentLevel)
+    {
+        string directoryPath = Application.dataPath + "/Saves";
+        string filePath = directoryPath + "/" + currentLevel + "world_state.json";
 
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
             worldState = JsonUtility.FromJson<WorldState>(json);
-            SetPlayerToLastPos();
-            LoadCurrentStats();
-            UploadDependencies();
-
+            UploadWorldState();
             return true;
-        }
-        else
-        {
-            LoadCurrentStats();
         }
         return false;
     }
@@ -157,13 +177,18 @@ public class PersistenceManager : MonoBehaviour
         {
             file.Delete();
         }
+
+        if (playFabManager != null && playFabManager.IsLoggedIn())
+        {
+            playFabManager.StartNewGame();
+        }
     }
 
-    //Deletes world and level persistent data but not permanant data
+    //Deletes world and level persistent data but not permanent data
     public void StartNewRun()
     {
         string dirPath = Application.dataPath + "/Saves";
-        string worldStateData = "world_State.json";
+        string worldStateData = "world_state.json";
         string gameData = "game_data";
 
         //Finds world data to delete
@@ -187,91 +212,84 @@ public class PersistenceManager : MonoBehaviour
         {
             file.Delete();
         }
-    }
 
-    private void UploadDependencies()
-    {
-        LoadCurrentLevel();
-        LoadCurrentStats();
-
-        //Controller
-        controller.randomSeed = worldState.seed;
-
-        //DungeonGenerator
-        dungeonGenerator.size = worldState.gridSize;
-        dungeonGenerator.bossLevel = worldState.bossLevel;
-        dungeonGenerator.grid = worldState.grid;
-        dungeonGenerator.rooms = worldState.rooms;
-        dungeonGenerator.stairs = worldState.stairs;
-        dungeonGenerator.endRoomPos = worldState.endRoomPos;
-        dungeonGenerator.startRoomPos = worldState.startRoomPos;
-        dungeonGenerator.currentLevel = gameData.currentLevel;
-        dungeonGenerator.seed = worldState.seed;
-
-        //DungeonSpawner
-        dungeonSpawner.gridSize = worldState.gridSize;
-        dungeonSpawner.grid = worldState.grid;
-        dungeonSpawner.stairs = worldState.stairs;
-        dungeonSpawner.seed = worldState.seed;
-        dungeonSpawner.currentLevel = gameData.currentLevel;
-        dungeonSpawner.bossLevel = worldState.bossLevel;
-        dungeonSpawner.spawnLocation = worldState.spawnLocation;
-
-        //Furniture Spawner
-        furnitureSpawner.seed = worldState.seed;
-        furnitureSpawner.grid = worldState.grid;
-        furnitureSpawner.rooms = worldState.rooms;
-        furnitureSpawner.gridSize = worldState.gridSize;
-        furnitureSpawner.furnitureList = worldState.furnitureList;
-
-        cameraSwitcher.currentStyle = worldState.currentStyle;
-
-        //Player Inventory
-        InventoryHolder target = playerGameObject.GetComponent<InventoryHolder>();
-
-        if (target != null)
+        if(playFabManager != null && playFabManager.IsLoggedIn())
         {
-            target.EquipmentInventorySystem = gameData.EquipmentInventorySystem;
-            target.InventorySystem = gameData.InventorySystem;
+            playFabManager.StartNewRun();
         }
     }
 
-    private void DownloadDependencies()
+    private void UploadWorldState()
     {
-        SaveCurrentLevel();
-        SaveCurrentStats();
+        if (controller != null && dungeonGenerator != null && playerGameObject != null && playerCamera
+            != null && dungeonSpawner != null && cameraSwitcher != null && furnitureSpawner != null)
+        {
+            //Controller
+            controller.randomSeed = worldState.seed;
 
-        //Controller
-        worldState.seed = controller.randomSeed;
+            //DungeonGenerator
+            dungeonGenerator.size = worldState.gridSize;
+            dungeonGenerator.bossLevel = worldState.bossLevel;
+            dungeonGenerator.grid = worldState.grid;
+            dungeonGenerator.rooms = worldState.rooms;
+            dungeonGenerator.stairs = worldState.stairs;
+            dungeonGenerator.endRoomPos = worldState.endRoomPos;
+            dungeonGenerator.startRoomPos = worldState.startRoomPos;
+            dungeonGenerator.currentLevel = gameData.currentLevel;
+            dungeonGenerator.seed = worldState.seed;
 
-        //DungeonGenerator
-        worldState.grid = dungeonGenerator.grid;
-        worldState.gridSize = dungeonGenerator.size;
-        worldState.stairs = dungeonGenerator.stairs;
-        worldState.rooms = dungeonGenerator.rooms;
-        worldState.bossLevel = dungeonGenerator.bossLevel;
-        worldState.endRoomPos = dungeonGenerator.endRoomPos;
-        worldState.startRoomPos = dungeonGenerator.startRoomPos;
+            //DungeonSpawner
+            dungeonSpawner.gridSize = worldState.gridSize;
+            dungeonSpawner.grid = worldState.grid;
+            dungeonSpawner.stairs = worldState.stairs;
+            dungeonSpawner.seed = worldState.seed;
+            dungeonSpawner.currentLevel = gameData.currentLevel;
+            dungeonSpawner.bossLevel = worldState.bossLevel;
+            dungeonSpawner.spawnLocation = worldState.spawnLocation;
 
-        //Other
-        Rigidbody rb = playerGameObject.transform.GetComponent<Rigidbody>();
-        worldState.playerPos = rb.position;
-        worldState.camPos = playerCamera.transform.position;
-        worldState.spawnLocation = dungeonSpawner.spawnLocation;
-        worldState.currentStyle = cameraSwitcher.currentStyle;
-        furnitureSpawner.SaveFurniture();
-        worldState.furnitureList = furnitureSpawner.furnitureList;
+            //Furniture Spawner
+            furnitureSpawner.seed = worldState.seed;
+            furnitureSpawner.grid = worldState.grid;
+            furnitureSpawner.rooms = worldState.rooms;
+            furnitureSpawner.gridSize = worldState.gridSize;
+            furnitureSpawner.furnitureList = worldState.furnitureList;
 
-        //PlayerInventory
-        InventoryHolder current = playerGameObject.GetComponent<InventoryHolder>();
-        gameData.InventorySystem = current.InventorySystem;
-        gameData.EquipmentInventorySystem = current.EquipmentInventorySystem;
+            cameraSwitcher.currentStyle = worldState.currentStyle;
+        }
+    }
+
+    private void DownloadWorldState()
+    {
+        if (controller != null && dungeonGenerator != null && playerGameObject != null && playerCamera 
+            != null && dungeonSpawner != null && cameraSwitcher != null && furnitureSpawner != null)
+        {
+            //Controller
+            worldState.seed = controller.randomSeed;
+
+            //DungeonGenerator
+            worldState.grid = dungeonGenerator.grid;
+            worldState.gridSize = dungeonGenerator.size;
+            worldState.stairs = dungeonGenerator.stairs;
+            worldState.rooms = dungeonGenerator.rooms;
+            worldState.bossLevel = dungeonGenerator.bossLevel;
+            worldState.endRoomPos = dungeonGenerator.endRoomPos;
+            worldState.startRoomPos = dungeonGenerator.startRoomPos;
+
+            //Other
+            Rigidbody rb = playerGameObject.transform.GetComponent<Rigidbody>();
+            worldState.playerPos = rb.position;
+            worldState.camPos = playerCamera.transform.position;
+            worldState.spawnLocation = dungeonSpawner.spawnLocation;
+            worldState.currentStyle = cameraSwitcher.currentStyle;
+            furnitureSpawner.SaveFurniture();
+            worldState.furnitureList = furnitureSpawner.furnitureList;
+        }
     }
 
     public void UpdateWorldState()
     {
-        DownloadDependencies();
-        UploadDependencies();
+        DownloadWorldState();
+        UploadWorldState();
     }
 
     public void SetPlayerToSpawn()
@@ -288,67 +306,105 @@ public class PersistenceManager : MonoBehaviour
         playerCamera.transform.position = worldState.camPos;
     }
 
-    private void SaveCurrentLevel()
+    public void SaveGameData()
     {
+        if (playerGameObject != null)
+        {
+            //PlayerInventory
+            InventoryHolder current = playerGameObject.GetComponent<InventoryHolder>();
+            gameData.InventorySystem = current.InventorySystem;
+            gameData.EquipmentInventorySystem = current.EquipmentInventorySystem;
+        }
+
         string json = JsonUtility.ToJson(gameData);
         string gameDataPath = Application.dataPath + "/Saves" + "/game_data.json";
         File.WriteAllText(gameDataPath, json);
+
+        if (playFabManager != null && playFabManager.IsLoggedIn())
+        {
+            playFabManager.SaveGameData();
+        }
     }
 
-    private void LoadCurrentLevel()
+    private void LoadGameData()
     {
         string gameDataPath = Application.dataPath + "/Saves" + "/game_data.json";
         if (File.Exists(gameDataPath))
         {
             string json = File.ReadAllText(gameDataPath);
             gameData = JsonUtility.FromJson<GameData>(json);
+
+            //Player Inventory
+            InventoryHolder target = playerGameObject.GetComponent<InventoryHolder>();
+
+            if (target != null)
+            {
+                target.EquipmentInventorySystem = gameData.EquipmentInventorySystem;
+                target.InventorySystem = gameData.InventorySystem;
+            }
         }
         else if (gameData.currentLevel == -1)
         {
             gameData.currentLevel = 0;
             gameData.maxLevelReached = 0;
-            SaveCurrentLevel();
+            SaveGameData();
         }
     }
 
-    private void SaveCurrentStats()
+    public void SavePermanentData()
     {
-        //Player
-        Player current = playerGameObject.GetComponent<Player>();
-        permanantGameData.money = current.money;
-        permanantGameData.health = current.health;
-        permanantGameData.stamina = current.stamina;
-        permanantGameData.attack = current.attack;
-        permanantGameData.defense = current.defense;
-        permanantGameData.maxHealth = current.maxHealth;
-        permanantGameData.maxStamina = current.maxStamina;
+        if (playerGameObject != null)
+        {
+            //Player
+            Player current = playerGameObject.GetComponent<Player>();
+            permanentGameData.currentXPLevel = current.xpManager.currentLevel;
+            permanentGameData.totalXP = current.xpManager.totalXP;
+            permanentGameData.prevLevelXP = current.xpManager.prevLevelXP;
+            permanentGameData.nextLevelXP = current.xpManager.nextLevelXP;
+            permanentGameData.money = current.money;
+            permanentGameData.health = current.health;
+            permanentGameData.stamina = current.stamina;
+            permanentGameData.attack = current.attack;
+            permanentGameData.defense = current.defense;
+            permanentGameData.maxHealth = current.maxHealth;
+            permanentGameData.maxStamina = current.maxStamina;
+        }
 
         string directoryPath = Application.dataPath + "/Saves";
-        string dataJson = JsonUtility.ToJson(permanantGameData);
-        string filePath = directoryPath + "/permanant_data";
+        string dataJson = JsonUtility.ToJson(permanentGameData);
+        string filePath = directoryPath + "/permanent_data";
         File.WriteAllText(filePath, dataJson);
+
+        if (playFabManager != null && playFabManager.IsLoggedIn())
+        {
+            playFabManager.SavePermanentData();
+        }
     }
 
-    private void LoadCurrentStats()
+    private void LoadPermanentData()
     {
         string directoryPath = Application.dataPath + "/Saves";
-        string filePath = directoryPath + "/permanant_data";
+        string filePath = directoryPath + "/permanent_data";
 
         if (File.Exists(filePath))
         {
             String json = File.ReadAllText(filePath);
-            permanantGameData = JsonUtility.FromJson<PermanentGameData>(json);
+            permanentGameData = JsonUtility.FromJson<PermanentGameData>(json);
 
             //Player Stats
             Player original = playerGameObject.GetComponent<Player>();
 
-            original.money = permanantGameData.money;
-            original.health = permanantGameData.health;
-            original.stamina = permanantGameData.stamina;
-            original.attack = permanantGameData.attack;
-            original.defense = permanantGameData.defense;
-            original.maxHealth = permanantGameData.maxHealth;
-            original.maxStamina = permanantGameData.maxStamina;
+            original.xpManager.currentLevel = permanentGameData.currentXPLevel;
+            original.xpManager.totalXP = permanentGameData.totalXP;
+            original.xpManager.prevLevelXP = permanentGameData.prevLevelXP;
+            original.xpManager.nextLevelXP = permanentGameData.nextLevelXP;
+            original.money = permanentGameData.money;
+            original.health = permanentGameData.health;
+            original.stamina = permanentGameData.stamina;
+            original.attack = permanentGameData.attack;
+            original.defense = permanentGameData.defense;
+            original.maxHealth = permanentGameData.maxHealth;
+            original.maxStamina = permanentGameData.maxStamina;
 
             if (original.stamina < original.maxStamina)
             {
@@ -361,7 +417,6 @@ public class PersistenceManager : MonoBehaviour
         }
     }
 
-
     public void IncreaseCurrentLevel()
     {
         gameData.currentLevel++;
@@ -371,9 +426,9 @@ public class PersistenceManager : MonoBehaviour
             // Increase player money
             Player player = playerGameObject.GetComponent<Player>();
             player.addMoney(25);
-            SaveCurrentStats(); // Save the updated player stats
+            SavePermanentData(); // Save the updated player stats
         }
-        SaveCurrentLevel();
+        SaveGameData();
     }
 
     public void DecreaseCurrentLevel()
@@ -381,26 +436,7 @@ public class PersistenceManager : MonoBehaviour
         if (gameData.currentLevel > 0)
         {
             gameData.currentLevel--;
-            SaveCurrentLevel();
-        }
-    }
-
-    public void ClearLoginStatus()
-    {
-        PlayerPrefs.DeleteKey("IsLoggedIn");
-        PlayerPrefs.Save();
-    }
-
-    private void OnApplicationQuit()
-    {
-        ClearLoginStatus();
-    }
-
-    private void OnDisable()
-    {
-        if (!Application.isPlaying)
-        {
-            ClearLoginStatus();
+            SaveGameData();
         }
     }
 }

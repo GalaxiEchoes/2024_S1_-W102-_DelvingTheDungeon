@@ -81,7 +81,6 @@ public class EndStairLogic : MonoBehaviour
 
     void EventAfterRotation()
     {
-        Debug.Log("LoadingNextLevel.");
         controller.LoadNextLevel();
     }
 }
