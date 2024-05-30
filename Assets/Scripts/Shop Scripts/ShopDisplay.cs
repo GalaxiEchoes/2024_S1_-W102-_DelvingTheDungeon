@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class ShopDisplay : MonoBehaviour
 {
     // List of items to be sold in the shop
-    [SerializeField] InventoryItemData[] shopItems;
+    [SerializeField] public InventoryItemData[] shopItems;
 
     // Slots that contain the items to be bought
     [SerializeField] private ShopSlot_UI[] slots;
 
     // Current player who holds inventory
-    [SerializeField] Player currentPlayer;
+    [SerializeField] public Player currentPlayer;
 
     // Selected item information
     [Header("Selected Item Information")]
@@ -39,7 +39,7 @@ public class ShopDisplay : MonoBehaviour
     public ShopSystem ShopSystem => shopSystem;
     public Dictionary<ShopSlot_UI, ISlot> SlotDictionary => slotDictionary;
 
-    protected void Start()
+    public void Start()
     {
         // Assign items to the shop system
         shopSystem = new ShopSystem(shopItems);
