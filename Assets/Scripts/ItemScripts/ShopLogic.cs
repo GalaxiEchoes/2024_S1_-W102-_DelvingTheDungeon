@@ -7,7 +7,6 @@ public class ShopLogic : MonoBehaviour
 {
     //Shop instance reference
     public static ShopLogic shopInstance;
-    public ShopDisplay shopDisplay;
 
     [Header("Object States")]
     public bool isOpen = false;
@@ -18,9 +17,6 @@ public class ShopLogic : MonoBehaviour
         {
             shopInstance = this;
         }
-
-        GameObject shop = GameObject.FindGameObjectWithTag("ShopDisplay");
-        shopDisplay = shop.GetComponent<ShopDisplay>();
     }
 
     // Set the shop to open
@@ -32,13 +28,12 @@ public class ShopLogic : MonoBehaviour
         }
     }
 
-    // Set the shop to closed and clear the selected item to purchase
+    // Set the shop to closed
     public void Close()
     {
         if (isOpen)
         {
             isOpen = false;
-            shopDisplay.clearSelectedItem();
         }
     }
 }

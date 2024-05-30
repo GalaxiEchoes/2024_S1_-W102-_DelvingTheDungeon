@@ -83,7 +83,10 @@ public class PlayerActions : MonoBehaviour
             {
                 if (shop.isOpen) //If shops open then close the shop
                 {
-                    shop.Close(); 
+                    shop.Close();
+                    GameObject shopItem = GameObject.FindGameObjectWithTag("ShopDisplay");
+                    ShopDisplay shopDisplay = shopItem.GetComponent<ShopDisplay>();
+                    shopDisplay.clearSelectedItem();
                 }
                 else if (!PauseManager.instance.IsPaused) //If game not paused, i.e. not on any menu screen, then open the shop
                 {
