@@ -9,23 +9,26 @@ public class ShopDisplay : MonoBehaviour
     // List of items to be sold in the shop
     [SerializeField] InventoryItemData[] shopItems;
 
-    // Area to show description of item
-    [SerializeField] TextMeshProUGUI itemDescriptionArea;
+    // Slots that contain the items to be bought
+    [SerializeField] private ShopSlot_UI[] slots;
+
+    // Current player who holds inventory
+    [SerializeField] Player currentPlayer;
 
     // Selected item information
+    [Header("Selected Item Information")]
     [SerializeField] Image selectedItemImage;
     protected InventoryItemData selectedItemData;
     [SerializeField] TextMeshProUGUI selectedItemDescriptionArea;
     private Sprite initialSprite;
 
+    [Header("Text Areas")]
     // Purchase response message (error or success)
     [SerializeField] TextMeshProUGUI responseMessageArea;
-
-    // Current player who holds inventory
-    [SerializeField] Player currentPlayer;
-
-    // Slots that contain the items to be bought
-    [SerializeField] private ShopSlot_UI[] slots;
+    // Area to show description of item
+    [SerializeField] TextMeshProUGUI itemDescriptionArea;
+    // Area to show players money
+    [SerializeField] TextMeshProUGUI playerMoneyArea;
 
 
     // Store the slot information
@@ -45,6 +48,8 @@ public class ShopDisplay : MonoBehaviour
         // Assign the shop system to the slots
         AssignSlot(shopSystem);
         initialSprite = selectedItemImage.sprite;
+
+        playerMoneyArea.text = currentPlayer.money.ToString();
     }
 
     //Assign inventory slot uis to the inventorysystem dictionary
@@ -122,6 +127,9 @@ public class ShopDisplay : MonoBehaviour
                         responseMessageArea.color = Color.green;
                         responseMessageArea.text = "Success! " + selectedItemData.itemName + " added to inventory";
                         currentPlayer.minusMoney(selectedItemData.cost);
+
+                        // Update player money text to represent current money
+                        playerMoneyArea.text = currentPlayer.money.ToString();
                     }
                     else
                     {
