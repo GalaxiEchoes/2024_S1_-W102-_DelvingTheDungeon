@@ -57,12 +57,12 @@ public class PlayFabManager : MonoBehaviour
 
     public void LoginButton()
     {
-            var request = new LoginWithEmailAddressRequest
-            {
-                Email = emailInput.text,
-                Password = passwordInput.text,
-            };
-            PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
+        var request = new LoginWithEmailAddressRequest
+        {
+            Email = emailInput.text,
+            Password = passwordInput.text,
+        };
+        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
     }
 
     private void OnLoginSuccess(LoginResult result)

@@ -56,11 +56,17 @@ public class MouseItemData : MonoBehaviour
         PreviousInventorySlot = null;
     }
 
+    public Camera cam;
+
     private void Update()
     {
         if (AssignedInventorySlot.ItemData != null)
         {
-            transform.position = Mouse.current.position.ReadValue();
+            Vector3 mousePos = Mouse.current.position.value;
+            mousePos.z = Camera.main.farClipPlane * 1.3f;
+            Vector3 worldPoint = cam.ScreenToWorldPoint(mousePos);
+
+            transform.position = worldPoint;
 
             if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUIObject())
             {
