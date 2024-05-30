@@ -6,25 +6,45 @@ using UnityEngine.UI;
 
 public class ShopDisplay : MonoBehaviour
 {
-    [SerializeField] InventoryItemData[] shopItems; // List of items to be sold in the shop
+    // List of items to be sold in the shop
+    [SerializeField] InventoryItemData[] shopItems;
+
+    // Area to show description of item
     [SerializeField] TextMeshProUGUI itemDescriptionArea;
+
+    // Selected item information
     [SerializeField] Image selectedItemImage;
+    protected InventoryItemData selectedItemData;
     [SerializeField] TextMeshProUGUI selectedItemDescriptionArea;
+    private Sprite initialSprite;
+
+    // Purchase response message (error or success)
+    [SerializeField] TextMeshProUGUI responseMessageArea;
+
+    // Current player who holds inventory
     [SerializeField] Player currentPlayer;
+
+    // Slots that contain the items to be bought
     [SerializeField] private ShopSlot_UI[] slots;
 
-    protected InventoryItemData selectedItemData;
+
+    // Store the slot information
     protected Dictionary<ShopSlot_UI, ISlot> slotDictionary;
     protected ShopSystem shopSystem;
 
+    // Getters
     public ShopSystem ShopSystem => shopSystem;
     public Dictionary<ShopSlot_UI, ISlot> SlotDictionary => slotDictionary;
 
     protected void Start()
     {
+        // Assign items to the shop system
         shopSystem = new ShopSystem(shopItems);
         shopSystem.OnShopSlotChanged += UpdateSlot;
+
+        // Assign the shop system to the slots
         AssignSlot(shopSystem);
+        initialSprite = selectedItemImage.sprite;
     }
 
     //Assign inventory slot uis to the inventorysystem dictionary
@@ -67,29 +87,71 @@ public class ShopDisplay : MonoBehaviour
     //Method responsible for clicking on a shop slot
     public void SlotClicked(ShopSlot_UI clickedUISlot)
     {
+        // If the slot clicked contains an item, set this item as the selected item's data
         if (clickedUISlot.AssignedItemSlot.ItemData != null)
         {
             selectedItemData = clickedUISlot.AssignedItemSlot.ItemData;
             selectedItemImage.sprite = selectedItemData.sprite;
-            selectedItemDescriptionArea.text = "Select Item: " + selectedItemData.itemName;
+            selectedItemDescriptionArea.text = "Selected Item: " + selectedItemData.itemName +" $"+selectedItemData.cost;
+            responseMessageArea.text = "";
         }
     }
 
     // Method called on button click to purchase selected item
     public void OnPurchase()
     {
+        // Check the player has selected an item to buy
         if (selectedItemData != null)
         {
-            var inventory = currentPlayer.transform.GetComponent<InventoryHolder>();
+            // Check the player has enough money to buy item
+            if (currentPlayer.money > selectedItemData.cost)
+            {
+                var inventory = currentPlayer.transform.GetComponent<InventoryHolder>();
 
-            if (!inventory)
-            {
-                return;
+                // Check the player's inventory exists to add item to
+                if (!inventory)
+                {
+                    return;
+                }
+                else
+                {
+                    //Check there is space in inventory for item
+                    if (inventory.InventorySystem.AddToInventory(selectedItemData, 1))
+                    {
+                        // There is space so add to inventory
+                        responseMessageArea.color = Color.green;
+                        responseMessageArea.text = "Success! " + selectedItemData.itemName + " added to inventory";
+                        currentPlayer.minusMoney(selectedItemData.cost);
+                    }
+                    else
+                    {
+                        // There is no space so print error message
+                        responseMessageArea.color = Color.red;
+                        responseMessageArea.text = "Sorry! You do not have space in your inventory to purchase item!";
+                    }
+
+                }
             }
-            else
+            else // Player cannot afford item - Print error message
             {
-                inventory.InventorySystem.AddToInventory(selectedItemData, 1);
+                responseMessageArea.color = Color.red;
+                responseMessageArea.text = "Sorry! You do not have enough money to purchase " + selectedItemData.itemName;
             }
+
         }
+        else // Player has not selected an item to buy - Print error message
+        {
+            responseMessageArea.color = Color.red;
+            responseMessageArea.text = "Please select an item to purchase!";
+        }
+    }
+
+    // Reset the selected item to purchase called when shop is closed
+    public void clearSelectedItem()
+    {
+        selectedItemData = null;
+        selectedItemImage.sprite = initialSprite;
+        selectedItemDescriptionArea.text = "Select Item to Purchase";
+        responseMessageArea.text = "";
     }
 }

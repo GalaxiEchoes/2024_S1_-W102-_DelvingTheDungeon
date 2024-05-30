@@ -9,32 +9,39 @@ using System;
 [Serializable]
 public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
 {
+    // Each UI slot stores image of item, cost, and slot containing item
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCost;
     [SerializeField] private ISlot assignedItemSlot;
 
+    // Button on UI element so slots can be clicked/selected
     private Button button;
 
+    // Getters
     public ISlot AssignedItemSlot => assignedItemSlot;
     public ShopDisplay parentDisplay { get; private set; }
 
     private void Awake()
     {
+        // Reset the slot on awake
         ClearSlot();
 
+        // Add listener to check when a slot has been clicked
         button = GetComponent<Button>();
         button?.onClick.AddListener(OnUISlotClick);
 
+        // Set the parent display to the shop display
         parentDisplay = transform.parent.GetComponent<ShopDisplay>();
     }
 
+    // Initialise slot value 
     public void Init(ISlot slot)
     {
         assignedItemSlot = slot;
         UpdateUISlot(slot);
     }
 
-    //update the slot to match current items data
+    // Update the slot to match current items data
     public void UpdateUISlot(ISlot slot)
     {
         if (slot.ItemData != null)
@@ -58,7 +65,7 @@ public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
         }
     }
 
-    //empty slot as required
+    // Empty slot as required
     public void ClearSlot()
     {
         assignedItemSlot?.ClearSlot();
@@ -67,13 +74,13 @@ public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
         itemCost.text = "";
     }
 
-    //On click of button/ui element call the slotclicked method in inventorydisplay class
+    // On click of button/ui element call the slotclicked method in shopdisplay class
     public void OnUISlotClick()
     {
         parentDisplay?.SlotClicked(this);
     }
 
-    //On hover of button/ui element call the onhover method in inventorydisplay class
+    // On hover of button/ui element call the onhover method in shopdisplay class
     public void OnPointerEnter(PointerEventData eventData)
     {
         parentDisplay?.OnHover(this);
