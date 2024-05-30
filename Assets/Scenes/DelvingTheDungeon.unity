@@ -578,11 +578,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08cd6f9b8bd1548808510f965a2f791e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: {fileID: 1356606045}
-  Stamina: {fileID: 192370167}
-  Attack: {fileID: 206979705}
-  Defense: {fileID: 1473256360}
-  AssignedPlayer: {fileID: 1971517937}
+  health: {fileID: 1356606045}
+  stamina: {fileID: 192370167}
+  attack: {fileID: 206979705}
+  defense: {fileID: 1473256360}
+  assignedPlayer: {fileID: 1971517937}
 --- !u!114 &126224080
 MonoBehaviour:
   m_ObjectHideFlags: 0

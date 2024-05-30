@@ -8,15 +8,23 @@ using UnityEngine.InputSystem;
 [Serializable]
 public abstract class InventoryDisplay : MonoBehaviour
 {
+    // Item held by mouse
     [SerializeField] MouseItemData mouseInventoryItem;
+
+    // Description of hovered item
     [SerializeField] TextMeshProUGUI itemDescriptionArea;
+
+    // Current player who holds inventory
     [SerializeField] Player currentPlayer;
 
+    // Store the slot information
     protected InventorySystem inventorySystem;
     protected EquipmentInventorySystem equipmentInventorySystem;
+    // Slots that contain the inventory items
     protected Dictionary<InventorySlot_UI, ISlot> slotDictionary;
     protected Dictionary<EquipmentSlot_UI, ISlot> equipmentSlotDictionary;
 
+    // Getters
     public InventorySystem InventorySystem => inventorySystem;
     public EquipmentInventorySystem EquipmentInventorySystem => equipmentInventorySystem;
     public Dictionary<InventorySlot_UI, ISlot> SlotDictionary => slotDictionary;
@@ -30,6 +38,7 @@ public abstract class InventoryDisplay : MonoBehaviour
     public abstract void AssignSlot(InventorySystem invToDisplay);
     public abstract void AssignSlot(EquipmentInventorySystem invToDisplay);
 
+    // Update dictionaries to reflect slots information
     protected virtual void UpdateSlot(ISlot updatedSlot)
     {
         foreach (var slot in SlotDictionary)

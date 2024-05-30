@@ -10,24 +10,30 @@ using System;
 [Serializable]
 public class MouseItemData : MonoBehaviour
 {
+    // Mouse slot stores image of item, amount in stack, and slot containing item
     public Image ItemSprite;
     public TextMeshProUGUI ItemCount;
     public ISlot AssignedInventorySlot;
+
+    // Mouse keeps track of what slot the item previously belonged in
     public InventorySlot_UI PreviousInventorySlot;
     public EquipmentSlot_UI PreviousEquipmentSlot;
 
+    // Transforms to determine where to drop item onto ground drom inventory
     private Transform _playerTransform;
     private Transform _orientation;
 
     private void Awake()
     {
-        ItemSprite.color = Color.clear;
-        ItemCount.text = "";
+        // Sets mouse item to be clear
+        ClearSlot();
 
+        // Finds player information to get position to determine where to drop item
         _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         _orientation = _playerTransform.Find("Orientation");
     }
 
+    // Update the slot to match current items data
     public void UpdateMouseSlot(ISlot invSlot)
     {
         AssignedInventorySlot.AssignItem(invSlot);
@@ -36,6 +42,7 @@ public class MouseItemData : MonoBehaviour
         ItemSprite.color = Color.white;
     }
 
+    // Update what slot the mouse collected item from
     public void UpdateMousePreviousUISlot(InventorySlot_UI previousSlot)
     {
         PreviousInventorySlot = previousSlot;
@@ -56,18 +63,14 @@ public class MouseItemData : MonoBehaviour
         PreviousInventorySlot = null;
     }
 
+    // Update to move item according to mouse position
     private void Update()
     {
         if (AssignedInventorySlot.ItemData != null)
         {
             transform.position = Mouse.current.position.ReadValue();
 
-            if (Mouse.current.leftButton.wasPressedThisFrame && !IsPointerOverUIObject())
-            {
-                ClearSlot();
-            }
-
-            //Change this to imputmanager
+            // Checks if Q key pressed
             if (Input.GetKey(KeyCode.Q))
             {
                 if (AssignedInventorySlot.ItemData.ItemPrefab != null)
@@ -81,26 +84,20 @@ public class MouseItemData : MonoBehaviour
                     {
                         Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, dropPosition, Quaternion.identity);
                     }
+
+                    // Clears mouse slot of item
                     ClearSlot();
                 }
             }
         }
     }
 
+    // Empty mouse slot as required
     public void ClearSlot()
     {
         AssignedInventorySlot.ClearSlot();
         ItemCount.text = "";
         ItemSprite.color = Color.clear;
         ItemSprite.sprite = null;
-    }
-
-    public static bool IsPointerOverUIObject()
-    {
-        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        eventDataCurrentPosition.position = Mouse.current.position.ReadValue();
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-        return results.Count > 0;
     }
 }
