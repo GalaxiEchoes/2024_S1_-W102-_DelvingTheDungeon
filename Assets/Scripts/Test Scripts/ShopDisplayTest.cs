@@ -17,6 +17,13 @@ public class ShopDisplayTest
     InventoryItemData item2;
     InventoryItemData[] items;
 
+    //Slots UI
+    ShopSlot_UI slot1;
+    ShopSlot_UI slot2;
+    ShopSlot_UI[] slots;
+    ISlot islot1;
+    ISlot islot2;
+
     //Player
     GameObject playerObject;
     Player testPlayer;
@@ -46,6 +53,21 @@ public class ShopDisplayTest
         testPlayer = playerObject.AddComponent<Player>();
         testPlayer.money = 100;
         shopDisplay.currentPlayer = testPlayer;
+
+        //Slots UI Setup
+        slots = new ShopSlot_UI[2];
+        slot1 = new GameObject().AddComponent<ShopSlot_UI>();
+        islot1 = new ISlot();
+        slot1.assignedItemSlot = islot1;
+        slots[0] = slot1;
+
+        slot2 = new GameObject().AddComponent<ShopSlot_UI>();
+        islot2 = new ISlot();
+        slot2.assignedItemSlot = islot2;
+        slots[1] = slot2;
+
+        shopDisplay.slots = slots;
+        
     }
 
     [Test]

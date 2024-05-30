@@ -12,7 +12,7 @@ public class ShopSlot_UI : MonoBehaviour, IPointerEnterHandler
     // Each UI slot stores image of item, cost, and slot containing item
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCost;
-    [SerializeField] private ISlot assignedItemSlot;
+    [SerializeField] public ISlot assignedItemSlot;
 
     // Button on UI element so slots can be clicked/selected
     private Button button;

@@ -10,7 +10,7 @@ public class ShopDisplay : MonoBehaviour
     [SerializeField] public InventoryItemData[] shopItems;
 
     // Slots that contain the items to be bought
-    [SerializeField] private ShopSlot_UI[] slots;
+    [SerializeField] public ShopSlot_UI[] slots;
 
     // Current player who holds inventory
     [SerializeField] public Player currentPlayer;
