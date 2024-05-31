@@ -8,36 +8,37 @@ public class SettingsCanvas : MonoBehaviour
 {
     // Array that stores all screen resolutions
     Resolution[] resolutions;
+    // Resolution dropdown reference
     public TMPro.TMP_Dropdown dropdownResolution;
+    //Fullscreen Toggle reference
     public Toggle fullScreenToggle;
 
     void Start()
     {
+        //Sets the game to fullscreen when you start it
         Screen.fullScreen = true;
-
+        //Gets the screen resolutions
         resolutions = Screen.resolutions;
-
         dropdownResolution.ClearOptions();
 
         List<string> options = new List<string>();
-        HashSet<string> uniqueOptions = new HashSet<string>();
 
         int curretResolutionIndex = 0;
+        //Creates available dropdown options
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+            
 
-            if (uniqueOptions.Add(option))
-            {
-                options.Add(option);
-            }
-
+            // Checks if resolution is the current screen resolution
             if (resolutions[i].width == Screen.width &&
                 resolutions[i].height == Screen.height)
             {
                 curretResolutionIndex = i;
             }
         }
+        //Adds the options and sets the resolution dropdown
         dropdownResolution.AddOptions(options);
         dropdownResolution.value = curretResolutionIndex;
         dropdownResolution.RefreshShownValue();
@@ -49,6 +50,7 @@ public class SettingsCanvas : MonoBehaviour
         }  
     }
 
+    //Sets the screen resolution based on the selected dropdown option
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
@@ -56,11 +58,12 @@ public class SettingsCanvas : MonoBehaviour
         AdjustCanvasScaler();
     }
 
+    //sets the game to fullscreen based on the toggle option
     public void SetFullScreen(bool isFullScreen)
     {
         Screen.fullScreen = isFullScreen;
     }
-
+    //Adjusts the canvas scaller to the UI scaling
     void AdjustCanvasScaler()
     {
         CanvasScaler canvasScaler = FindObjectOfType<CanvasScaler>();
