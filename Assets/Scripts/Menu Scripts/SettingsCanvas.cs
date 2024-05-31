@@ -6,6 +6,7 @@ using TMPro;
 
 public class SettingsCanvas : MonoBehaviour
 {
+    // Array that stores all screen resolutions
     Resolution[] resolutions;
     public TMPro.TMP_Dropdown dropdownResolution;
     public Toggle fullScreenToggle;
@@ -19,12 +20,17 @@ public class SettingsCanvas : MonoBehaviour
         dropdownResolution.ClearOptions();
 
         List<string> options = new List<string>();
+        HashSet<string> uniqueOptions = new HashSet<string>();
 
         int curretResolutionIndex = 0;
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
+
+            if (uniqueOptions.Add(option))
+            {
+                options.Add(option);
+            }
 
             if (resolutions[i].width == Screen.width &&
                 resolutions[i].height == Screen.height)
@@ -32,7 +38,6 @@ public class SettingsCanvas : MonoBehaviour
                 curretResolutionIndex = i;
             }
         }
-
         dropdownResolution.AddOptions(options);
         dropdownResolution.value = curretResolutionIndex;
         dropdownResolution.RefreshShownValue();
@@ -41,9 +46,7 @@ public class SettingsCanvas : MonoBehaviour
         {
             fullScreenToggle.isOn = Screen.fullScreen;
             fullScreenToggle.onValueChanged.AddListener(SetFullScreen);
-        }
-
-        
+        }  
     }
 
     public void SetResolution(int resolutionIndex)
@@ -52,7 +55,6 @@ public class SettingsCanvas : MonoBehaviour
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         AdjustCanvasScaler();
     }
-
 
     public void SetFullScreen(bool isFullScreen)
     {
@@ -70,8 +72,4 @@ public class SettingsCanvas : MonoBehaviour
             canvasScaler.matchWidthOrHeight = 0.5f;
         }
     }
-
-
-
-
 }
