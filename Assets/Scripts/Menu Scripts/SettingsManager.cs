@@ -7,8 +7,7 @@ public class SettingsManager : MonoBehaviour
     public GameObject volumeSettings;
     public GameObject keybindSettings;
     public GameObject settingsMenu;
-    public GameObject gameplayMenu;
-
+    public GameObject brightnessSettings;
 
     public void OnVolumeButtonClick()
     {
@@ -25,9 +24,9 @@ public class SettingsManager : MonoBehaviour
         SwitchToKeybindMenu();
     }
 
-    public void OnGameplayButtonClick()
+    public void OnBrightnessButtonClick()
     {
-        SwitchToGameplayMenu();
+        SwitchToBrightnessMenu();
     }
 
     private void SwitchToVolumeMenu()
@@ -35,8 +34,7 @@ public class SettingsManager : MonoBehaviour
         volumeSettings.SetActive(true);
         keybindSettings.SetActive(false);
         settingsMenu.SetActive(false);
-        gameplayMenu.SetActive(false);
-
+        brightnessSettings.SetActive(false);
     }
 
     private void SwitchToSettingsMenu()
@@ -44,8 +42,7 @@ public class SettingsManager : MonoBehaviour
         volumeSettings.SetActive(false);
         keybindSettings.SetActive(false);
         settingsMenu.SetActive(true);
-        gameplayMenu.SetActive(false);
-
+        brightnessSettings.SetActive(false);
     }
 
     public void SwitchToKeybindMenu()
@@ -53,16 +50,14 @@ public class SettingsManager : MonoBehaviour
         volumeSettings.SetActive(false);
         keybindSettings.SetActive(true);
         settingsMenu.SetActive(false);
-        gameplayMenu.SetActive(false);
-
+        brightnessSettings.SetActive(false);
     }
 
-    public void SwitchToGameplayMenu()
+    private void SwitchToBrightnessMenu()
     {
         volumeSettings.SetActive(false);
         keybindSettings.SetActive(false);
         settingsMenu.SetActive(false);
-        gameplayMenu.SetActive(true);
+        brightnessSettings.SetActive(true);
     }
-
 }

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
-using Graphs;
 using System;
+using Graphs;
 
 public class DungeonGenerator : MonoBehaviour
 {
@@ -83,21 +83,15 @@ public class DungeonGenerator : MonoBehaviour
     public void GenerateDungeon()
     {
         random = new Random(seed);
-        int maxRegens = 5;
-        
-        do
-        {
-            maxRegens--;
+        grid = new Grid3D<CellType>(size, Vector3Int.zero);
+        rooms = new List<Room>();
+        stairs = new List<Stairs>();
 
-            grid = new Grid3D<CellType>(size, Vector3Int.zero);
-            rooms = new List<Room>();
-            stairs = new List<Stairs>();
-
-            PlaceRooms();
-            Triangulate();
-            CreateHallways();
-            PathfindHallways();
-        }while (!ConnectionCheck() && maxRegens > 0) ;
+        PlaceStartAndEndRooms();
+        PlaceRooms();
+        Triangulate();
+        CreateHallways(false);
+        PathfindHallways();
 
         //Reassigning the start/end enums
         grid[startRoomPos] = CellType.StartingRoom;
@@ -114,51 +108,7 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    bool ConnectionCheck()
-    {
-        bool startConnected = false;
-        bool endConnected = false;
-
-        if(startRoomPos.x > 0 && startRoomPos.x < size.x)
-        {
-            if (grid[startRoomPos + Vector3Int.left] == CellType.Hallway || grid[startRoomPos + Vector3Int.forward] == CellType.Hallway || grid[startRoomPos + Vector3Int.right] == CellType.Hallway)
-            {
-                startConnected = true;
-            }
-        }
-
-        if(currentLevel == bossLevel)
-        {
-            if (endRoomPos.x > 0 && endRoomPos.x < size.x)
-            {
-                if (grid[endRoomPos + Vector3Int.left] == CellType.Hallway || grid[endRoomPos + Vector3Int.back] == CellType.Hallway || grid[endRoomPos + Vector3Int.right] == CellType.Hallway)
-                {
-                    endConnected = true;
-                }
-            }
-        }
-        else if((endRoomPos.x > 0 && endRoomPos.x < size.x) && (endRoomPos.z > 0 && endRoomPos.z < size.z))
-        {
-            Vector3Int position = endRoomPos + Vector3Int.up;
-
-            if(grid[position + Vector3Int.left] == CellType.Hallway || grid[position + Vector3Int.back] == CellType.Hallway ) endConnected = true;
-
-            position += Vector3Int.forward;
-
-            if (grid[position + Vector3Int.left] == CellType.Hallway || grid[position + Vector3Int.forward] == CellType.Hallway) endConnected = true;
-
-            position += Vector3Int.right;
-
-            if (grid[position + Vector3Int.forward] == CellType.Hallway || grid[position + Vector3Int.right] == CellType.Hallway) endConnected = true;
-
-            position += Vector3Int.back;
-
-            if (grid[position + Vector3Int.right] == CellType.Hallway || grid[position + Vector3Int.back] == CellType.Hallway) endConnected = true;
-        }
-        return startConnected && endConnected;
-    }
-
-    void PlaceRooms()
+    void PlaceStartAndEndRooms()
     {
         //Add Starting Room
         Vector3Int startPos = new Vector3Int(random.Next(1, size.x - 1), 1, 0);
@@ -170,7 +120,7 @@ public class DungeonGenerator : MonoBehaviour
         if (currentLevel == bossLevel)
         {
             //Add Boss room
-            Vector3Int bossPos = new Vector3Int(random.Next(1, size.x-1), 1, size.z - 1);
+            Vector3Int bossPos = new Vector3Int(random.Next(1, size.x - 1), 1, size.z - 2);
             Room bossRoom = new Room(bossPos, Vector3Int.one);
             rooms.Add(bossRoom);
             endRoomPos = bossPos;
@@ -184,19 +134,18 @@ public class DungeonGenerator : MonoBehaviour
 
             while (!add)
             {
-
                 Vector3Int endLocation = new Vector3Int(
                     random.Next(1, size.x - 1),
-                    random.Next(0, size.y-1),
-                    random.Next(1, size.z - 1)
+                    random.Next(0, size.y - 2),
+                    random.Next(1, size.z - 2)
                 );
 
                 endingRoom = new Room(endLocation, new Vector3Int(2, 2, 2));
 
                 //Checks if bounds are outside of spawning area
                 if (endingRoom.bounds.xMin >= 0 || endingRoom.bounds.xMax < size.x
-                    || endingRoom.bounds.yMin >= 0 || endingRoom.bounds.yMax < size.y -1
-                    || endingRoom.bounds.zMin >= 0 || endingRoom.bounds.zMax < size.z)
+                    || endingRoom.bounds.yMin >= 0 || endingRoom.bounds.yMax < size.y - 2
+                    || endingRoom.bounds.zMin >= 0 || endingRoom.bounds.zMax < size.z-1)
                 {
                     add = true;
                     endRoomPos = endLocation;
@@ -210,11 +159,15 @@ public class DungeonGenerator : MonoBehaviour
                 grid[pos] = CellType.Room;
             }
         }
+    }
 
+    void PlaceRooms()
+    {
         //Create Each Room
-        for (int i = 0; i < roomCount; i++)
+        int currentRoomCount = 0;
+        while (currentRoomCount < roomCount)
         {
-            //Random Loacation
+            //Random Location
             Vector3Int location = new Vector3Int(
                 random.Next(0, size.x),
                 random.Next(0, size.y),
@@ -269,6 +222,7 @@ public class DungeonGenerator : MonoBehaviour
                 {
                     grid[pos] = CellType.Room;
                 }
+                currentRoomCount++;
             }
         }
     }
@@ -276,7 +230,6 @@ public class DungeonGenerator : MonoBehaviour
     void Triangulate()
     {
         List<Vertex> vertices = new List<Vertex>();
-
         foreach (var room in rooms)
         {
             vertices.Add(new Vertex<Room>((Vector3)room.bounds.position + ((Vector3)room.bounds.size) / 2, room));
@@ -285,7 +238,7 @@ public class DungeonGenerator : MonoBehaviour
         delaunay = Delaunay3D.Triangulate(vertices);
     }
 
-    void CreateHallways()
+    void CreateHallways(bool firstRun)
     {
         List<Prim.Edge> edges = new List<Prim.Edge>();
 
@@ -294,6 +247,7 @@ public class DungeonGenerator : MonoBehaviour
             edges.Add(new Prim.Edge(edge.U, edge.V));
         }
 
+        Debug.Log(delaunay.Edges.Count);
         List<Prim.Edge> minimumSpanningTree = Prim.MinimumSpanningTree(edges, edges[0].U);
 
         selectedEdges = new HashSet<Prim.Edge>(minimumSpanningTree);
@@ -302,7 +256,11 @@ public class DungeonGenerator : MonoBehaviour
 
         foreach (var edge in remainingEdges)
         {
-            if (random.NextDouble() < 0.125)
+            if (firstRun)
+            {
+                selectedEdges.Add(edge);
+            }
+            else if (random.NextDouble() < 0.125)
             {
                 selectedEdges.Add(edge);
             }
@@ -429,8 +387,6 @@ public class DungeonGenerator : MonoBehaviour
                                 stairs.Add(new Stairs(stairEndOne, DetermineStairDirection(stairEndOne, stairEndTwo)));
                             }
                         }
-
-                        Debug.DrawLine(prev + new Vector3(0.5f, 0.5f, 0.5f), current + new Vector3(0.5f, 0.5f, 0.5f), Color.blue, 100, false);
                     }
                 }
             }
