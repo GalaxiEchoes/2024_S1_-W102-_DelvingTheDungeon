@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
+[Serializable]
 public abstract class InventoryDisplay : MonoBehaviour
 {
     [SerializeField] MouseItemData mouseInventoryItem;

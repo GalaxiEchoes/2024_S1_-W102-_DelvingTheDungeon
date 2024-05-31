@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 using Graphs;
+using System;
 
 public class Generator3D : MonoBehaviour {
     enum CellType {
@@ -12,7 +13,8 @@ public class Generator3D : MonoBehaviour {
         Stairs
     }
 
-    class Room {
+    [Serializable]
+    public class Room {
         public BoundsInt bounds;
 
         public Room(Vector3Int location, Vector3Int size) {
@@ -41,9 +43,9 @@ public class Generator3D : MonoBehaviour {
     [SerializeField]
     Material greenMaterial;
 
-    Random random;
+    public Random random;
     Grid3D<CellType> grid;
-    List<Room> rooms;
+    public List<Room> rooms;
     Delaunay3D delaunay;
     HashSet<Prim.Edge> selectedEdges;
 
@@ -54,12 +56,13 @@ public class Generator3D : MonoBehaviour {
 
         PlaceRooms();
         Triangulate();
-        CreateHallways();
+        CreateHallways(true);
         PathfindHallways();
     }
 
     void PlaceRooms() {
-        for (int i = 0; i < roomCount; i++) {
+        int i = 0;
+        while ( i < roomCount) {
             Vector3Int location = new Vector3Int(
                 random.Next(0, size.x),
                 random.Next(0, size.y),
@@ -96,6 +99,7 @@ public class Generator3D : MonoBehaviour {
                 foreach (var pos in newRoom.bounds.allPositionsWithin) {
                     grid[pos] = CellType.Room;
                 }
+                i++;
             }
         }
     }
@@ -110,7 +114,7 @@ public class Generator3D : MonoBehaviour {
         delaunay = Delaunay3D.Triangulate(vertices);
     }
 
-    void CreateHallways() {
+    void CreateHallways(bool firstRun) {
         List<Prim.Edge> edges = new List<Prim.Edge>();
 
         foreach (var edge in delaunay.Edges) {
@@ -124,7 +128,12 @@ public class Generator3D : MonoBehaviour {
         remainingEdges.ExceptWith(selectedEdges);
 
         foreach (var edge in remainingEdges) {
-            if (random.NextDouble() < 0.125) {
+            if (firstRun)
+            {
+                selectedEdges.Add(edge);
+            }
+            else if (random.NextDouble() < 0.125)
+            {
                 selectedEdges.Add(edge);
             }
         }

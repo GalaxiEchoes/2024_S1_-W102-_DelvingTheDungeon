@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - UseText
+  - Audio
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Stairs
   - Usable
   - Player
-  - 
-  - 
+  - Enemy
+  - PostProcessing
   - 
   - 
   - 

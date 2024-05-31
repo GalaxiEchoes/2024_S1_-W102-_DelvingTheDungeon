@@ -19,6 +19,8 @@ public class PlayerCam : MonoBehaviour
     public float xRotation;
     public float yRotation;
     private bool rotationActive;
+    private float mouseX;
+    private float mouseY;
 
     private void Start()
     {
@@ -27,28 +29,27 @@ public class PlayerCam : MonoBehaviour
         rotationActive = true;
     }
 
-    public float mouseX;
-    public float mouseY;
-    public float clampValue;
-
     private void Update()
     {
-        mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
-        mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
+        if (InputManager.instance.FirstPersonCamPressed)
+        {
+            rotationActive = true;
+        }
+        else if(InputManager.instance.CombatCamPressed || InputManager.instance.ThirdPersonCamPressed)
+        {
+            rotationActive = false;
+        }
+
+        float mouseX = Input.GetAxisRaw("Mouse X") * Time.deltaTime * sensX;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.deltaTime * sensY;
 
         yRotation += mouseX;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
         transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        if (InputManager.instance.FirstPersonCamPressed)
-        {
-            rotationActive = !rotationActive;
-        }
-        if (rotationActive)
-        {
-            playerObj.rotation = orientation.transform.rotation;
-        }
+        playerObj.rotation = orientation.transform.rotation;
+        
+        
     }
 }

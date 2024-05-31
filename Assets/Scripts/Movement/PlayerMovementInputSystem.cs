@@ -29,16 +29,24 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpCooldown;
     [SerializeField] private float airMultiplier;
-    private bool readyToJump;
+    public bool readyToJump;
 
     [Header("Crouch Settings")]
-    [SerializeField] private float crouchYScale;
-    private float startYScale;
+    [SerializeField] private CapsuleCollider capsuleCollider;
+    [SerializeField] private BoxCollider boxCollider;
+    private Vector3 capsuleCenter;
+    private float capsuleHeight;
+    private Vector3 boxCenter;
+    private Vector3 boxHeight;
+    [SerializeField] Vector3 crouchCapsuleCenter;
+    [SerializeField] float crouchCapsuleHeight;
+    [SerializeField] Vector3 crouchBoxCenter;
+    [SerializeField] Vector3 crouchBoxHeight;
 
     [Header("Ground Check")]
-    [SerializeField] private float playerHeight;
-    [SerializeField] private LayerMask ground;
-    private bool grounded;
+    [SerializeField] public float playerHeight;
+    [SerializeField] public LayerMask ground;
+    public bool grounded;
 
     [Header("Stair Handling")]
     [SerializeField] private GameObject stepRayUpper;
@@ -47,7 +55,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float stepSmooth;
     [SerializeField] private LayerMask stairs;
 
-    private bool onStairs;
+    public bool onStairs;
     private RaycastHit stairHit;
     private float stairsDownTimer = 0f;
     private float stairsDownDelay = 0.2f;
@@ -56,13 +64,14 @@ public class InputSystemPlayerMovement : MonoBehaviour
     [SerializeField] private float maxSlopeAngle;
     [SerializeField] private float slopeSmooth;
     private RaycastHit slopeHit;
-    private bool onSlope;
+    public bool onSlope;
 
     [Header("Object Reference")]
     [SerializeField] private Transform orientation;
 
+    [Header("Stamina Handling")]
     public Image StaminaBar;
-
+    public Player player;
     public float Stamina;
     public float MaxStamina;
     public float RunCost;
@@ -70,15 +79,44 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     public Coroutine recharge;
 
+    [Header("Animation Blockers")]
+    public bool blockJump;
+    public bool blockCrouch;
+    public bool blockMoving;
+    public float blockedSpeed = 0.1f;
+
     void Start()
     {
+        player = GetComponent<Player>();
         rb = GetComponent<Rigidbody>();
+
         rb.freezeRotation = true;
         readyToJump = true;
-        startYScale = transform.localScale.y;
+        Stamina = player.stamina;
+        MaxStamina = player.maxStamina;
+
+        capsuleCollider = GetComponentInChildren<CapsuleCollider>();
+        boxCollider = GetComponent<BoxCollider>();
+
+        //Get Original Crouch Values
+        capsuleCenter = capsuleCollider.center;
+        capsuleHeight = capsuleCollider.height;
+        boxCenter = boxCollider.center;
+        boxHeight = boxCollider.size;
     }
     private void Update()
     {
+        if(player.maxStamina != MaxStamina)
+        {
+            MaxStamina = player.maxStamina;
+        }
+        
+        if(player.stamina != Stamina)
+        {
+            player.stamina = Stamina;
+            StaminaBar.fillAmount = Stamina / MaxStamina;
+        }
+
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, ground);
         onStairs = Physics.Raycast(transform.position, Vector3.down, out stairHit, playerHeight * 0.5f + 0.3f, stairs);
         onSlope = CalcOnSlope();
@@ -95,6 +133,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
     }
 
     private void MyInput()
@@ -103,24 +142,30 @@ public class InputSystemPlayerMovement : MonoBehaviour
         verticalInput = InputManager.instance.MoveInput.y;
 
         //When to jump
-        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (grounded || onStairs || onSlope))
+        if ((InputManager.instance.JumpJustPressed || InputManager.instance.JumpBeingHeld) && readyToJump && (grounded || onStairs || onSlope)&& !blockJump)
         {
             readyToJump = false;
             Jump();
-
-            Invoke(nameof(ResetJump), jumpCooldown);
         }
 
         //Crouching
-        if (InputManager.instance.CrouchJustPressed)
+        if (InputManager.instance.CrouchJustPressed && !blockCrouch)
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            //Set Crouch Values
+            capsuleCollider.center = crouchCapsuleCenter;
+            capsuleCollider.height = crouchCapsuleHeight;
+            boxCollider.center = crouchBoxCenter;
+            boxCollider.size = crouchBoxHeight;
+
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         }
         //Stop crouching
         if (InputManager.instance.CrouchReleased)
         {
-            transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            capsuleCollider.center = capsuleCenter;
+            capsuleCollider.height = capsuleHeight;
+            boxCollider.center = boxCenter;
+            boxCollider.size = boxHeight;
         }
     }
 
@@ -149,7 +194,11 @@ public class InputSystemPlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
-        if (InputManager.instance.CrouchBeingHeld)
+        if (blockMoving)
+        {
+            moveSpeed = blockedSpeed;
+        }
+        else if (InputManager.instance.CrouchBeingHeld && !blockCrouch)
         {
             state = MovementState.crouching;
             moveSpeed = crouchSpeed;
@@ -216,13 +265,11 @@ public class InputSystemPlayerMovement : MonoBehaviour
             {
                 if (onStairs) //On stairs with incline
                 {
-                    Debug.Log("Stairs with incline");
                     rb.transform.Translate(Vector3.up * slopeSmooth * Time.deltaTime * moveSpeed);
                     rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
                 }
                 else //On slight slope
                 {
-                    Debug.Log("Slight Slope");
                     rb.AddForce(GetSlopeMoveDirection() * moveSpeed * 20f, ForceMode.Force);
                     if (rb.velocity.y > 0)
                     {
@@ -232,7 +279,6 @@ public class InputSystemPlayerMovement : MonoBehaviour
             }
             else //Bump/stair handling
             {
-                Debug.Log("Bump handling");
                 rb.transform.Translate(Vector3.up * stepSmooth * Time.deltaTime);
                 rb.AddForce(moveDirection.normalized * (moveSpeed * 1.75f) * 20f, ForceMode.Force);
             }
@@ -243,7 +289,6 @@ public class InputSystemPlayerMovement : MonoBehaviour
         {
             if (onStairs)//Down Stairs
             {
-                Debug.Log("Down Stairs");
                 stairsDownTimer += Time.deltaTime;
 
                 if (stairsDownTimer >= stairsDownDelay)
@@ -288,7 +333,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
 
-    private void ResetJump()
+    public void ResetJump()
     {
         readyToJump = true;
     }
@@ -323,7 +368,7 @@ public class InputSystemPlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(moveDirection, slopeHit.normal).normalized;
     }
 
-    private IEnumerator RechargeStamina()
+    public IEnumerator RechargeStamina()
     {
         yield return new WaitForSeconds(3f);
 

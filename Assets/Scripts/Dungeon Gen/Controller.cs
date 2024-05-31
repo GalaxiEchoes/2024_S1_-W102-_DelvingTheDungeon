@@ -49,12 +49,12 @@ public class Controller : MonoBehaviour
 
     public void SaveGame()
     {
-        persistenceManager.SaveWorldState();
+        persistenceManager.SaveEverything();
     }
 
     public void LoadGame()
     {
-        if (persistenceManager.LoadWorldState())
+        if (persistenceManager.LoadEverything())
         {
             dungeonSpawner.SpawnDungeonRooms();
             furnitureSpawner.LoadFurniture();
@@ -63,7 +63,6 @@ public class Controller : MonoBehaviour
         {
             //Generate new world
             randomSeed = rand.Next(0, int.MaxValue);
-            Debug.Log("RandomSeed " + randomSeed);
             persistenceManager.UpdateWorldState();
 
             dungeonGenerator.GenerateDungeon();
@@ -77,11 +76,5 @@ public class Controller : MonoBehaviour
 
             SaveGame();
         }
-    }
-
-    public void DeleteGame()
-    {
-        persistenceManager.DeleteWorldStates();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

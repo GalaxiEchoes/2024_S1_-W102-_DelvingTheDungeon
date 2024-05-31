@@ -6,16 +6,26 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PersistenceManager;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {
+    public PersistenceManager persistenceManager;
     public GameObject pauseScreen;
     public GameObject inventoryScreen;
     public GameObject settingsManager;
     public GameObject settingsMenu;
-    public GameObject healthBar;
-    public GameObject staminaBar;
+    public GameObject InGameDisplay;
+
+    //Shop canvas
+    public GameObject shopScreen;
+
     public int bossLevel = 5;
+
+    private void Start()
+    {
+        Unpause();
+    }
 
     // Update is called once per frame
     void Update()
@@ -34,6 +44,13 @@ public class MenuManager : MonoBehaviour
                 InventoryPause();
             }
         }
+        else if (ShopLogic.shopInstance.isOpen)
+        {
+            if (!PauseManager.instance.IsPaused)
+            {
+                ShopPause();
+            }
+        }
         else if (InputManager.instance.InventoryClose && inventoryScreen.activeSelf)
         {
             if (PauseManager.instance.IsPaused)
@@ -47,7 +64,14 @@ public class MenuManager : MonoBehaviour
             {
                 Unpause();
             }
-        } 
+        }
+        else if (!ShopLogic.shopInstance.isOpen && shopScreen.activeSelf)
+        {
+            if (PauseManager.instance.IsPaused)
+            {
+                Unpause();
+            }
+        }
     }
 
     public void Pause()
@@ -60,6 +84,12 @@ public class MenuManager : MonoBehaviour
     {
         PauseManager.instance.PauseGame();
         SwitchToInventoryScreen();
+    }
+
+    private void ShopPause()
+    {
+        PauseManager.instance.PauseGame();
+        SwitchToShopScreen();
     }
 
     public void Unpause()
@@ -104,8 +134,8 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(true);
-        staminaBar.SetActive(true);
+        InGameDisplay.SetActive(true);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -116,8 +146,8 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(true);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
+        InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -128,14 +158,15 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(true);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
+        InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     private void SwitchToMainMenuScreen()
     {
+        persistenceManager.SaveEverything();
         SceneManager.LoadScene(0);
     }
 
@@ -145,45 +176,40 @@ public class MenuManager : MonoBehaviour
         settingsManager.SetActive(false);
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(true);
-        healthBar.SetActive(false);
-        staminaBar.SetActive(false);
+        InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
 
-        //Add logic to save the current game state and update to playfab database
+    private void SwitchToShopScreen()
+    {
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
+        pauseScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        InGameDisplay.SetActive(false);
+        shopScreen.SetActive(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void ExitGame()
     {
-        //Add logic to save the current game state and update to playfab database
+        persistenceManager.SaveEverything();
         Debug.Log("Game Ended");
         Application.Quit();
     }
 
     public void StartNewGame()
     {
-        for (int currentLevel = 0; currentLevel < bossLevel; currentLevel++)
-        {
-            string directoryPath = Application.dataPath + "/Saves";
-            string filePath = directoryPath + "/" + currentLevel + "world_state.json";
-
-            if (File.Exists(filePath))
-            {
-                File.Delete(filePath);
-            }
-        }
-        string levelTrackerPath = Application.dataPath + "/Saves" + "/level_tracker.json";
-        if (File.Exists(levelTrackerPath))
-        {
-            File.Delete(levelTrackerPath);
-        }
-
-        string levelTrackerPathMeta = Application.dataPath + "/Saves" + "/level_tracker.json.meta";
-        if (File.Exists(levelTrackerPathMeta))
-        {
-            File.Delete(levelTrackerPathMeta);
-        }
+        persistenceManager.StartNewGame();
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    public void StartNewRun()
+    {
+        persistenceManager.StartNewRun();
     }
 }

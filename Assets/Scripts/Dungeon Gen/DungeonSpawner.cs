@@ -179,7 +179,7 @@ public class DungeonSpawner : MonoBehaviour
 
                 if (connectPoint == posToCheck[1] || connectPoint == posToCheck[3] || connectPoint == posToCheck[5] || connectPoint == posToCheck[7]) scale = -1;
 
-                //Getting direction
+                //Getting stairDirection
                 if (connectPoint == posToCheck[0] || connectPoint == posToCheck[1]) direction = Direction.North;
                 else if (connectPoint == posToCheck[2] || connectPoint == posToCheck[3]) direction = Direction.East;
                 else if (connectPoint == posToCheck[4] || connectPoint == posToCheck[5]) direction = Direction.South;
@@ -517,30 +517,31 @@ public class DungeonSpawner : MonoBehaviour
 
     void HandleStairs(Vector3Int pos)
     {
-        Direction direction = GetStairDirection(pos);
+        Direction stairDirection = GetStairDirection(pos);
         Vector3Int secondStair = pos;
         bool placeWallOne = false;
 
-        switch (direction)
+        //Checks if Wall needs to be placed (if next to border or if parallel with other staircase)
+        switch (stairDirection)
         {
             case Direction.North:
                 secondStair = secondStair + Vector3Int.forward;
-                if (IsWithinGridBounds(pos + Vector3Int.right) && GetStairDirection(pos + Vector3Int.right) != direction) placeWallOne = true;
+                if (IsWithinGridBounds(pos + Vector3Int.right) && GetStairDirection(pos + Vector3Int.right) != stairDirection) placeWallOne = true;
                 else if (!IsWithinGridBounds(pos + Vector3Int.right)) placeWallOne = true;
                 break;
             case Direction.East:
                 secondStair = secondStair + Vector3Int.right;
-                if (IsWithinGridBounds(pos + Vector3Int.forward) && GetStairDirection(pos + Vector3Int.forward) != direction) placeWallOne = true;
+                if (IsWithinGridBounds(pos + Vector3Int.forward) && GetStairDirection(pos + Vector3Int.forward) != stairDirection) placeWallOne = true;
                 else if (!IsWithinGridBounds(pos + Vector3Int.forward)) placeWallOne = true;
                 break;
             case Direction.South:
                 secondStair = secondStair + Vector3Int.back;
-                if (IsWithinGridBounds(pos + Vector3Int.right) && GetStairDirection(pos + Vector3Int.right) != direction) placeWallOne = true;
+                if (IsWithinGridBounds(pos + Vector3Int.right) && GetStairDirection(pos + Vector3Int.right) != stairDirection) placeWallOne = true;
                 else if (!IsWithinGridBounds(pos + Vector3Int.right)) placeWallOne = true;
                 break;
             default:
                 secondStair = secondStair + Vector3Int.left;
-                if (IsWithinGridBounds(pos + Vector3Int.forward) && GetStairDirection(pos + Vector3Int.forward) != direction) placeWallOne = true;
+                if (IsWithinGridBounds(pos + Vector3Int.forward) && GetStairDirection(pos + Vector3Int.forward) != stairDirection) placeWallOne = true;
                 else if (!IsWithinGridBounds(pos + Vector3Int.forward)) placeWallOne = true;
                 break;
         }
@@ -554,7 +555,7 @@ public class DungeonSpawner : MonoBehaviour
         PlaceFloor(secondStair + Vector3Int.up * 2);
 
         //Place Stairs
-        PlaceStairs(pos, direction);
+        PlaceStairs(pos, stairDirection);
 
         //Each position in the stairway
         Vector3Int[] locations = { pos, secondStair, pos + Vector3Int.up, secondStair + Vector3Int.up };
@@ -562,7 +563,7 @@ public class DungeonSpawner : MonoBehaviour
         foreach (Vector3Int location in locations)
         {
             //Walls
-            if (direction == Direction.North || direction == Direction.South)
+            if (stairDirection == Direction.North || stairDirection == Direction.South)
             {
                 if (!IsWithinGridBounds(location + Vector3Int.right)) PlaceWall(location, Direction.East, wallPreFab);
                 else if (placeWallOne) PlaceWall(location, Direction.East, wallPreFab);
@@ -577,13 +578,33 @@ public class DungeonSpawner : MonoBehaviour
                 if (IsWithinGridBounds(location + Vector3Int.back) && grid[location + Vector3Int.back] == CellType.Hallway) PlaceWall(location, Direction.South, wallPreFab);
             }
 
-            //Pillar
+            //Pillar if wall needs to be placed
             if (placeWallOne) PlacePillar(location, Direction.North);
-            else if (direction == Direction.West) PlacePillar(locations[2], Direction.North);
+            else if (stairDirection == Direction.West) PlacePillar(locations[2], Direction.North);
+        }
+
+        //Pillar for top/bottom ends
+        if (!placeWallOne)
+        {
+            switch(stairDirection)
+            {
+                case Direction.North:
+                    PlacePillar(locations[1], Direction.North);
+                    break;
+                case Direction.East:
+                    PlacePillar(locations[1], Direction.North);
+                    break;
+                case Direction.South:
+                    PlacePillar(locations[2], Direction.North);
+                    break;
+                default:
+                    PlacePillar(locations[2], Direction.North);
+                    break;
+            }
         }
 
         //Handles Stair ends
-        switch (direction)
+        switch (stairDirection)
         {
             case Direction.North:
                 if (IsWithinGridBounds(locations[2] + Vector3Int.back) && grid[locations[2] + Vector3Int.back] == CellType.Hallway) PlaceWall(locations[2], Direction.South, wallPreFab);

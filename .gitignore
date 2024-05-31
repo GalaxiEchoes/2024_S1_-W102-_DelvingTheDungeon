@@ -132,3 +132,10 @@ Temporary Items
 *.meta
 #But not source file with postfix. which is everything but a folder
 !*.*.meta
+!*1HSword.prefab.meta
+!.mesh.meta
+*.unitypackage.meta
+*state.json.meta
+*state.json
+Assets/Saves/0world_state.json
+*.png.meta

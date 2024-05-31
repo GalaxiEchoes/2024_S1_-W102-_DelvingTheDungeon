@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< Updated upstream:Assets/Original Import Packages and Assets/BrokenVector/LowPolyDungeon/Demo Scenes/Dungeon_Assets.unity.meta
 guid: a11c2048ef453a741b86bee49b46e6c6
+========
+guid: a1b7863c86f8bf140890c0bf12527880
+folderAsset: yes
+>>>>>>>> Stashed changes:Assets/Saves.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

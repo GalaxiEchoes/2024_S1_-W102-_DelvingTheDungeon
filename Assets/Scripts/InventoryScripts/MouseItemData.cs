@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using System;
 
+[Serializable]
 public class MouseItemData : MonoBehaviour
 {
     public Image ItemSprite;
@@ -15,6 +17,7 @@ public class MouseItemData : MonoBehaviour
     public EquipmentSlot_UI PreviousEquipmentSlot;
 
     private Transform _playerTransform;
+    private Transform _orientation;
 
     private void Awake()
     {
@@ -22,6 +25,7 @@ public class MouseItemData : MonoBehaviour
         ItemCount.text = "";
 
         _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        _orientation = _playerTransform.Find("Orientation");
     }
 
     public void UpdateMouseSlot(ISlot invSlot)
@@ -63,19 +67,22 @@ public class MouseItemData : MonoBehaviour
                 ClearSlot();
             }
 
+            //Change this to imputmanager
             if (Input.GetKey(KeyCode.Q))
             {
                 if (AssignedInventorySlot.ItemData.ItemPrefab != null)
                 {
-                    // Increase Y position by adding an offset value (e.g., 3f)
-                    Vector3 dropPosition = _playerTransform.position + _playerTransform.forward * 3f;
-                    //dropPosition.y += 0.35f;
+                    //Drops item on the ground in the direction the player is facing
+                    Physics.Raycast(_playerTransform.transform.position + _orientation.transform.forward * 3f, Vector3.down, out RaycastHit hit);
+                    Vector3 dropPosition = hit.point + new Vector3(0, 0.4f, 0);
 
-                    Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, dropPosition, Quaternion.identity);
+                    //Creates each item in slot stack
+                    for(int i = 0; i < AssignedInventorySlot.StackSize; i++ ) 
+                    {
+                        Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, dropPosition, Quaternion.identity);
+                    }
                     ClearSlot();
                 }
-
-                Debug.Log("q key pressed");
             }
         }
     }
