@@ -7,13 +7,17 @@ using System.Linq;
 [System.Serializable]
 public class InventorySystem
 {
+    // Slots contained in the inventory system
     [SerializeField] private List<ISlot> inventorySlots;
 
+    // Getters
     public List<ISlot> InventorySlots => inventorySlots;
     public int InventorySize => InventorySlots.Count;
 
+    // Action listener to check when slot has been changed
     public UnityAction<ISlot> OnInventorySlotChanged;
 
+    // Create inventory system with slots of given size
     public InventorySystem(int size)
     {
         inventorySlots = new List<ISlot>(size);
@@ -24,6 +28,7 @@ public class InventorySystem
         }
     }
 
+    // Add item to inventory returns true if successfully added or false if not
     public bool AddToInventory(InventoryItemData itemToAdd, int amountToAdd)
     {
         if (ContainsItem(itemToAdd, out List<ISlot> invSlot)) //Check whether item exists in inventory
@@ -50,6 +55,7 @@ public class InventorySystem
         return false;
     }
 
+    // Checks whether the inventory already contains the item we are adding
     public bool ContainsItem(InventoryItemData itemToAdd, out List<ISlot> invSlot)
     {
         //Check all inventory slots and where the inventory
@@ -59,6 +65,7 @@ public class InventorySystem
         return invSlot == null ? false : true;
     }
 
+    // Checks whether inventory has a free slot
     public bool HasFreeSlot(out ISlot freeSlot)
     {
         freeSlot = InventorySlots.FirstOrDefault(i => i.ItemData == null);

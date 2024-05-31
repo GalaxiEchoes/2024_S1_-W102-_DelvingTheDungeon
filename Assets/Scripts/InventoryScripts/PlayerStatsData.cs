@@ -7,25 +7,29 @@ using UnityEngine;
 [Serializable]
 public class PlayerStatsData : MonoBehaviour
 {
-    public TextMeshProUGUI Health;
-    public TextMeshProUGUI Stamina;
-    public TextMeshProUGUI Attack;
-    public TextMeshProUGUI Defense;
-    public Player AssignedPlayer;
+    // Print stats relating to item
+    public TextMeshProUGUI health;
+    public TextMeshProUGUI stamina;
+    public TextMeshProUGUI attack;
+    public TextMeshProUGUI defense;
+
+    // Player who holds stats
+    public Player assignedPlayer;
 
     private void Awake()
     {
-        Health.text = "Health ";
-        Stamina.text = "Stamina ";
-        Attack.text = "Attack ";
-        Defense.text = "Defense ";
+        health.text = "Health ";
+        stamina.text = "Stamina ";
+        attack.text = "Attack ";
+        defense.text = "Defense ";
     }
 
+    // Update text fields to reflect players stats
     private void Update()
     {
-        Health.text = "Health " + AssignedPlayer.health.ToString();
-        Stamina.text = "Stamina " + AssignedPlayer.stamina.ToString("F0");
-        Attack.text = "Attack " + AssignedPlayer.attack.ToString();
-        Defense.text = "Defense " + AssignedPlayer.defense.ToString();
+        health.text = "Health " + assignedPlayer.health.ToString();
+        stamina.text = "Stamina " + assignedPlayer.stamina.ToString("F0");
+        attack.text = "Attack " + assignedPlayer.attack.ToString();
+        defense.text = "Defense " + assignedPlayer.defense.ToString();
     }
 }
