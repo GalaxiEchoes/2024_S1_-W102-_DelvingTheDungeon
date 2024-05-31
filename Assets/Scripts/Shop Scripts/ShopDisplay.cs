@@ -7,13 +7,13 @@ using UnityEngine.UI;
 public class ShopDisplay : MonoBehaviour
 {
     // List of items to be sold in the shop
-    [SerializeField] public InventoryItemData[] shopItems;
+    [SerializeField] InventoryItemData[] shopItems;
 
     // Slots that contain the items to be bought
-    [SerializeField] public ShopSlot_UI[] slots;
+    [SerializeField] ShopSlot_UI[] slots;
 
     // Current player who holds inventory
-    [SerializeField] public Player currentPlayer;
+    [SerializeField] Player currentPlayer;
 
     // Selected item information
     [Header("Selected Item Information")]
@@ -52,12 +52,12 @@ public class ShopDisplay : MonoBehaviour
         playerMoneyArea.text = currentPlayer.money.ToString();
     }
 
-    //Assign inventory slot uis to the inventorysystem dictionary
+    //Assign shop slot uis to the shop slot dictionary
     public void AssignSlot(ShopSystem invToDisplay)
     {
         slotDictionary = new Dictionary<ShopSlot_UI, ISlot>();
 
-        if (slots.Length != shopSystem.ShopSize) Debug.Log($"Inventory slots out of sync on {this.gameObject}");
+        if (slots.Length != shopSystem.ShopSize) Debug.Log($"Shop slots out of sync on {this.gameObject}");
         for (int i = 0; i < shopSystem.ShopSize; i++)
         {
             slotDictionary.Add(slots[i], shopSystem.ShopSlots[i]);
