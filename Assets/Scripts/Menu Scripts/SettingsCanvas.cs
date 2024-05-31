@@ -27,13 +27,16 @@ public class SettingsCanvas : MonoBehaviour
         //Creates available dropdown options
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+
+            int refreshRate = (int)(resolutions[i].refreshRateRatio.numerator / resolutions[i].refreshRateRatio.denominator);
+            string option = resolutions[i].width + " x " + resolutions[i].height + "@" + refreshRate + "Hz";
+                
             options.Add(option);
             
 
             // Checks if resolution is the current screen resolution
             if (resolutions[i].width == Screen.width &&
-                resolutions[i].height == Screen.height)
+                resolutions[i].height == Screen.height && resolutions[i].refreshRateRatio.Equals(Screen.currentResolution.refreshRateRatio))
             {
                 curretResolutionIndex = i;
             }
