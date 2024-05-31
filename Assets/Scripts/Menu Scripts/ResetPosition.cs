@@ -5,7 +5,7 @@ using UnityEngine;
 using TMPro;
 
 
-public class Resetposition : MonoBehaviour
+public class ResetPosition : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI textMeshProUGUI;
     public PersistenceManager manager;

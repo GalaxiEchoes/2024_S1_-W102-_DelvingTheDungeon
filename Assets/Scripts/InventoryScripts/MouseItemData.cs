@@ -22,6 +22,7 @@ public class MouseItemData : MonoBehaviour
     // Transforms to determine where to drop item onto ground drom inventory
     private Transform _playerTransform;
     private Transform _orientation;
+    public Camera cam;
 
     private void Awake()
     {
@@ -68,7 +69,11 @@ public class MouseItemData : MonoBehaviour
     {
         if (AssignedInventorySlot.ItemData != null)
         {
-            transform.position = Mouse.current.position.ReadValue();
+            Vector3 mousePos = Mouse.current.position.value;
+            mousePos.z = Camera.main.farClipPlane * 1.3f;
+            Vector3 worldPoint = cam.ScreenToWorldPoint(mousePos);
+
+            transform.position = worldPoint;
 
             // Checks if Q key pressed
             if (Input.GetKey(KeyCode.Q))
