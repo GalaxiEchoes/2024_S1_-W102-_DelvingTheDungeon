@@ -109,7 +109,7 @@ public class ShopDisplay : MonoBehaviour
         if (selectedItemData != null)
         {
             // Check the player has enough money to buy item
-            if (currentPlayer.money > selectedItemData.cost)
+            if (currentPlayer.money >= selectedItemData.cost)
             {
                 var inventory = currentPlayer.transform.GetComponent<InventoryHolder>();
 
