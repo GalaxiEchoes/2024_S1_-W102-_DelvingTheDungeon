@@ -39,6 +39,11 @@ public class Player : MonoBehaviour, IDamageable
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }
+
+        if(xpManager == null)
+        {
+            xpManager = GetComponent<XPManager>();
+        }
     }
 
     private void Update()
