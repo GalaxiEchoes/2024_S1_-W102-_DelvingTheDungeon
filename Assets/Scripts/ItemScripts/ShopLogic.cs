@@ -8,8 +8,6 @@ public class ShopLogic : MonoBehaviour
     //Shop instance reference
     public static ShopLogic shopInstance;
 
-    private MenuManager menuManager;
-
     [Header("Object States")]
     public bool isOpen = false;
 
@@ -21,20 +19,20 @@ public class ShopLogic : MonoBehaviour
         }
     }
 
+    // Set the shop to open
     public void Open()
     {
         if (!isOpen)
         {
-            Debug.Log("Open Shop");
             isOpen = true;
         }
     }
 
+    // Set the shop to closed
     public void Close()
     {
         if (isOpen)
         {
-            Debug.Log("Close Shop");
             isOpen = false;
         }
     }
