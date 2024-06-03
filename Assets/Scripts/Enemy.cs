@@ -6,18 +6,22 @@ public class Enemy : MonoBehaviour, IDamageable
     public AudioClip hitClip;
     public int maxHealth = 100;
     public int currentHealth;
-    private HealthBar healthBar;
+    private EnemyHealth enemyHealth;
 
     private void Awake()
     {
-        healthBar = GetComponentInChildren<HealthBar>();
+        enemyHealth = GetComponentInChildren<EnemyHealth>();
     }
 
     public void Start()
     {
         currentHealth = maxHealth;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
-        audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        UpdateHealthBar();
+
+        if (audioSource == null)
+        {
+            audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        }
     }
 
     public void Update()
@@ -30,11 +34,27 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void Damage(int damageAmount)
     {
-        //This is where we would modify the enemy health
-        audioSource.PlayOneShot(hitClip);
+        if (audioSource != null && hitClip != null)
+        {
+            audioSource.PlayOneShot(hitClip);
+        }
+
         Debug.Log("Damage: " + damageAmount);
         currentHealth -= damageAmount;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        UpdateHealthBar();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void UpdateHealthBar()
+    {
+        if (enemyHealth != null)
+        {
+            enemyHealth.Damage(currentHealth);
+        }
     }
 
     void Die()
