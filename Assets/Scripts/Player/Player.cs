@@ -15,15 +15,14 @@ public class Player : MonoBehaviour, IDamageable
     public int defense;
     public int maxHealth;
     public float maxStamina;
-    public int playerXP;
 
     public MoneyTracker moneyTracker;
     public HealthBar healthBar;
-    public InventoryHolder inventoryHolder;
-
+    private InventoryHolder inventoryHolder;
     public XPManager xpManager;
+    public PersistenceManager persistenceManager;
 
-    public void StartCoroutine()
+    private void Start()
     {
         if (moneyTracker != null)
         {
@@ -40,16 +39,14 @@ public class Player : MonoBehaviour, IDamageable
         {
             inventoryHolder = GetComponent<InventoryHolder>();
         }
-
-        if(xpManager == null)
-        {
-            xpManager = GetComponent<XPManager>();
-        }
     }
 
     private void Update()
     {
-        moneyTracker.setMoney(money);
+        if (moneyTracker != null) 
+        {
+            moneyTracker.setMoney(money);
+        }
 
         //On Death
         if (health <= 0)
@@ -65,6 +62,11 @@ public class Player : MonoBehaviour, IDamageable
                     minusStats(slot.ItemData.healthEffect, slot.ItemData.staminaEffect, slot.ItemData.attackEffect, slot.ItemData.defenseEffect);
                 }
             }
+
+            //Reset permanent stuff
+            health = maxHealth;
+            stamina = maxStamina;
+            persistenceManager.SavePermanentData();
 
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
@@ -91,16 +93,6 @@ public class Player : MonoBehaviour, IDamageable
         defense -= _defense;
     }
 
-    public void increaseStats(int increaseHealth, int increaseStamina, int increaseAttack, int increaseDefense)
-    {
-        maxHealth += increaseHealth;
-        maxStamina += increaseStamina;
-        stamina = maxStamina;
-        attack += increaseAttack;
-        defense += increaseDefense;
-
-    }
-
     public void resetHealth()
     {
         health = maxHealth;
@@ -116,25 +108,17 @@ public class Player : MonoBehaviour, IDamageable
 
     public void addMoney(int amount)
     {
-        money += amount;
+        if (amount > 0)
+        {
+            money += amount;
+        }
     }
 
     public void minusMoney(int amount)
     {
-        money -= amount;
-    }
-
-    public void gainXP(int amount)
-    {
-        if(xpManager != null)
+        if (amount > 0)
         {
-            xpManager.addXP(amount);
-            playerXP = xpManager.currentXP;
+            money -= amount;
         }
-    }
-
-    public void gainMoney(int amount)
-    {
-        addMoney(amount);
     }
 }
