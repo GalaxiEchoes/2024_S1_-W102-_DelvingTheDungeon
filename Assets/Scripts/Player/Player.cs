@@ -117,4 +117,17 @@ public class Player : MonoBehaviour, IDamageable
     {
         money -= amount;
     }
+
+    public void gainXP(int amount)
+    {
+        if(xpManager != null)
+        {
+            xpManager.addXP(amount);
+        }
+    }
+
+    public void gainMoney(int amount)
+    {
+        addMoney(amount);
+    }
 }
