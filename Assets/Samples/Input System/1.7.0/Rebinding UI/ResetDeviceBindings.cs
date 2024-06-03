@@ -14,5 +14,4 @@ public class ResetDeviceBindings : MonoBehaviour
             map.RemoveAllBindingOverrides();
         }
     }
-
-   
+}
