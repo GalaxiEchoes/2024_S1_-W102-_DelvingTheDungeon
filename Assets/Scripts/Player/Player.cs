@@ -15,14 +15,15 @@ public class Player : MonoBehaviour, IDamageable
     public int defense;
     public int maxHealth;
     public float maxStamina;
+    public int playerXP;
 
     public MoneyTracker moneyTracker;
     public HealthBar healthBar;
-    private InventoryHolder inventoryHolder;
+    public InventoryHolder inventoryHolder;
 
     public XPManager xpManager;
 
-    private void Start()
+    public void StartCoroutine()
     {
         if (moneyTracker != null)
         {
@@ -128,6 +129,7 @@ public class Player : MonoBehaviour, IDamageable
         if(xpManager != null)
         {
             xpManager.addXP(amount);
+            playerXP = xpManager.currentXP;
         }
     }
 

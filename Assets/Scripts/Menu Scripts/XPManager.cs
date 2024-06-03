@@ -25,6 +25,7 @@ public class XPManager : MonoBehaviour
     [SerializeField] Image XPFill;
 
     [SerializeField] Player player; // Reference to the Player class
+    public int currentXP;
 
     void Start()
     {
@@ -44,6 +45,7 @@ public class XPManager : MonoBehaviour
     public void addXP(int amount)
     {
         totalXP += amount;
+        currentXP = totalXP;
         checkForLevelUp();
         updateInterface();
     }
