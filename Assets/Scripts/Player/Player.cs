@@ -108,11 +108,17 @@ public class Player : MonoBehaviour, IDamageable
 
     public void addMoney(int amount)
     {
-        money += amount;
+        if (amount > 0)
+        {
+            money += amount;
+        }
     }
 
     public void minusMoney(int amount)
     {
-        money -= amount;
+        if (amount > 0)
+        {
+            money -= amount;
+        }
     }
 }

@@ -6,7 +6,10 @@ using UnityEngine;
 [Serializable]
 public class StaticInventoryDisplay : InventoryDisplay
 {
+    // Inventory holder on player stores inventory and equipment system
     [SerializeField] private InventoryHolder inventoryHolder;
+
+    // Store inventory and equipment slots
     [SerializeField] private InventorySlot_UI[] slots;
     [SerializeField] private EquipmentSlot_UI[] equipmentSlots;
 
@@ -14,16 +17,20 @@ public class StaticInventoryDisplay : InventoryDisplay
     {
         base.Start();
 
+        // Check the inventory holder is assigned
         if (inventoryHolder != null)
         {
+            // Assign players inventory system to the display's inventory system
             inventorySystem = inventoryHolder.InventorySystem;
             equipmentInventorySystem = inventoryHolder.EquipmentInventorySystem;
 
+            // Update slots on any change
             inventorySystem.OnInventorySlotChanged += UpdateSlot;
             equipmentInventorySystem.OnInventorySlotChanged += UpdateEquipmentSlot;
         }
         else Debug.LogWarning($"No inventory assigned to {this.gameObject}");
 
+        // Assign slots stored in inventory equipment systems to the display slots
         AssignSlot(inventorySystem);
         AssignSlot(equipmentInventorySystem);
     }
