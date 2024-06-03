@@ -25,4 +25,9 @@ public class HealthBar : MonoBehaviour
 
         fill.color = gradient.Evaluate(slider.normalizedValue);
     }
+
+    internal void UpdateHealthBar(int currentHealth, int maxHealth)
+    {
+        throw new NotImplementedException();
+    }
 }

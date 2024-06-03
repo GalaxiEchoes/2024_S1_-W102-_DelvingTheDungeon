@@ -79,9 +79,19 @@ public class PlayerActions : MonoBehaviour
             {
                 endLogic.LoadNextLevel(CameraPos.transform.position);
             }
-            else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop))
+            else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop)) // Checks if interacting with shop
             {
-                shop.Open();
+                if (shop.isOpen) //If shops open then close the shop
+                {
+                    shop.Close();
+                    GameObject shopItem = GameObject.FindGameObjectWithTag("ShopDisplay");
+                    ShopDisplay shopDisplay = shopItem.GetComponent<ShopDisplay>();
+                    shopDisplay.clearSelectedItem();
+                }
+                else if (!PauseManager.instance.IsPaused) //If game not paused, i.e. not on any menu screen, then open the shop
+                {
+                    shop.Open(); 
+                }
             }
             else if (hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))
             {
@@ -172,6 +182,19 @@ public class PlayerActions : MonoBehaviour
                     UseText.SetText("Arm Trap (E)");
                 }
                 HandleLoading(ref trap.isActive);
+            }
+            else if(hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop))
+            {
+                if (shop.isOpen)
+                {
+                    ThirdPersonUseText.SetText("");
+                    UseText.SetText("");
+                }
+                else
+                {
+                    ThirdPersonUseText.SetText("Open Shop (E)");
+                    UseText.SetText("Open Shop (E)");
+                }
             }
             else
             {

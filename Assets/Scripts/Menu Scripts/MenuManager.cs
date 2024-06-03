@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
-using System.IO;
+//using System.Collections;
+//using System.Collections.Generic;
+//using Unity.VisualScripting;
+//using UnityEditor;
+//using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PersistenceManager;
@@ -15,15 +15,16 @@ public class MenuManager : MonoBehaviour
     public GameObject inventoryScreen;
     public GameObject settingsManager;
     public GameObject settingsMenu;
-    //public GameObject healthBar;
-    //public GameObject staminaBar;
-    //public GameObject ThirdPersonUseText;
     public GameObject InGameDisplay;
+
+    //Shop canvas
+    public GameObject shopScreen;
+
     public int bossLevel = 5;
 
     private void Start()
     {
-        Pause();
+        Unpause();
     }
 
     // Update is called once per frame
@@ -43,6 +44,13 @@ public class MenuManager : MonoBehaviour
                 InventoryPause();
             }
         }
+        else if (ShopLogic.shopInstance.isOpen)
+        {
+            if (!PauseManager.instance.IsPaused)
+            {
+                ShopPause();
+            }
+        }
         else if (InputManager.instance.InventoryClose && inventoryScreen.activeSelf)
         {
             if (PauseManager.instance.IsPaused)
@@ -56,7 +64,14 @@ public class MenuManager : MonoBehaviour
             {
                 Unpause();
             }
-        } 
+        }
+        else if (!ShopLogic.shopInstance.isOpen && shopScreen.activeSelf)
+        {
+            if (PauseManager.instance.IsPaused)
+            {
+                Unpause();
+            }
+        }
     }
 
     public void Pause()
@@ -69,6 +84,12 @@ public class MenuManager : MonoBehaviour
     {
         PauseManager.instance.PauseGame();
         SwitchToInventoryScreen();
+    }
+
+    private void ShopPause()
+    {
+        PauseManager.instance.PauseGame();
+        SwitchToShopScreen();
     }
 
     public void Unpause()
@@ -114,6 +135,7 @@ public class MenuManager : MonoBehaviour
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         InGameDisplay.SetActive(true);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -125,6 +147,7 @@ public class MenuManager : MonoBehaviour
         pauseScreen.SetActive(true);
         inventoryScreen.SetActive(false);
         InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
@@ -136,13 +159,14 @@ public class MenuManager : MonoBehaviour
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(false);
         InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     private void SwitchToMainMenuScreen()
     {
-        persistenceManager.SaveWorldState();
+        persistenceManager.SaveEverything();
         SceneManager.LoadScene(0);
     }
 
@@ -153,13 +177,26 @@ public class MenuManager : MonoBehaviour
         pauseScreen.SetActive(false);
         inventoryScreen.SetActive(true);
         InGameDisplay.SetActive(false);
+        shopScreen.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void SwitchToShopScreen()
+    {
+        settingsMenu.SetActive(false);
+        settingsManager.SetActive(false);
+        pauseScreen.SetActive(false);
+        inventoryScreen.SetActive(false);
+        InGameDisplay.SetActive(false);
+        shopScreen.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     private void ExitGame()
     {
-        persistenceManager.SaveWorldState();
+        persistenceManager.SaveEverything();
         Debug.Log("Game Ended");
         Application.Quit();
     }

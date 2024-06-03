@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UseText
   - Audio
+  - ShopDisplay
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Usable
   - Player
   - Enemy
-  - 
+  - PostProcessing
   - 
   - 
   - 
@@ -40,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2969697627
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
