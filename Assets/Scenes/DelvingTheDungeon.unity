@@ -3558,11 +3558,11 @@ PrefabInstance:
       objectReference: {fileID: 1147341941}
     - target: {fileID: 6680292650847612332, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 205.5
+      value: 180.1
       objectReference: {fileID: 0}
     - target: {fileID: 8369158572882424056, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_text
-      value: Movement
+      value: Move
       objectReference: {fileID: 0}
     - target: {fileID: 8369158572882424056, guid: f25dcd618d3acd64795bf8bb32edb6c9, type: 3}
       propertyPath: m_fontColor.b
