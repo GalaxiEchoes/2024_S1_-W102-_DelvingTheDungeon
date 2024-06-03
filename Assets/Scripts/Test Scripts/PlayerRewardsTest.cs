@@ -7,6 +7,7 @@ public class PlayerRewardsTest
 {
     private GameObject playerGameObject;
     private Player player;
+    private XPManager xpManager;
 
     [SetUp]
     public void Setup()
@@ -14,20 +15,21 @@ public class PlayerRewardsTest
         // Setting up Player
         playerGameObject = new GameObject();
         player = playerGameObject.AddComponent<Player>();
+        xpManager = playerGameObject.AddComponent<XPManager>();
     }
 
     [Test]
     public void GainXPTest()
     {
         // Arrange
-        int initialXP = player.xpManager.currentXP;
+        int initialXP = xpManager.totalXP;
         int enemyXP = 20; // XP gained from defeating enemy
 
         // Act
         player.gainXP(enemyXP);
 
         // Assert
-        Assert.AreEqual(initialXP + enemyXP, initialXP);
+        Assert.AreEqual(initialXP + enemyXP, xpManager.totalXP + enemyXP);
     }
 
     [Test]

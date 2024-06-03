@@ -8,7 +8,7 @@ using TMPro;
 public class XPManager : MonoBehaviour
 {
     int currentLevel;
-    int totalXP;
+    public int totalXP;
     int prevLevelXP;
     int nextLevelXP;
 
