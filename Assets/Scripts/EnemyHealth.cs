@@ -1,40 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour, IDamageable
+public class EnemyHealth : MonoBehaviour
 {
     public Slider enemySlider;
-    public int maxHealth = 100;
-    public int currentHealth;
 
-    void Start()
-    {
-        currentHealth = maxHealth;
-        UpdateHealthBar();
-    }
-
-    public void Damage(int damageAmount)
-    {
-        currentHealth -= damageAmount;
-        UpdateHealthBar();
-
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void UpdateHealthBar()
+    public void UpdateHealthBar(int currentHealth, int maxHealth)
     {
         if (enemySlider != null)
         {
             enemySlider.value = (float)currentHealth / maxHealth;
         }
-    }
-
-    private void Die()
-    {
-        Destroy(gameObject);
     }
 
     private void Update()

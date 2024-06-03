@@ -122,8 +122,4 @@ public class DamageDealer : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, transform.position - transform.up * weaponLength);
     }
-    public void Damage(int damageAmount)
-    {
-        enemyHealthSlider.GetComponent<EnemyHealth>().Damage(damageAmount);
-    }
 }

@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour, IDamageable
     public void Start()
     {
         currentHealth = maxHealth;
-        UpdateHealthBar();
+        enemyHealth.UpdateHealthBar(currentHealth, maxHealth);
 
         if (audioSource == null)
         {
@@ -41,19 +41,11 @@ public class Enemy : MonoBehaviour, IDamageable
 
         Debug.Log("Damage: " + damageAmount);
         currentHealth -= damageAmount;
-        UpdateHealthBar();
+        enemyHealth.UpdateHealthBar(currentHealth, maxHealth);
 
         if (currentHealth <= 0)
         {
             Die();
-        }
-    }
-
-    private void UpdateHealthBar()
-    {
-        if (enemyHealth != null)
-        {
-            enemyHealth.Damage(currentHealth);
         }
     }
 
