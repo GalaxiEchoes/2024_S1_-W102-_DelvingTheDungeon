@@ -6,8 +6,10 @@ public class Enemy : MonoBehaviour, IDamageable
     public AudioClip hitClip;
     int health = 100;
     int playerXP = 10;
+    int money = 50;
     
     XPManager xpManager;
+    MoneyTracker moneyTracker;
 
     public void Start()
     {
@@ -40,6 +42,7 @@ public class Enemy : MonoBehaviour, IDamageable
         if(xpManager != null)
         {
             xpManager.addXP(playerXP);
+            moneyTracker.setMoney(money);
         }
         Destroy(gameObject);
     }
