@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b702e5215ab4f738ef05c3831d9165, type: 3}
+  m_Name: Gold Ring
+  m_EditorClassIdentifier: 
+  itemName: Gold Ring
+  Description: This is a gold ring
+  sprite: {fileID: 21300000, guid: de5d5b68642d4441988e3c0ac4ffa953, type: 3}
+  MaxStackSize: 1
+  cost: 0
+  itemTag: 4
+  ItemPrefab: {fileID: 8343904683319645141, guid: 9919f3d2c84414b9988970913d49df11, type: 3}
+  healthEffect: 0
+  staminaEffect: 0
+  attackEffect: 0
+  defenseEffect: 5

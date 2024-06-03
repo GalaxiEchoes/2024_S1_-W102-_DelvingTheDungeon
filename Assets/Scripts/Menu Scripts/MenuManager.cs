@@ -5,8 +5,8 @@
 //using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using static PersistenceManager;
-//using System.Linq;
+using static PersistenceManager;
+using System.Linq;
 
 public class MenuManager : MonoBehaviour
 {

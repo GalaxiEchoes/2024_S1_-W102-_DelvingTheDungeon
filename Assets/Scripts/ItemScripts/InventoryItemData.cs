@@ -16,6 +16,8 @@ public enum EquipmentTag { None, Weapon, Head, Chest, Arms };
 
     public Sprite sprite;
     public int MaxStackSize;
+    public int cost;
+
     public EquipmentTag itemTag;
 
     public GameObject ItemPrefab;
