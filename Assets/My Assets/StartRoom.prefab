@@ -156,7 +156,7 @@ GameObject:
   - component: {fileID: 3727402904163211245}
   - component: {fileID: 340764377912717888}
   - component: {fileID: 1255170240651438160}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1325269669
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &340764377912717888
@@ -257,7 +257,7 @@ GameObject:
   - component: {fileID: 1893071795343705574}
   - component: {fileID: 6326857491324201146}
   - component: {fileID: 3801127732433340419}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 1045000580784691238}
   - component: {fileID: 6654709905199523275}
   - component: {fileID: 290967190236851985}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,7 +788,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7002207884209821995}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1741,7 +1741,7 @@ GameObject:
   - component: {fileID: 3194433790141672553}
   - component: {fileID: 8945609166390159858}
   - component: {fileID: 1081386156664598254}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -36192,7 +36192,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2391107237035722283, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
       propertyPath: _id
-      value: 8a6f5d99-cb83-4933-9ec5-a583056cdde0
+      value: ebcfdc8c-b3be-4ba5-b037-e56517dbdcbe
       objectReference: {fileID: 0}
     - target: {fileID: 4562144130116693390, guid: 95bc24023ba044b3d977b26cb1331bf1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -44606,7 +44606,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1461107132870958590, guid: f52fa3d083ed144478e9417c2d044b19, type: 3}
       propertyPath: _id
-      value: 419402cd-64bc-4cd8-ba3a-772c2c94c275
+      value: c3c1cdc5-c435-43c1-a077-c51be8dd4879
       objectReference: {fileID: 0}
     - target: {fileID: 1763390778755754927, guid: f52fa3d083ed144478e9417c2d044b19, type: 3}
       propertyPath: m_LocalPosition.x
