@@ -6601,6 +6601,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   levelText: {fileID: 1831267349}
   XPFill: {fileID: 1645025644}
+  player: {fileID: 0}
 --- !u!114 &949036879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15220,6 +15221,7 @@ MonoBehaviour:
   maxStamina: 100
   moneyTracker: {fileID: 1450487203}
   healthBar: {fileID: 1905166274}
+  xpManager: {fileID: 949036878}
 --- !u!65 &1971517938
 BoxCollider:
   m_ObjectHideFlags: 0
