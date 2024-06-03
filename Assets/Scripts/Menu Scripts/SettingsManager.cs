@@ -29,6 +29,7 @@ public class SettingsManager : MonoBehaviour
         SwitchToBrightnessMenu();
     }
 
+
     private void SwitchToVolumeMenu()
     {
         volumeSettings.SetActive(true);
