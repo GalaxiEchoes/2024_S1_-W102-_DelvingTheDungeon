@@ -3,15 +3,25 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
+    [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip hitClip;
-    public int maxHealth = 200;
-    public int currentHealth;
+    public AudioClip deathNoise;
+    
+    [Header("GameObject References")]
     private EnemyHealth enemyHealth;
     private Animator animator;
     private GameObject player;
     private NavMeshAgent agent;
     [SerializeField] GameObject ragdoll;
+    
+    XPManager xpManager;
+
+    [Header("Enemy Stats")]
+    int playerXP = 10;
+    int money = 50;
+    public int maxHealth = 200;
+    public int currentHealth;
 
     [Header("Combat")]
     [SerializeField] float attackCD = 3f;
@@ -39,6 +49,12 @@ public class Enemy : MonoBehaviour, IDamageable
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        audioSource = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioSource>();
+        if (player != null)
+        {
+            xpManager = player.GetComponentInChildren<Player>().xpManager;
+        }
     }
 
     public void Update()
@@ -95,7 +111,20 @@ public class Enemy : MonoBehaviour, IDamageable
 
     void Die()
     {
-        if (ragdoll != null) Instantiate(ragdoll, transform.position, transform.rotation);
+        if (ragdoll != null) 
+            Instantiate(ragdoll, transform.position, transform.rotation);
+
+        //Rewards
+        if (xpManager != null)
+        {
+            xpManager.addXP(playerXP);
+        }
+        if (player != null)
+        {
+            player.GetComponentInChildren<Player>().gainMoney(money);
+        }
+        audioSource.PlayOneShot(deathNoise);
+
         Destroy(gameObject);
     }
 

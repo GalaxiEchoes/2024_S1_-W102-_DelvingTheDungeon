@@ -1042,9 +1042,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   hitClip: {fileID: 8300000, guid: fc0b2f0c4ff513c4787687cb27766298, type: 3}
+  deathNoise: {fileID: 8300000, guid: 4d8183fc1e5c83640b2faed071856fcb, type: 3}
+  ragdoll: {fileID: 1348814097858089174, guid: 4e7d20ea0c41d9a4b8f55dfdbe2e9e8a, type: 3}
   maxHealth: 200
   currentHealth: 0
-  ragdoll: {fileID: 1348814097858089174, guid: 4e7d20ea0c41d9a4b8f55dfdbe2e9e8a, type: 3}
   attackCD: 3
   attackRange: 2
   aggroRange: 5.5

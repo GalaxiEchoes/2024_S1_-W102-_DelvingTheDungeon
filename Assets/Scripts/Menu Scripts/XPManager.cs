@@ -16,6 +16,11 @@ public class XPManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] Image XPFill;
 
+    private void Start()
+    {
+        updateLevel();
+    }
+
     void StartCoroutine()
     {
         updateLevel();
