@@ -24,6 +24,11 @@ public class PlayFabManager : MonoBehaviour
         {
             canvasManager.SetLoggedIn(IsLoggedIn());
         }
+
+        if(!IsLoggedIn())
+        {
+            manager.StartNewGame();
+        }
     }
 
     public bool IsLoggedIn()
