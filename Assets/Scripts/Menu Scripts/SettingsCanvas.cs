@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class SettingsCanvas : MonoBehaviour
 {
     // Array that stores all screen resolutions
