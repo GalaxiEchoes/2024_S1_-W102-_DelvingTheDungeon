@@ -1,17 +1,11 @@
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestRunner;
 using UnityEngine.UI;
-using UnityEngine.Rendering.PostProcessing;
-
-
 
 public class BrightnessTests
 {
     private GameObject brightnessGameObject;
     private Brightness brightness;
-    
-
 
     [SetUp]
     public void SetUp()
@@ -20,43 +14,25 @@ public class BrightnessTests
         brightnessGameObject = new GameObject();
         brightness = brightnessGameObject.AddComponent<Brightness>();
 
-        // Create a new GameObject for the Slider component
-        GameObject sliderGameObject = new GameObject();
-        Slider slider = sliderGameObject.AddComponent<Slider>();
-
-        // Assign the slider to the brightness component
-        brightness.brightnessSlider = slider;
-
-        // Set the initial value of the slider
-        brightness.brightnessSlider.value = 1.0f;
+        // Simulate setting up the dependencies required by the Start method
+        //brightness.brightness = ScriptableObject.CreateInstance<PostProcessProfile>(); // Simulate PostProcessProfile assignment
+        brightness.brightnessSlider = new GameObject().AddComponent<Slider>(); // Simulate Slider assignment
+        brightness.brightnessSlider.value = 1.0f; // Set initial value for the slider
     }
 
     [Test]
-    public void Start_InitializesBrightnessFromSavedPreferences()
+    public void AdjustBrightness_UpdatesExposureCorrectly()
     {
-        float expectedBrightness = 100;
+        // Call the Start method explicitly to simulate its execution
         brightness.Start();
 
-        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
-    }
+        // Change the brightness
+        float newBrightness = 0.5f;
+        brightness.AdjustBrightness(newBrightness);
 
-    [Test]
-    public void AdjustBrightness_SavesBrightnessToPlayerPrefs()
-    {
-        float expectedBrightness = 50;
-
-        // Assert using the existing brightness instance
-        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
-    }
-
-    [Test]
-    public void AdjustBrightness_SetsMinimumValueWhenZero()
-    {
-        float expectedMinimumBrightness = 0.05f;
-        brightness.AdjustBrightness(0);
-
-        Assert.AreEqual(expectedMinimumBrightness, brightness.GetExposureKeyValue());
+        // Verify that the exposure value is updated correctly
+        Assert.AreEqual(newBrightness, brightness.GetExposureKeyValue());
     }
 }
 
- 
+

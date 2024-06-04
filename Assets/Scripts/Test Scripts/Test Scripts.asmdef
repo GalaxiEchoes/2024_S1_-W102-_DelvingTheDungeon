@@ -6,7 +6,7 @@
         "UnityEditor.TestRunner",
         "AssemblyCode",
         "Unity.TextMeshPro",
-        "Unity.PostProcessing"
+        "using UnityEngine.Rendering.PostProcessing"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
