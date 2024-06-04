@@ -79,15 +79,18 @@ public class PlayerActions : MonoBehaviour
             {
                 endLogic.LoadNextLevel(CameraPos.transform.position);
             }
-            else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop))
+            else if (hit.collider.TryGetComponent<ShopLogic>(out ShopLogic shop)) // Checks if interacting with shop
             {
-                if (shop.isOpen)
+                if (shop.isOpen) //If shops open then close the shop
                 {
                     shop.Close();
+                    GameObject shopItem = GameObject.FindGameObjectWithTag("ShopDisplay");
+                    ShopDisplay shopDisplay = shopItem.GetComponent<ShopDisplay>();
+                    shopDisplay.clearSelectedItem();
                 }
-                else if (!PauseManager.instance.IsPaused)
+                else if (!PauseManager.instance.IsPaused) //If game not paused, i.e. not on any menu screen, then open the shop
                 {
-                    shop.Open();
+                    shop.Open(); 
                 }
             }
             else if (hit.collider.TryGetComponent<ChestLogic>(out ChestLogic chest))

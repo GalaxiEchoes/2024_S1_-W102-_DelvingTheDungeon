@@ -16,6 +16,7 @@ MonoBehaviour:
   Description: 'This is a gold chest armour '
   sprite: {fileID: 21300000, guid: 90c5d8a8ddb0b4488b50f46923505869, type: 3}
   MaxStackSize: 2
+  cost: 5
   itemTag: 3
   ItemPrefab: {fileID: 8343904683319645141, guid: f52fa3d083ed144478e9417c2d044b19, type: 3}
   healthEffect: 0

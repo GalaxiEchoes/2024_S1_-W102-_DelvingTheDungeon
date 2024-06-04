@@ -7,13 +7,17 @@ using UnityEngine.Events;
 [System.Serializable]
 public class EquipmentInventorySystem
 {
+    // List of equipment slots, visible in the inspector
     [SerializeField] private List<ISlot> equipmentSlots;
 
+    // Getters
     public List<ISlot> EquipmentSlots => equipmentSlots;
     public int EquipmentSize => EquipmentSlots.Count;
 
+    // Unity event action to notify when an inventory slot changes
     public UnityAction<ISlot> OnInventorySlotChanged;
 
+    // Initialize the equipment inventory system with a slots of a specified size
     public EquipmentInventorySystem(int size)
     {
         equipmentSlots = new List<ISlot>(size);
