@@ -11,6 +11,11 @@ public class Brightness : MonoBehaviour
     public PostProcessLayer layer;
     AutoExposure exposure;
 
+
+    public float GetExposureKeyValue()
+    {
+        return exposure != null ? exposure.keyValue.value : 0f;
+    }
     // Start is called before the first frame update
     void Start()
     {

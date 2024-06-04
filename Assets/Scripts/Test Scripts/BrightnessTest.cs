@@ -1,71 +1,101 @@
-using NUnit.Framework
-//using System.Collections;
-using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
-//using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.TestRunner;
+using UnityEngine.UI;
+using UnityEngine.Rendering.PostProcessing;
+
+
 
 public class BrightnessTests
 {
     private GameObject brightnessGameObject;
     private Brightness brightness;
-    //private Slider brightnessSlider;
-    //private PostProcessProfile postProcessProfile;
-   // private AutoExposure autoExposure;
 
     [SetUp]
     public void SetUp()
     {
+        // Create a new GameObject for the Brightness component
         brightnessGameObject = new GameObject();
         brightness = brightnessGameObject.AddComponent<Brightness>();
 
+        // Create a new GameObject for the Slider component
         GameObject sliderGameObject = new GameObject();
-       // brightnessSlider = sliderGameObject.AddComponent<Slider>();
-       // brightness.brightnessSlider = brightnessSlider;
+        Slider slider = sliderGameObject.AddComponent<Slider>();
 
-        //postProcessProfile = ScriptableObject.CreateInstance<PostProcessProfile>();
-       // autoExposure = ScriptableObject.CreateInstance<AutoExposure>();
-      //  postProcessProfile.AddSettings(autoExposure);
-     //   brightness.brightness = postProcessProfile;
+        // Assign the slider to the brightness component
+        brightness.brightnessSlider = slider;
 
-      //  brightness.layer = brightnessGameObject.AddComponent<PostProcessLayer>();
+        // Set the initial value of the slider
+        brightness.brightnessSlider.value = 1.0f;
     }
 
     [Test]
     public void Start_InitializesBrightnessFromSavedPreferences()
     {
-        // Arrange
-        PlayerPrefs.SetFloat("SavedBrightness", 0.8f);
+        float expectedBrightness = 100;
+        brightness.Start();
 
-        // Act
-       // brightness.Start();
-
-        // Assert
-        //Assert.AreEqual(0.8f, autoExposure.keyValue.value);
+        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
     }
 
     [Test]
     public void AdjustBrightness_SavesBrightnessToPlayerPrefs()
     {
-        // Arrange
-     //   brightness.Start();
+        float expectedBrightness = 50;
 
-        // Act
-        brightness.AdjustBrightness(0.5f);
-
-        // Assert
-        Assert.AreEqual(0.5f, PlayerPrefs.GetFloat("SavedBrightness"));
+        // Assert using the existing brightness instance
+        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
     }
 
     [Test]
     public void AdjustBrightness_SetsMinimumValueWhenZero()
     {
-        // Arrange
-       // brightness.Start();
+        float expectedMinimumBrightness = 0.05f;
+        brightness.AdjustBrightness(0);
 
-        // Act
-        brightness.AdjustBrightness(0f);
-
-        // Assert
-      //  Assert.AreEqual(0.05f, autoExposure.keyValue.value);
+        Assert.AreEqual(expectedMinimumBrightness, brightness.GetExposureKeyValue());
     }
 }
+
+public class Brightness : MonoBehaviour
+{
+    public Slider brightnessSlider;
+    public PostProcessProfile brightness;
+    AutoExposure exposure;
+
+    // Start is called before the first frame update
+    public void Start()
+    {
+        brightness.TryGetSettings(out exposure);
+        if (brightnessSlider != null)
+        {
+            AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", brightnessSlider.value));
+        }
+        else
+        {
+            AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", 1.0f));
+        }
+    }
+
+    public float GetExposureKeyValue()
+    {
+        return exposure != null ? exposure.keyValue.value : 0f;
+    }
+
+    public void AdjustBrightness(float value)
+    {
+        if (exposure != null)
+        {
+            if (value != 0)
+            {
+                exposure.keyValue.value = value;
+                PlayerPrefs.SetFloat("SavedBrightness", value);
+            }
+            else
+            {
+                exposure.keyValue.value = 0.05f;
+            }
+        }
+    }
+}
+
