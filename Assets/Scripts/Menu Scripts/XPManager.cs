@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 public class XPManager : MonoBehaviour
 {
     public int currentLevel;
@@ -17,7 +16,7 @@ public class XPManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI levelText;
     [SerializeField] Image XPFill;
 
-    void Start()
+    void StartCoroutine()
     {
         updateLevel();
     }
