@@ -57,3 +57,8 @@ access an item shop, manage their inventory, level up their character, and more.
 
 ##References and Dependencies
 https://www.youtube.com/watch?v=211t6r12XPQ&t=88s&ab_channel=GameDevGuide - For the tab settings (TabButton, TabGroup scripts)
+This project also depends on the imported assets from the asset store which are all located under Original Import Packages And References.
+This includes: BrokenVector, DungeonGenerator, Gridness Studios, Kevin Iglesias, Low-Poly Medieval Market, LowPolyDungeonsLite, 
+LowPolyMedievalProps, Polytope Studio, and Stonetextures.
+In addition this project depends on several imported unity packages: InputSystem, PlayFabEditorExtentions, PlayfabSDK, Cinemachine, 
+PostProcessing and AI Navigation.
