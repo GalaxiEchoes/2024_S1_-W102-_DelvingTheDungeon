@@ -70,11 +70,6 @@ public class Player : MonoBehaviour, IDamageable
 
             SceneManager.LoadScene(SceneManager.sceneCountInBuildSettings - 1);
         }
-
-        if(Input.GetKeyDown("l"))
-        {
-            Damage(20);
-        }
     }
 
     public void addStats(int _health, int _stamina, int _attack, int _defense)
@@ -102,6 +97,7 @@ public class Player : MonoBehaviour, IDamageable
     public void Damage(int damageAmount)
     {
         health -= damageAmount;
+        GetComponentInChildren<AnimationHandler>().TakeDamage();
 
         healthBar.SetHealth(health);
     }

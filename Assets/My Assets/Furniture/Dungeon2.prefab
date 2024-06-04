@@ -273,6 +273,7 @@ MonoBehaviour:
   weaponLength: -0.7
   weaponDamage: 10
   canDealDamage: 0
+  weaponHolder: 2
   audioSource: {fileID: 0}
   clipOne: {fileID: 0}
   clipTwo: {fileID: 0}

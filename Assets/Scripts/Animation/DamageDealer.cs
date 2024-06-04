@@ -4,13 +4,20 @@ using UnityEngine.UI;
 
 public class DamageDealer : MonoBehaviour
 {
+    public enum WeaponHolder
+    {
+        PlayerWeapon,
+        EnemyWeapon,
+        TrapWeapon
+    }
+
     [Header("Damage variables")]
     [SerializeField] public float weaponLength;
     [SerializeField] public float weaponDamage;
     [SerializeField] private Slider enemyHealthSlider;
     public List<GameObject> hasDealtDamage { get; private set; }
     public bool canDealDamage;
-    public bool IsPlayerWeapon;
+    public WeaponHolder weaponHolder = WeaponHolder.PlayerWeapon;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -35,16 +42,20 @@ public class DamageDealer : MonoBehaviour
         if (canDealDamage)
         {
             RaycastHit hit;
-            int layerMask;
+            int layerMask = 0;
 
-            // Determines if it deals damage to player or everyone
-            if (IsPlayerWeapon)
+            //Determines if it deals damage to player or everyone
+            switch (weaponHolder)
             {
-                layerMask = (1 << 9);
-            }
-            else
-            {
-                layerMask = (1 << 9) | (1 << 8);
+                case WeaponHolder.PlayerWeapon: //Only hurts Enemys
+                    layerMask = (1 << 9);
+                    break;
+                case WeaponHolder.EnemyWeapon: //Only hurts Players
+                    layerMask = (1 << 8);
+                    break;
+                case WeaponHolder.TrapWeapon: //Hurts everything
+                    layerMask = (1 << 9) | (1 << 8);
+                    break;
             }
 
             // Finds any enemies along the weapon's length
