@@ -10,6 +10,8 @@ public class BrightnessTests
 {
     private GameObject brightnessGameObject;
     private Brightness brightness;
+    
+
 
     [SetUp]
     public void SetUp()
@@ -57,45 +59,4 @@ public class BrightnessTests
     }
 }
 
-public class Brightness : MonoBehaviour
-{
-    public Slider brightnessSlider;
-    public PostProcessProfile brightness;
-    AutoExposure exposure;
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        brightness.TryGetSettings(out exposure);
-        if (brightnessSlider != null)
-        {
-            AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", brightnessSlider.value));
-        }
-        else
-        {
-            AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", 1.0f));
-        }
-    }
-
-    public float GetExposureKeyValue()
-    {
-        return exposure != null ? exposure.keyValue.value : 0f;
-    }
-
-    public void AdjustBrightness(float value)
-    {
-        if (exposure != null)
-        {
-            if (value != 0)
-            {
-                exposure.keyValue.value = value;
-                PlayerPrefs.SetFloat("SavedBrightness", value);
-            }
-            else
-            {
-                exposure.keyValue.value = 0.05f;
-            }
-        }
-    }
-}
-
+ 
