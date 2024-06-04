@@ -104,6 +104,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2769797772552799046}
+    - targetCorrespondingSourceObject: {fileID: 5721723476799238222, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8664959864956194671}
   m_SourcePrefab: {fileID: 100100000, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}
 --- !u!1 &291978614683362014 stripped
 GameObject:
@@ -122,11 +125,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed5faa7a40fdb84f8a988b46c7e8bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsOpen: 0
-  IsRotatingDoor: 1
   Speed: 1
   RotationAmount: 90
   ForwardDirection: 0
+  StartRotation: {x: 0, y: 0, z: 0}
+  Forward: {x: 0, y: 0, z: 0}
+  IsOpen: 0
+  IsLocked: 0
+--- !u!114 &8664959864956194671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291978614683362014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 1
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!4 &2688571168256311534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7936834669806457470, guid: 81b528ebc1b1c0147a6a689159dd267d, type: 3}

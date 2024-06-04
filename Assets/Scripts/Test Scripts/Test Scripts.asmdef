@@ -5,7 +5,9 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "AssemblyCode",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Unity.Postprocessing.Editor",
+        "Unity.Postprocessing.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

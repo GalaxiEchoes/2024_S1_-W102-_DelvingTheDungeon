@@ -1,14 +1,23 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageDealer : MonoBehaviour
 {
+    public enum WeaponHolder
+    {
+        PlayerWeapon,
+        EnemyWeapon,
+        TrapWeapon
+    }
+
     [Header("Damage variables")]
     [SerializeField] public float weaponLength;
     [SerializeField] public float weaponDamage;
+    [SerializeField] private Slider enemyHealthSlider;
     public List<GameObject> hasDealtDamage { get; private set; }
     public bool canDealDamage;
-    public bool IsPlayerWeapon;
+    public WeaponHolder weaponHolder = WeaponHolder.PlayerWeapon;
 
     [Header("Audio")]
     public AudioSource audioSource;
@@ -21,7 +30,7 @@ public class DamageDealer : MonoBehaviour
         canDealDamage = false;
         hasDealtDamage = new List<GameObject>();
         GameObject audio = GameObject.FindGameObjectWithTag("Audio");
-        if(audio != null)
+        if (audio != null)
         {
             audioSource = audio.GetComponentInChildren<AudioSource>();
         }
@@ -29,32 +38,36 @@ public class DamageDealer : MonoBehaviour
 
     private void Update()
     {
-        //Checks if the weapon can deal damage 
+        // Checks if the weapon can deal damage
         if (canDealDamage)
         {
             RaycastHit hit;
-            int layerMask;
+            int layerMask = 0;
 
             //Determines if it deals damage to player or everyone
-            if (IsPlayerWeapon)
+            switch (weaponHolder)
             {
-                layerMask = (1 << 9);
-            }
-            else
-            {
-                layerMask = (1 << 9) | (1 << 8);
+                case WeaponHolder.PlayerWeapon: //Only hurts Enemys
+                    layerMask = (1 << 9);
+                    break;
+                case WeaponHolder.EnemyWeapon: //Only hurts Players
+                    layerMask = (1 << 8);
+                    break;
+                case WeaponHolder.TrapWeapon: //Hurts everything
+                    layerMask = (1 << 9) | (1 << 8);
+                    break;
             }
 
-            //Finds any enemy's along the swords length
-            if(weaponLength > 0)
+            // Finds any enemies along the weapon's length
+            if (weaponLength > 0)
             {
                 if (Physics.Raycast(transform.position, -transform.up, out hit, weaponLength, layerMask))
                 {
-                    //Checks if we have already dealt damage to this object
+                    // Checks if we have already dealt damage to this object
                     if (!hasDealtDamage.Contains(hit.transform.gameObject))
                     {
                         IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<IDamageable>();
-                        //If the object has an enemy script we can invoke deal damage
+                        // If the object has an enemy script we can invoke deal damage
                         if (enemy != null)
                         {
                             enemy.Damage((int)weaponDamage);
@@ -68,11 +81,11 @@ public class DamageDealer : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position, transform.up, out hit, Mathf.Abs(weaponLength), layerMask))
                 {
-                    //Checks if we have already dealt damage to this object
+                    // Checks if we have already dealt damage to this object
                     if (!hasDealtDamage.Contains(hit.transform.gameObject))
                     {
                         IDamageable enemy = hit.transform.gameObject.GetComponentInChildren<IDamageable>();
-                        //If the object has an enemy script we can invoke deal damage
+                        // If the object has an enemy script we can invoke deal damage
                         if (enemy != null)
                         {
                             enemy.Damage((int)weaponDamage);
@@ -82,16 +95,15 @@ public class DamageDealer : MonoBehaviour
                     }
                 }
             }
-            
         }
     }
 
     public void StartDealDamage()
     {
-        //Switches between the two swing sound clips
-        if(audioSource != null && clipOne != null && clipTwo != null)
+        // Switches between the two swing sound clips
+        if (audioSource != null && clipOne != null && clipTwo != null)
         {
-            if(clipTracker % 2 == 0)
+            if (clipTracker % 2 == 0)
             {
                 clipTracker = 0;
                 audioSource.clip = clipOne;
@@ -105,14 +117,14 @@ public class DamageDealer : MonoBehaviour
             clipTracker++;
         }
 
-        //Starts dealing damage and empties last swing
+        // Starts dealing damage and empties last swing
         canDealDamage = true;
         hasDealtDamage.Clear();
     }
 
     public void EndDealDamage()
     {
-        //Stops Dealing damage
+        // Stops dealing damage
         canDealDamage = false;
     }
 

@@ -254,4 +254,9 @@ public class AnimationHandler : MonoBehaviour
         readyToJump = true;
         PlayerMovement.ResetJump();
     }
+
+    public void TakeDamage()
+    {
+        animator.SetTrigger("TakeDamage");
+    }
 }
