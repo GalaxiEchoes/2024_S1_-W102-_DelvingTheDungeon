@@ -12,7 +12,7 @@ public class Brightness : MonoBehaviour
     AutoExposure exposure;
 
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         brightness.TryGetSettings(out exposure);
         if(brightnessSlider!= null)
@@ -36,5 +36,10 @@ public class Brightness : MonoBehaviour
         {
             exposure.keyValue.value = 0.05f;
         }
+    }
+
+    public float GetExposureKeyValue()
+    {
+        return exposure != null ? exposure.keyValue.value : 0.0f;
     }
 }
