@@ -1,8 +1,3 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using Unity.VisualScripting;
-//using UnityEditor;
-//using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static PersistenceManager;
@@ -69,6 +64,15 @@ public class MenuManager : MonoBehaviour
         {
             if (PauseManager.instance.IsPaused)
             {
+                Unpause();
+            }
+        }
+
+        if(ShopLogic.shopInstance.isOpen && shopScreen.activeSelf && InputManager.instance.InventoryClose)
+        {
+            if (PauseManager.instance.IsPaused)
+            {
+                ShopLogic.shopInstance.Close();
                 Unpause();
             }
         }
