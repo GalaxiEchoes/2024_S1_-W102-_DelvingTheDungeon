@@ -11,25 +11,23 @@ public class Brightness : MonoBehaviour
     public PostProcessLayer layer;
     AutoExposure exposure;
 
-
-    
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
         brightness.TryGetSettings(out exposure);
-        if(brightnessSlider!= null)
+        if (brightnessSlider != null)
         {
             AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", brightnessSlider.value));
         }
         else
         {
             AdjustBrightness(PlayerPrefs.GetFloat("SavedBrightness", 1.0f));
-        }   
+        }
     }
 
     public void AdjustBrightness(float value)
     {
-        if(value != 0)
+        if (value != 0)
         {
             exposure.keyValue.value = value;
             PlayerPrefs.SetFloat("SavedBrightness", value);
@@ -38,5 +36,10 @@ public class Brightness : MonoBehaviour
         {
             exposure.keyValue.value = 0.05f;
         }
+    }
+
+    public float GetExposureKeyValue()
+    {
+        return exposure != null ? exposure.keyValue.value : 0.0f;
     }
 }

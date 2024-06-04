@@ -1,11 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.TestTools;
 using UnityEngine.UI;
 
-public class BrightnessTests
+public class BrightnessTest
 {
     private GameObject brightnessGameObject;
     private Brightness brightness;
+    private GameObject camera;
 
     [SetUp]
     public void SetUp()
@@ -14,25 +20,67 @@ public class BrightnessTests
         brightnessGameObject = new GameObject();
         brightness = brightnessGameObject.AddComponent<Brightness>();
 
-        // Simulate setting up the dependencies required by the Start method
-        //brightness.brightness = ScriptableObject.CreateInstance<PostProcessProfile>(); // Simulate PostProcessProfile assignment
-        brightness.brightnessSlider = new GameObject().AddComponent<Slider>(); // Simulate Slider assignment
-        brightness.brightnessSlider.value = 1.0f; // Set initial value for the slider
+        // Create a new GameObject for the Slider component
+        GameObject sliderGameObject = new GameObject();
+        Slider slider = sliderGameObject.AddComponent<Slider>();
+
+        // Assign the slider to the brightness component
+        brightness.brightnessSlider = slider;
+
+        // Set the initial value of the slider
+        brightness.brightnessSlider.value = 1.0f;
+
+        brightnessGameObject.AddComponent<PostProcessVolume>();
+        brightness.brightness = AssetDatabase.LoadAssetAtPath<PostProcessProfile>("Assets\\Scenes\\DelvingTheDungeon_Profiles\\Brightness Profile.asset");
+
+        //Camera
+        camera = new GameObject();
+        camera.AddComponent<Camera>();
+        brightness.layer = camera.AddComponent<PostProcessLayer>();
+    }
+
+    [Test]
+    public void Start_InitializesBrightnessFromSavedPreferences()
+    {
+        float expectedBrightness = 100.0f;
+        PlayerPrefs.SetFloat("SavedBrightness", expectedBrightness);
+
+        brightness.Start();
+
+        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
+    }
+
+    [Test]
+    public void AdjustBrightness_SavesBrightnessToPlayerPrefs()
+    {
+        float expectedBrightness = 50.0f;
+
+        brightness.Start();
+        brightness.AdjustBrightness(expectedBrightness);
+
+        Assert.AreEqual(expectedBrightness, PlayerPrefs.GetFloat("SavedBrightness", 1.5f));
     }
 
     [Test]
     public void AdjustBrightness_UpdatesExposureCorrectly()
     {
-        // Call the Start method explicitly to simulate its execution
+        float expectedBrightness = 0.5f;
         brightness.Start();
 
-        // Change the brightness
-        float newBrightness = 0.5f;
-        brightness.AdjustBrightness(newBrightness);
+        brightness.AdjustBrightness(expectedBrightness);
 
-        // Verify that the exposure value is updated correctly
-        Assert.AreEqual(newBrightness, brightness.GetExposureKeyValue());
+        // Assert using the existing brightness instance
+        Assert.AreEqual(expectedBrightness, brightness.GetExposureKeyValue());
+    }
+
+    [Test]
+    public void AdjustBrightness_SetsMinimumValueWhenZero()
+    {
+        float expectedMinimumBrightness = 0.05f;
+
+        brightness.Start();
+        brightness.AdjustBrightness(0);
+
+        Assert.AreEqual(expectedMinimumBrightness, brightness.GetExposureKeyValue());
     }
 }
-
-
